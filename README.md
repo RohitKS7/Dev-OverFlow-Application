@@ -1,6 +1,10 @@
 ## About Project
 
-# Package Installations
+## Project Code Structure
+
+- `page.tsx` within `/app/(root)` folder is acting as a entry point, so we don't need `page.tsx` within `/app` folder.
+
+## Package Installations
 
 ### ESLint
 
@@ -33,6 +37,10 @@ npm install eslint-config-prettier
 
 > TIPS :
 
-1. After everything is installed do `ctrl+shift+p` in vs-code and run `relod window`
+- After everything is installed do `ctrl+shift+p` in vs-code and run `relod window`
+
+- Always remember to do `stash (untracked included)` which will remove all changes made in application before creating a new branch and in new branch do `stash (latest)` to add all the previous changes. Next publish the branch.
+
+- Create `layout.tsx` for the pages where we don't want the navbar or footer. For instance in `(auth)` folder which is a entry point for sign-up and sign-in.
 
 - [Next.js Documentation](https://nextjs.org/docs)
