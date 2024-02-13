@@ -2,7 +2,13 @@
 
 ## Project Code Structure
 
-- `page.tsx` within `/app/(root)` folder is acting as a entry point, so we don't need `page.tsx` within `/app` folder.
+- `page.tsx` within `/app/(root)/(home)` folder is acting as a entry point, so we don't need `page.tsx` within `/app` folder.
+
+- `(auth)` contains Authentication setup using Clerk.
+
+- `Context` => Context is a React library which by default is client-side, But Next.js is server-side.
+
+What to do...?
 
 ## Package Installations
 
