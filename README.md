@@ -35,6 +35,12 @@ npm install eslint-plugin-tailwindcss
 npm install eslint-config-prettier
 ```
 
+### Authentication
+
+1. We're using `Clerk` authentication services for easier and better auth process. Everything is happening according to docs available on Clerk's website, So for any questions visit the site.
+
+2. Installation > Wrapping app in `clerkProvider` > Adding API in `.env` file > Adding SignIn & SignUp component > Adding UserButton component.
+
 > TIPS :
 
 - After everything is installed do `ctrl+shift+p` in vs-code and run `relod window`
