@@ -43,6 +43,8 @@ npm install eslint-config-prettier
 
 > TIPS :
 
+- Start by modifying favicon, title etc. in layout.tsx
+
 - After everything is installed do `ctrl+shift+p` in vs-code and run `relod window`
 
 - Always remember to do `stash (untracked included)` which will remove all changes made in application before creating a new branch and in new branch do `stash (latest)` to add all the previous changes. Next publish the branch.
