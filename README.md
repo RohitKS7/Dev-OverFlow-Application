@@ -8,7 +8,7 @@
 
 - `/components/shared` folder contians only those component which we wanna share across the application.
 
-- `Context` => Context is a React library which by default is client-side, But Next.js is server-side.
+- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side.
 
 Then What to do...?
 
@@ -48,6 +48,10 @@ npm install eslint-config-prettier
 1. We're using `Clerk` authentication services for easier and better auth process. Everything is happening according to docs available on Clerk's website, So for any questions visit the site.
 
 2. Installation > Wrapping app in `clerkProvider` > Adding API in `.env` file > Adding SignIn & SignUp component > Adding UserButton component.
+
+### ShadCN Component Library
+
+1.
 
 > TIPS :
 
