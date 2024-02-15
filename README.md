@@ -51,7 +51,21 @@ npm install eslint-config-prettier
 
 ### ShadCN Component Library
 
-1.
+1. This is NOT a component library.
+
+What do you mean by not a component library?
+
+I mean you do not install it as a dependency. It is not available or distributed via npm.
+
+Pick the components you need. Copy and paste the code into your project and customize to your needs. The code is yours.
+
+2. We just have install each component we wanna use, So it's pretty damn light library without any heavy depencies
+
+3. To install see the ShadCN [documentation](https://ui.shadcn.com/docs).
+
+4. When you install this library, you'll see it overwrote your `global.css` and `tailwind.config.ts`. But Don't worry, Just copy and paste your old styles.
+
+5. It'll add `/lib/utils.ts` in your code for better customization. and It'll also add `ui` in your component folder which contains ShadCN components.
 
 > TIPS :
 
@@ -62,5 +76,3 @@ npm install eslint-config-prettier
 - Always remember to do `stash (untracked included)` which will remove all changes made in application before creating a new branch and in new branch do `stash (latest)` to add all the previous changes. Next publish the branch.
 
 - Create `layout.tsx` for the pages where we don't want the navbar or footer. For instance in `(auth)` folder which is a entry point for sign-up and sign-in.
-
-- [Next.js Documentation](https://nextjs.org/docs)
