@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "DevOverflow is the largest, most trusted online community for developers to learn, share​ ​their programming ​knowledge, and build their careers.",
   icons: {
-    icon: "/public/assets/images/site-logo.svg",
+    icon: "/assets/images/site-logo.svg",
   },
 };
 

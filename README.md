@@ -6,6 +6,8 @@
 
 - `(auth)` contains Authentication setup using Clerk.
 
+- `/components/shared` folder contians only those component which we wanna share across the application.
+
 - `Context` => Context is a React library which by default is client-side, But Next.js is server-side.
 
 Then What to do...?

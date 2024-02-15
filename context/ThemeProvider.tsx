@@ -26,9 +26,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   //   * Checking Theme at start of the app
-  useEffect(() => {
-    handleThemeChange();
-  }, [mode]);
+  useEffect(
+    () => {
+      handleThemeChange();
+    },
+    [
+      // mode
+    ]
+  );
 
   return (
     // * all the data passed in value is usable across entire application
