@@ -15,25 +15,26 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState("");
 
-  const handleThemeChange = () => {
-    if (mode === "dark") {
-      setMode("light");
-      document.documentElement.classList.add("light");
-    } else {
-      setMode("dark");
-      document.documentElement.classList.add("dark");
-    }
-  };
+  // ! these is rookie mistake which I made (since I. Am. Rookie). Here we didn't fetched localStorage yet that's why it's switching between different mode which almost crashed my computer (because useEffect was in infinite loop checking again & again and throwing errors 1000+ in 5 seconds)
+  // const handleThemeChange = () => {
+  //   if (mode === "dark") {
+  //     setMode("light");
+  //     document.documentElement.classList.add("light");
+  //   } else {
+  //     setMode("dark");
+  //     document.documentElement.classList.add("dark");
+  //   }
+  // };
 
   //   * Checking Theme at start of the app
-  useEffect(
-    () => {
-      handleThemeChange();
-    },
-    [
-      /* mode */
-    ]
-  );
+  // useEffect(
+  //   () => {
+  //     handleThemeChange();
+  //   },
+  //   [
+  //     // mode
+  //   ]
+  // );
 
   return (
     // * all the data passed in value is usable across entire application
