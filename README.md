@@ -8,7 +8,7 @@
 
 - `Context` => Context is a React library which by default is client-side, But Next.js is server-side.
 
-What to do...?
+Then What to do...?
 
 ## Package Installations
 

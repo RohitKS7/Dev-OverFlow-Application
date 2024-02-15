@@ -9,7 +9,7 @@ interface ThemeContextType {
 }
 
 // * Context creation
-// * in TypeScript type is defined as `<ThemeContextType>`
+// * in TypeScript type is defined as `<type>`
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
