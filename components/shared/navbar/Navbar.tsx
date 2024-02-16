@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Theme from "./Theme";
+import MobileNav from "./MobileNav";
+import GlobalSearch from "./search/GlobalSearch";
 
 const Navbar = () => {
   return (
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
+      {/* LOGO and Title */}
       <Link href="/" className="flex items-center gap-1">
         <Image
           src="/assets/images/site-logo.svg"
@@ -19,7 +22,11 @@ const Navbar = () => {
           Dev <span className="text-primary-500">Overflow</span>
         </p>
       </Link>
-      GlobalSearch
+
+      {/* Global Search */}
+      <GlobalSearch />
+
+      {/* Theme and User profile */}
       <div className="flex-between gap-5">
         <Theme />
         {/* Checking : Only when user is signed in, they can see anything */}
@@ -36,7 +43,8 @@ const Navbar = () => {
             }}
           />
         </SignedIn>
-        MobileNav
+
+        <MobileNav />
       </div>
     </nav>
   );
