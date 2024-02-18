@@ -22,7 +22,7 @@ const NavContent = () => {
 
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
-      {/* `map(() => (html element))` !== `map(() => {function return}) */}
+      {/* use parenthesis in map like this `map(() => ())` to immediately return something and to obviously the next example is a function type map which will return something only after processing the function `map(() => {function return}) */}
       {sidebarLinks.map((item) => {
         // * checking which URL path is active like `/`, `/community` etc.
         // * `item.route.length > 1` checking if it exist by checking if length is greater than 0

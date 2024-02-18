@@ -13,7 +13,7 @@ const NavContent = () => {
 
   return (
     <div className="flex flex-1 flex-col gap-6 ">
-      {/* `map(() => (html element))` !== `map(() => {function return}) */}
+      {/* use parenthesis in map like this `map(() => ())` to immediately return something and to obviously the next example is a function type map which will return something only after processing the function `map(() => {function return}) */}
       {sidebarLinks.map((item) => {
         const isActive =
           (pathName.includes(item.route) && item.route.length > 1) ||
