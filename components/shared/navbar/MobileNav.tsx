@@ -90,7 +90,7 @@ const MobileNav = () => {
           </p>
         </Link>
 
-        <div className="">
+        <div className="no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-auto">
           <SheetClose asChild>
             <NavContent />
           </SheetClose>
