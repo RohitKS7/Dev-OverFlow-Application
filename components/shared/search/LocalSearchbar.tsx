@@ -9,7 +9,7 @@ interface CustomInputProps {
   iconPosition: string;
   imgSrc: string;
   placeholder: string;
-  otherClasses: string;
+  otherClasses?: string;
 }
 
 const LocalSearchbar = ({
