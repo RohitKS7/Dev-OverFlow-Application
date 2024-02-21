@@ -1,10 +1,41 @@
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import Link from "next/link";
 import React from "react";
+
+const questions = [
+  {
+    _id: 1,
+    title: "How to make button gradient hover effect with tailwind CSS?",
+    tags: [
+      { _id: 1, name: "TailwindCSS" },
+      { _id: 2, name: "CSS" },
+      { _id: 3, name: "Animation" },
+    ],
+    author: "Rohit Kumar",
+    upvotes: 10,
+    views: 100,
+    answers: 2,
+    createdAt: "2024-02-01T16:54:00.000Z",
+  },
+  {
+    _id: 2,
+    title: "Difference between Array and Object?",
+    tags: [
+      { _id: 1, name: "JavaScript" },
+      { _id: 2, name: "Logic" },
+    ],
+    author: "Kumar Suman",
+    upvotes: 15,
+    views: 120,
+    answers: 7,
+    createdAt: "2024-02-01T15:54:00.000Z",
+  },
+];
 
 const Home = () => {
   return (
@@ -40,6 +71,22 @@ const Home = () => {
       </div>
 
       <HomeFilters />
+
+      {/* Question Card */}
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {questions.length > 0 ? (
+          questions.map((question) => "QuestionCard")
+        ) : (
+          <NoResult
+            title=" There are no question to show"
+            description=" Be the first to break the silence! 🚀 Ask a Question and kickstart the
+          discussion. our query could be the next big thing others learn from. Get
+          involved! 💡"
+            link="/ask-question"
+            linkText="Ask a Question"
+          />
+        )}
+      </div>
     </>
   );
 };

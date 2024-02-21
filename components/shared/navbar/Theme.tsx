@@ -16,7 +16,8 @@ const Theme = () => {
   const { mode, setMode } = useTheme();
 
   return (
-    <Menubar className="relative border-none bg-transparent shadow-none hover:bg-[#f4f6f8] dark:hover:bg-dark-400">
+    <Menubar className="relative border-none bg-transparent shadow-none ">
+      {/* menubar class optional => 'hover:bg-[#f4f6f8] dark:hover:bg-dark-400' */}
       <MenubarMenu>
         <MenubarTrigger className=" data-[state=open]:bg-light-900 dark:data-[state=open]:bg-dark-200 ">
           {mode === "light" ? (
