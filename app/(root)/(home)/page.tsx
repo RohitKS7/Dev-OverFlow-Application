@@ -1,3 +1,4 @@
+import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
@@ -16,11 +17,15 @@ const questions = [
       { _id: 2, name: "CSS" },
       { _id: 3, name: "Animation" },
     ],
-    author: "Rohit Kumar",
+    author: {
+      _id: "author_id_1",
+      name: "Rohit Kumar",
+      picture: "author_picture_url_1",
+    },
     upvotes: 10,
     views: 100,
-    answers: 2,
-    createdAt: "2024-02-01T16:54:00.000Z",
+    answers: [],
+    createdAt: new Date("2024-02-21T11:30:00.000Z"),
   },
   {
     _id: 2,
@@ -29,11 +34,15 @@ const questions = [
       { _id: 1, name: "JavaScript" },
       { _id: 2, name: "Logic" },
     ],
-    author: "Kumar Suman",
+    author: {
+      _id: "author_id_2",
+      name: "Kumar Suman",
+      picture: "author_picture_url_2",
+    },
     upvotes: 15,
     views: 120,
-    answers: 7,
-    createdAt: "2024-02-01T15:54:00.000Z",
+    answers: [],
+    createdAt: new Date("2024-02-01T15:54:00.000Z"),
   },
 ];
 
@@ -75,7 +84,19 @@ const Home = () => {
       {/* Question Card */}
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question) => "QuestionCard")
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
         ) : (
           <NoResult
             title=" There are no question to show"
