@@ -5,8 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// ========================================================
 // Converting computational date into Readable Date
-//  Function created with the help of CHAT-GPT,
+// Function created with the help of CHAT-GPT,
 // Searched like this for the answer
 /* 
 create a javascript function that looks like this:
@@ -51,4 +52,22 @@ export const getTimestamp = (createdAt: Date): string => {
 
   // If the time difference is less than a minute, return 'just now'
   return "just now";
+};
+
+// ======================================================
+
+// Function to convert Big Numbers in String ex:(10000 => 10K)
+/* Chat-gpt entered question:-
+
+   create another typescript function that takes-in a big number and returns a string of the number with the extension of M for millions and K for thousands and immediatly divides the number by the factor
+
+*/
+export const formatBigNumber = (num: number): string => {
+  if (Math.abs(num) >= 1e6) {
+    return (num / 1e6).toFixed(1) + "M";
+  } else if (Math.abs(num) >= 1e3) {
+    return (num / 1e3).toFixed(1) + "K";
+  } else {
+    return num.toString();
+  }
 };

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metric from "../shared/Metric";
-import { getTimestamp } from "@/lib/utils";
+import { formatBigNumber, getTimestamp } from "@/lib/utils";
 
 interface QuestionProps {
   _id: number;
@@ -66,29 +66,31 @@ const QuestionCard = ({
           title={` - asked ${getTimestamp(createdAt)}`}
           href={`/profile/${author._id}`}
           isAuthor
-          textStyles=" body-medium text-dark400_light700"
+          textStyles="body-medium text-dark400_light700"
         />
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          alt="Upvotes"
-          value={upvotes}
-          title=" Votes "
-          textStyles=" small-medium text-dark400_light800"
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          alt="Answers"
-          value={answers.length}
-          title=" Answers "
-          textStyles=" small-medium text-dark400_light800"
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          alt="eye"
-          value={views}
-          title=" views "
-          textStyles=" small-medium text-dark400_light800"
-        />
+        <div className="flex justify-end gap-3 max-sm:flex-wrap max-sm:justify-start">
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            alt="Upvotes"
+            value={formatBigNumber(upvotes)}
+            title=" Votes "
+            textStyles=" small-medium text-dark400_light800"
+          />
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="Answers"
+            value={formatBigNumber(answers.length)}
+            title=" Answers "
+            textStyles=" small-medium text-dark400_light800"
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="eye"
+            value={formatBigNumber(views)}
+            title=" views "
+            textStyles=" small-medium text-dark400_light800"
+          />
+        </div>
       </div>
     </div>
   );
