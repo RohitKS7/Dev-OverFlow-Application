@@ -8,9 +8,7 @@
 
 - `/components/shared` folder contians only those component which we wanna share across the application.
 
-- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side.
-
-Then What to do...?
+- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `use client`.
 
 ## Package Installations
 
