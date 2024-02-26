@@ -19,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { QuestionsSchema } from "@/lib/validations";
+import { Badge } from "../ui/badge";
+import Image from "next/image";
 
 export function ProfileForm() {}
 
@@ -41,6 +43,63 @@ const Question = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
+  // Handle Tags Output Function
+  const handleInputKeyDown = (
+    // type of `e` is keyboardEvent specifically `HTMLInputElement`
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any
+  ) => {
+    if (e.key === "Enter" && field.name === "tags") {
+      // prevent page refresh
+      e.preventDefault();
+
+      // Get the target (the input itself) (the value we put in input field)
+      const tagInput = e.target as HTMLInputElement;
+      const tagValue = tagInput.value.trim();
+
+      if (tagValue !== "") {
+        if (tagValue.length > 15) {
+          // set an error message on 'tags' field
+          return form.setError("tags", {
+            type: "required",
+            message: "Tag must be less than 15 characters.",
+          });
+        }
+
+        if (field.value.includes(tagValue)) {
+          return form.setError("tags", {
+            type: "required",
+            message: "Duplicate tags are not allowed, Please enter a new tag.",
+          });
+        }
+
+        // checking for existing tag values, if it's already exist than never add a same tag again
+        if (!field.value.includes(tagValue as never)) {
+          // if the value is not there then append that tagvalue
+          form.setValue("tags", [...field.value, tagValue]);
+          // reset the input field for adding more tags
+          tagInput.value = "";
+          // clear the error on tags field if there is any
+          form.clearErrors("tags");
+        }
+      } else {
+        form.trigger();
+      }
+    }
+  };
+
+  // Handle Tag Removing function (iss function me hum bol rahe hai ki hum tag ko remove kr rahe hai pr reality me hum ek new array create kr rahe hai aur clicked tag ko add nahi kr rahe hai) This is called `reverse-engineering`.
+  const handleTagRemove = (tag: string, field: any) => {
+    // First we must figure out how remove only the tag we click-on and we mustn't mutate the state directly here (meaning we shouldn't mutate the original array of tags but instead create a copy of that array and make change in it)
+    const newTags = field.value.filter((t: string) => t !== tag);
+    // explaination of above line:- This line is spitting a new array after filtering the tag we clicked meaning this array will not include the clicked tag and spits the remaining tags in an arrya which we will append in our existing tags array
+
+    console.log(newTags);
+    form.setValue("tags", newTags);
+  };
+
+  // Return the components
   return (
     <Form {...form}>
       <form
@@ -138,12 +197,37 @@ const Question = () => {
               <FormLabel className="paragraph-semibold text-dark400_light800">
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
+              {/* FormControl can only take a single element. but I made a rookie mistake and added another element(map for inputvalues) resulting in error. To prevent this just wrap both elements inside a HTML wrapping element which is this `<>Both Element</>`  */}
               <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  placeholder="Add tags..."
-                  {...field}
-                />
+                <>
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    placeholder="Add tags..."
+                    // remove this spread operator `{...field}` , to manually adjust the output
+                    onKeyDown={(e) => handleInputKeyDown(e, field)}
+                  />
+
+                  {field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag: any) => (
+                        <Badge
+                          key={tag}
+                          className="subtle-medium background-light800_dark300 text-light400_light500 flex-center gap-2 rounded-md border-none px-4 py-2 capitalize"
+                          onClick={() => handleTagRemove(tag, field)}
+                        >
+                          {tag}
+                          <Image
+                            src="assets/icons/close.svg"
+                            alt="Close icon"
+                            width={12}
+                            height={12}
+                            className="cursor-pointer object-contain invert-0 dark:invert"
+                          />
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Add up to 3 tags to describe what your question is about. You
