@@ -2,6 +2,8 @@
 
 ## Project Code Structure
 
+#### Client Side
+
 - `page.tsx` within `/app/(root)/(home)` folder is acting as a entry point, so we don't need `page.tsx` within `/app` folder.
 
 - `(auth)` contains Authentication setup using Clerk.
@@ -9,6 +11,26 @@
 - `/components/shared` folder contians only those component which we wanna share across the application.
 
 - `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `use client`.
+
+#### Server Side
+
+- don't forget to enable server actions in `next.config` like this
+
+```bash
+const nextConfig = {
+  experimental: {
+    serverActions: true,
+    // Compile MDX files using the new Rust compiler.
+    mdxRs: true,
+    // Choose your own choice of backend library
+    serverComponentsExternalPackages: ["mongoose"],
+  },
+};
+```
+
+- [Next.js Server-Actions Blog](https://makerkit.dev/blog/tutorials/nextjs-server-actions)
+
+- `/lib/actions` this folder contains all of the Server Actions.
 
 ## Package Installations
 
