@@ -1,7 +1,7 @@
-// 90% of the code present here is taken from ShadCN form component
+// 80% of the code present here is taken from ShadCN form component
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,10 +22,12 @@ import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 
-export function ProfileForm() {}
+// setting the type of form as create
+const type: any = "create";
 
 const Question = () => {
   const editorRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
@@ -39,9 +41,17 @@ const Question = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    // setIsSubmitting allows us to press our submit button second time and cause some chaos in our database
+    setIsSubmitting(true);
+
+    try {
+      // make an async call to your API(backend) -> to create a question
+      // which contain all form data
+      // After that navigate back to home page to see the created question
+    } catch (error) {
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   // Handle Tags Output Function
@@ -237,7 +247,18 @@ const Question = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {/* Reusable form by checking for type */}
+        <Button
+          type="submit"
+          className="primary-gradient w-full !text-light-900"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === "edit" ? "Editing..." : "Posting..."}</>
+          ) : (
+            <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
+          )}
+        </Button>
       </form>
     </Form>
   );
