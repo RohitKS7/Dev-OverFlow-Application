@@ -21,6 +21,7 @@ import { Button } from "../ui/button";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 // setting the type of form as create
 const type: any = "create";
@@ -40,13 +41,16 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     // setIsSubmitting allows us to press our submit button second time and cause some chaos in our database
     setIsSubmitting(true);
 
     try {
       // make an async call to your API(backend) -> to create a question
       // which contain all form data
+      await createQuestion({});
+      console.log(values);
+
       // After that navigate back to home page to see the created question
     } catch (error) {
     } finally {
@@ -157,6 +161,10 @@ const Question = () => {
                     // @ts-ignore
                     (editorRef.current = editor)
                   }
+                  // onBlur prop save the content once we exit the editor
+                  onBlur={field.onBlur}
+                  // content is the content of editor
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=""
                   init={{
                     height: 350,

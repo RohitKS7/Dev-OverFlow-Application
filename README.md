@@ -19,7 +19,8 @@
 ```bash
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    // serverActions are available by default now, So the below experimental code is not required
+    // serverActions: true,
     // Compile MDX files using the new Rust compiler.
     mdxRs: true,
     // Choose your own choice of backend library
@@ -28,9 +29,13 @@ const nextConfig = {
 };
 ```
 
-- [Next.js Server-Actions Blog](https://makerkit.dev/blog/tutorials/nextjs-server-actions)
+- Visit this blog for understanding[Next.js Server-Actions Blog](https://makerkit.dev/blog/tutorials/nextjs-server-actions)
 
 - `/lib/actions` this folder contains all of the Server Actions.
+
+- `/lib/mongoose.ts` this file creates our Database
+
+- `/database` folder contains all the database models
 
 ## Package Installations
 
