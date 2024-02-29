@@ -14,6 +14,8 @@
 
 #### Server Side
 
+- Remember when creating a Server-action, Always connect to database first.
+
 - don't forget to enable server actions in `next.config` like this
 
 ```bash

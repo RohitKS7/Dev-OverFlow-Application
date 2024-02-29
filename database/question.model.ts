@@ -22,13 +22,13 @@ const QuestionSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   //   Referncing to Tag model Assuming 'Tag' is the name of the related model
-  tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+  tags: [{ type: Schema.Types.ObjectId, ref: "TagModel" }],
   views: { type: Number, default: 0 },
   //   An Array of ID of users that upvotes this Assuming 'User' is the name of the related model
-  upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  answers: [{ type: Schema.Types.ObjectId, ref: "Answer" }],
+  upvotes: [{ type: Schema.Types.ObjectId, ref: "UserModel" }],
+  downvotes: [{ type: Schema.Types.ObjectId, ref: "UserModel" }],
+  author: { type: Schema.Types.ObjectId, ref: "UserModel", required: true },
+  answers: [{ type: Schema.Types.ObjectId, ref: "AnswerModel" }],
   createdAt: { type: Date, default: Date.now },
 });
 

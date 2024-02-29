@@ -19,7 +19,7 @@ export const connectToDatabase = async () => {
   //  Connect to MongoDB Atlas Database
   try {
     await mongoose.connect(process.env.MONGODB_URL, {
-      dbName: "devoverflow",
+      dbName: "DevOverFlow",
     });
 
     isConnected = true;

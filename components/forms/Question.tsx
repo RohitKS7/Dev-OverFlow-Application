@@ -22,15 +22,22 @@ import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
-// setting the type of form as create
+//  setting the type of form as create
 const type: any = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathName = usePathname();
 
-  // 1. Define your form.
+  // ! 1. Define your form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
@@ -40,7 +47,7 @@ const Question = () => {
     },
   });
 
-  // 2. Define a submit handler.
+  // ! 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     // setIsSubmitting allows us to press our submit button second time and cause some chaos in our database
     setIsSubmitting(true);
@@ -48,17 +55,28 @@ const Question = () => {
     try {
       // make an async call to your API(backend) -> to create a question
       // which contain all form data
-      await createQuestion({});
+      await createQuestion({
+        // coming directly from Title field of question form
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        //   Make a request call to the database to retrive the userData for author
+        author: JSON.parse(mongoUserId),
+      });
       console.log(values);
 
       // After that navigate back to home page to see the created question
+      router.push("/");
     } catch (error) {
+      console.log(error);
+
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  // Handle Tags Output Function
+  // ! Handle Tags Output Function
   const handleInputKeyDown = (
     // type of `e` is keyboardEvent specifically `HTMLInputElement`
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -103,7 +121,7 @@ const Question = () => {
     }
   };
 
-  // Handle Tag Removing function (iss function me hum bol rahe hai ki hum tag ko remove kr rahe hai pr reality me hum ek new array create kr rahe hai aur clicked tag ko add nahi kr rahe hai) This is called `reverse-engineering`.
+  // ! Handle Tag Removing function (iss function me hum bol rahe hai ki hum tag ko remove kr rahe hai pr reality me hum ek new array create kr rahe hai aur clicked tag ko add nahi kr rahe hai) This is called `reverse-engineering`.
   const handleTagRemove = (tag: string, field: any) => {
     // First we must figure out how remove only the tag we click-on and we mustn't mutate the state directly here (meaning we shouldn't mutate the original array of tags but instead create a copy of that array and make change in it)
     const newTags = field.value.filter((t: string) => t !== tag);
