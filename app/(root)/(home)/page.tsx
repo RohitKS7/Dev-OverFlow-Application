@@ -5,48 +5,13 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 import React from "react";
 
-const questions = [
-  {
-    _id: 1,
-    title: "How to make button gradient hover effect with tailwind CSS?",
-    tags: [
-      { _id: 1, name: "TailwindCSS" },
-      { _id: 2, name: "CSS" },
-      { _id: 3, name: "Animation" },
-    ],
-    author: {
-      _id: "author_id_1",
-      name: "Rohit Kumar",
-      picture: "author_picture_url_1",
-    },
-    upvotes: 15e3,
-    views: 1e8,
-    answers: [],
-    createdAt: new Date("2024-02-21T11:30:00.000Z"),
-  },
-  {
-    _id: 2,
-    title: "Difference between Array and Object?",
-    tags: [
-      { _id: 1, name: "JavaScript" },
-      { _id: 2, name: "Logic" },
-    ],
-    author: {
-      _id: "author_id_2",
-      name: "Kumar Suman",
-      picture: "author_picture_url_2",
-    },
-    upvotes: 15,
-    views: 120,
-    answers: [],
-    createdAt: new Date("2024-02-01T15:54:00.000Z"),
-  },
-];
-
-const Home = () => {
+const Home = async () => {
+  // !  Fetching the question data from database
+  const result = await getQuestions({});
   return (
     <>
       {/* HEADING and BUTTON */}
@@ -83,8 +48,8 @@ const Home = () => {
 
       {/* Question Card */}
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

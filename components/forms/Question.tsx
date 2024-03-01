@@ -62,14 +62,13 @@ const Question = ({ mongoUserId }: Props) => {
         tags: values.tags,
         //   Make a request call to the database to retrive the userData for author
         author: JSON.parse(mongoUserId),
+        path: pathName,
       });
-      console.log(values);
 
       // After that navigate back to home page to see the created question
       router.push("/");
     } catch (error) {
       console.log(error);
-
       throw error;
     } finally {
       setIsSubmitting(false);

@@ -3,18 +3,45 @@
 import QuestionModel from "@/database/question.model";
 import { connectToDatabase } from "../mongoose";
 import TagModel from "@/database/tag.model";
+import { CreateQuestionParams, GetQuestionsParams } from "./shared.types";
+import UserModel from "@/database/user.model";
+import { revalidatePath } from "next/cache";
 
-//   The params will be consists of everything in ask-a-question page form from Frontend, that is {title, explanation, tags and author }
-export async function createQuestion(params: any) {
-  // eslint-disable-next-line no-empty
+// *****  Fetching question data
+export async function getQuestions(params: GetQuestionsParams) {
   try {
-    //   connect to Database
     connectToDatabase();
 
-    // path is the URL for home after the question is submitted successfully to 'Revalidate' next.js
+    // find all questions and populate(add data) all the related tags to that question in 'tags' field of QuestionModel
+    const questions = await QuestionModel.find({})
+      .populate({ path: "tags", model: TagModel })
+      .populate({ path: "author", model: UserModel })
+      .sort({
+        createdAt: -1,
+      }); /* `sort:` will make newly create question appear on top of other questions instead of in the bottom for example:
+      without sort => 1. Old question                     with sort => 1. Newly created Question    
+                      2. Newly Created question                        2. Old question
+      
+      */
+
+    return { questions };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+// *****  Create a Question }
+export async function createQuestion(params: CreateQuestionParams) {
+  // eslint-disable-next-line no-empty
+  try {
+    //!  Connect to Database
+    connectToDatabase();
+
+    //  path is the URL for home after the question is submitted successfully to 'Revalidate' next.js
     const { title, content, tags, author, path } = params;
 
-    //   Create the question
+    //!  Create the question
     //   `create()` : This method is used to create and save a new document in the MongoDB database based on the provided data.
     const question = await QuestionModel.create({
       title,
@@ -63,8 +90,13 @@ export async function createQuestion(params: any) {
       $push: { tags: { $each: tagDocuments } },
     });
 
-    //   Create an interaction record for the user's ask_question action (means how the number of questions the author have created)
+    //   Create an interaction record for the user's asked-questions action (means how the number of questions the author have created)
 
     //   Increment author's reputation by +5 for creating a question
-  } catch (error) {}
+
+    //!   The revalidatePath function is a feature in Next.js that allows you to update data on a specific page without requiring a full page reload.
+    revalidatePath(path);
+  } catch (error) {
+    console.error("Error creating question:", error);
+  }
 }
