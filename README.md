@@ -10,13 +10,17 @@
 
 - `/components/shared` folder contians only those component which we wanna share across the application.
 
-- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `use client`.
+- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `"use client"`.
+
+- `/app/api` contains "Webhooks" which is Connecting our 'Clerk-user-database' to 'MongoDb-database'
 
 #### Server Side
 
 - Remember when creating a Server-action, Always connect to database first.
 
 - don't forget to enable server actions in `next.config` like this
+
+- `"use server"` in server-action function or on top of server-action separate file.
 
 ```bash
 const nextConfig = {
@@ -93,6 +97,16 @@ Pick the components you need. Copy and paste the code into your project and cust
 4. When you install this library, you'll see it overwrote your `global.css` and `tailwind.config.ts`. But Don't worry, Just copy and paste your old styles.
 
 5. It'll add `/lib/utils.ts` in your code for better customization. and It'll also add `ui` in your component folder which contains ShadCN components.
+
+### Webhooks Svix
+
+- "Svix": provides a package for verifying the webhook signature, making it easy to verify the authenticity of the webhook events.
+
+```bash
+npm install svix
+```
+
+- For more info, Visit [Clerk Webhooks Guide](https://clerk.com/docs/integrations/webhooks/sync-data)
 
 > TIPS :
 
