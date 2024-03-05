@@ -85,6 +85,8 @@ export async function deleteUser(deleteUserParams: DeleteUserParams) {
       author: user._id,
     }).distinct("_id");
 
+    console.log(userQuestionIds);
+
     // delete user questions
     await QuestionModel.deleteMany({ author: user._id });
 
