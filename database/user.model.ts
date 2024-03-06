@@ -29,7 +29,7 @@ const UserSchema = new Schema({
   location: { type: String },
   portfolioWebsite: { type: String },
   reputation: { type: Number, default: 0 },
-  saved: [{ type: Schema.Types.ObjectId, ref: "QuestionModel" }], // Assuming 'Question' is the model name you've defined previously
+  saved: [{ type: Schema.Types.ObjectId, ref: "QuestionModel" }], // Assuming 'QuestionModel' is the model name you've defined previously
   joinedAt: { type: Date, default: Date.now },
 });
 

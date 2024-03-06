@@ -1,5 +1,7 @@
 ## About Project
 
+DevOverFlow is a clone of StackOverflow
+
 ## Project Code Structure
 
 #### Client Side
@@ -13,6 +15,8 @@
 - `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `"use client"`.
 
 - `/app/api` contains "Webhooks" which is Connecting our 'Clerk-user-database' to 'MongoDb-database'
+
+- `/app/api/webhooks` contains webhooks which is connecting our 'clerk database' and 'mongoDB database'.
 
 #### Server Side
 
@@ -42,6 +46,8 @@ const nextConfig = {
 - `/lib/mongoose.ts` this file creates our Database
 
 - `/database` folder contains all the database models
+
+- don't forget to disable 'Vercel Authentication' which is acting as a thorn in sending requests from clerk webhook. and enable 'username' and 'name' in clerk dashboard to match the data pattern of 'userModel' of mongoDB collection.
 
 ## Package Installations
 
