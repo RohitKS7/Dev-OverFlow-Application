@@ -1,5 +1,7 @@
 ## About Project
 
+DevOverFlow is a clone of StackOverflow
+
 ## Project Code Structure
 
 #### Client Side
