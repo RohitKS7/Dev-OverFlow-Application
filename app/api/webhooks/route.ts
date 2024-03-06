@@ -2,6 +2,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user.action";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -49,12 +51,57 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the ID and type
-  const { id } = evt.data;
   const eventType = evt.type;
+  console.log({ eventType });
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
+  //!  Listening to "Create User Event"
+  if (eventType === "user.created") {
+    const { id, email_addresses, image_url, username, first_name, last_name } =
+      evt.data;
+
+    //*  Create a new user in our MongoDB database
+    const mongoUser = await createUser({
+      clerkId: id,
+      name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+      username: username!, // the original type of username is `string || null` which in-response should be `username || ""` but here we're certain that the username is not gonna be undefined so we're using "exclaimation mark" to tell the TypeScript it's ok.
+      email: email_addresses[0].email_address,
+      picture: image_url,
+    });
+
+    return NextResponse.json({ message: "OK", user: mongoUser });
+  }
+
+  //!  Listening to "Update User Event"
+  if (eventType === "user.updated") {
+    const { id, email_addresses, image_url, username, first_name, last_name } =
+      evt.data;
+
+    //*  Update an existing user in our MongoDB database
+    const mongoUser = await updateUser({
+      clerkId: id,
+      updateData: {
+        name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+        username: username!,
+        email: email_addresses[0].email_address,
+        picture: image_url,
+      },
+      //   telling next js to update the data on profile page (revalidation)
+      path: `/profile/${id}`,
+    });
+
+    return NextResponse.json({ message: "OK", user: mongoUser });
+  }
+
+  //!  Listening to "Deleted User Event"
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+
+    const deletedUser = await deleteUser({
+      clerkId: id!,
+    });
+
+    return NextResponse.json({ message: "OK", user: deletedUser });
+  }
 
   return new Response("", { status: 200 });
 }
