@@ -14,6 +14,8 @@ DevOverFlow is a clone of StackOverflow
 
 - `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `use client`.
 
+- `/app/api/webhooks` contains webhooks which is connecting our 'clerk database' and 'mongoDB database'.
+
 #### Server Side
 
 - Remember when creating a Server-action, Always connect to database first.
@@ -40,6 +42,8 @@ const nextConfig = {
 - `/lib/mongoose.ts` this file creates our Database
 
 - `/database` folder contains all the database models
+
+- don't forget to disable 'Vercel Authentication' which is acting as a thorn in sending requests from clerk webhook. and enable 'username' and 'name' in clerk dashboard to match the data pattern of 'userModel' of mongoDB collection.
 
 ## Package Installations
 
