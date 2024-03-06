@@ -34,11 +34,7 @@ export async function updateUser(updatedUserData: UpdateUserParams) {
 
     const { clerkId, updateData, path } = updatedUserData;
 
-<<<<<<< HEAD
-    //* Only the updateData is updating not clerkId. ClerkId is using to find the user.
-=======
     //*  ClerkId is using to find the user.
->>>>>>> cba886f6334fde40738db09c37130d03217be8e3
     await UserModel.findOneAndUpdate({ clerkId }, updateData, {
       new: true,
     });
