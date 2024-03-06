@@ -1,6 +1,6 @@
 ## About Project
 
-DevOverFlow is a clone of StackOverflow
+DevOverFlow is a clone of StackOverflow.
 
 ## Project Code Structure
 
