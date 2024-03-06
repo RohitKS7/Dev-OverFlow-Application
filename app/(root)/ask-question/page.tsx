@@ -1,6 +1,6 @@
 import Question from "@/components/forms/Question";
 import { getUserById } from "@/lib/actions/user.action";
-// import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -8,15 +8,12 @@ import React from "react";
 // The Question component is 'client-side'
 const AskQuestion = async () => {
   // !  Get the current userID from the clerk
-  // const { userId } = auth();
-  const userId = "123456789";
+  const { userId } = auth();
 
   if (!userId) redirect("/sign-in");
 
   // !  Pass the userId to User Server-action
   const mongoUser = await getUserById({ userId });
-
-  console.log(mongoUser);
 
   return (
     <div>
