@@ -2,8 +2,10 @@
 
 import UserModel from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { GetTopInteractedTagsParams } from "./shared.types";
+import { GetAllTagsParams, GetTopInteractedTagsParams } from "./shared.types";
+import TagModel from "@/database/tag.model";
 
+//!   Get Top Interacted Tags of an User
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
     connectToDatabase();
@@ -32,6 +34,23 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
         name: "tag3",
       },
     ];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//!   Get All Tags
+export async function getAllTags(getAllTagsParams: GetAllTagsParams) {
+  try {
+    connectToDatabase();
+
+    //  If page doesn't exist than make it 1, same for pageSize if doesn't exist than make it 20
+    // const { page = 1, pageSize = 20, filter, searchQuery } = getAllUsersParams;
+
+    const tags = await TagModel.find({});
+
+    return { tags };
   } catch (error) {
     console.log(error);
     throw error;
