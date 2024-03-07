@@ -149,6 +149,9 @@
   .shadow-light100_darknone {
     @apply shadow-light-100 dark:shadow-none;
   }
+  .shadow-light200_darknone {
+    @apply shadow-light-200 dark:shadow-none;
+  }
   .primary-gradient {
     background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
   }

@@ -5,6 +5,7 @@ import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
@@ -46,7 +47,7 @@ export async function updateUser(updatedUserData: UpdateUserParams) {
   }
 }
 
-//!  Get User
+//!  Get A User (1 user at a time)
 export async function getUserById(getUserParams: GetUserByIdParams) {
   try {
     //   connect to database first
@@ -96,6 +97,23 @@ export async function deleteUser(deleteUserParams: DeleteUserParams) {
     return deletedUser;
   } catch (error) {
     console.log("Error in deleteUser", error);
+    throw error;
+  }
+}
+
+//!  Get All User
+export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
+  try {
+    connectToDatabase();
+
+    //  If page doesn't exist than make it 1, same for pageSize if doesn't exist than make it 20
+    // const { page = 1, pageSize = 20, filter, searchQuery } = getAllUsersParams;
+
+    const users = await UserModel.find({}).sort({ createdAt: -1 });
+
+    return { users };
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }

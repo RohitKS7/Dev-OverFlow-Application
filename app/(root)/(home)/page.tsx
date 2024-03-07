@@ -44,6 +44,7 @@ const Home = async () => {
         />
       </div>
 
+      {/* Filters for large screen  */}
       <HomeFilters />
 
       {/* Question Card */}

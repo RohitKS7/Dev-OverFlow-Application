@@ -12,7 +12,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    // find all questions and populate(add data) all the related tags to that question in 'tags' field of QuestionModel
+    // find all questions and populate(means adding data) all the related tags to that question in 'tags' field of QuestionModel
     const questions = await QuestionModel.find({})
       .populate({ path: "tags", model: TagModel })
       .populate({ path: "author", model: UserModel })
