@@ -3,11 +3,15 @@
 import QuestionModel from "@/database/question.model";
 import { connectToDatabase } from "../mongoose";
 import TagModel from "@/database/tag.model";
-import { CreateQuestionParams, GetQuestionsParams } from "./shared.types";
+import {
+  CreateQuestionParams,
+  GetQuestionByIdParams,
+  GetQuestionsParams,
+} from "./shared.types";
 import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 
-// *****  Fetching question data
+//!  Fetching question data
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
@@ -31,7 +35,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-// *****  Create a Question }
+//!  Create a Question
 export async function createQuestion(params: CreateQuestionParams) {
   // eslint-disable-next-line no-empty
   try {
@@ -98,5 +102,28 @@ export async function createQuestion(params: CreateQuestionParams) {
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
+  }
+}
+
+//!  Get Question By Id
+export async function getQuestionById(params: GetQuestionByIdParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId } = params;
+
+    // `select: '_id name'` means we're only selecting the '_id' & 'name' of the tag.
+    const question = await QuestionModel.findById(questionId)
+      .populate({ path: "tags", model: TagModel, select: "_id name" })
+      .populate({
+        path: "author",
+        model: UserModel,
+        select: "_id clerkId name picture",
+      });
+
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }

@@ -18,6 +18,8 @@ DevOverFlow is a clone of StackOverflow.
 
 - `/app/api/webhooks` contains webhooks which is connecting our 'clerk database' and 'mongoDB database'.
 
+- `/app/(root)/question/[id]` is a dynamic route for question details page.
+
 #### Server Side
 
 - Remember when creating a Server-action, Always connect to database first.
