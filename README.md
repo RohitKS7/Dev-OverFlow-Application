@@ -55,19 +55,19 @@ const nextConfig = {
 
 ### ESLint
 
-1.  Install `JavaScript Standard Style` for ESLint. Then add 'standard' in `.eslintrc.json`.
+1.  Install "JavaScript Standard Style' for ESLint. Then add 'standard' in `.eslintrc.json`.
 
 ```bash
 npm install eslint-config-standard
 ```
 
-2. Run ESLint to check any potential errors & bug.
+2. Run "ESLint" to check any potential errors & bug.
 
 ```bash
 npm run lint
 ```
 
-3. Tailwind plugin of ESLint.
+3. Tailwind plugin of "ESLint".
    Sometimes we write styles like this `min-h-screen flex-col flex` which is not a logical method to write tailwind and we have to read the whole class everytime. So, in order to maintain readability and logical pattern this Plugin comes in handy.
    After installation simply add it in your `.eslintrc.json` file.
 
@@ -76,10 +76,30 @@ npm install eslint-plugin-tailwindcss
 ```
 
 4. To avoid conflicts between Prettier and ESLint, install.
-   This will removes all ESLint rules that could conflict with Prettier. Once Installed, add "prettier" to your `.eslintrc.json` file.
+   This will removes all "ESLint" rules that could conflict with Prettier. Once Installed, add "prettier" to your `.eslintrc.json` file.
 
 ```bash
 npm install eslint-config-prettier
+```
+
+5. "Prism.js" is a fantastic code highlighting library. The code highlighting in question details page you are seeing! is done using "Prism.js"
+
+```bash
+npm install prismjs
+```
+
+6. "HTML-React-Parser" to convert an HTML string to one or more React elements.
+
+```bash
+npm install html-react-parser
+```
+
+example : Here as you can see instead of using built-in HTML parser property "creatElement()" we're using HTML-React-Parser for better and easier coding.
+
+```bash
+import parse from 'html-react-parser';
+
+parse('<p>Hello, World!</p>'); // React.createElement('p', {}, 'Hello, World!')
 ```
 
 ### Authentication
