@@ -11,31 +11,7 @@ import {
 import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 
-//!  Fetching question data
-export async function getQuestions(params: GetQuestionsParams) {
-  try {
-    connectToDatabase();
-
-    // find all questions and populate(means adding data) all the related tags to that question in 'tags' field of QuestionModel
-    const questions = await QuestionModel.find({})
-      .populate({ path: "tags", model: TagModel })
-      .populate({ path: "author", model: UserModel })
-      .sort({
-        createdAt: -1,
-      }); /* `sort:` will make newly create question appear on top of other questions instead of in the bottom for example:
-      without sort => 1. Old question                     with sort => 1. Newly created Question    
-                      2. Newly Created question                        2. Old question
-      
-      */
-
-    return { questions };
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-
-//!  Create a Question
+//!  Create a Question Document on Database
 export async function createQuestion(params: CreateQuestionParams) {
   // eslint-disable-next-line no-empty
   try {
@@ -102,6 +78,30 @@ export async function createQuestion(params: CreateQuestionParams) {
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
+  }
+}
+
+//!  Fetching question data
+export async function getQuestions(params: GetQuestionsParams) {
+  try {
+    connectToDatabase();
+
+    // find all questions and populate(means adding data) all the related tags to that question in 'tags' field of QuestionModel
+    const questions = await QuestionModel.find({})
+      .populate({ path: "tags", model: TagModel })
+      .populate({ path: "author", model: UserModel })
+      .sort({
+        createdAt: -1,
+      }); /* `sort:` will make newly create question appear on top of other questions instead of in the bottom for example:
+      without sort => 1. Old question                     with sort => 1. Newly created Question    
+                      2. Newly Created question                        2. Old question
+      
+      */
+
+    return { questions };
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 

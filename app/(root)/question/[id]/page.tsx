@@ -5,7 +5,9 @@ import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
+import { getUserById } from "@/lib/actions/user.action";
 import { formatBigNumber, getTimestamp } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 // import { useState, useEffect } from "react";
@@ -61,9 +63,18 @@ const Page = async ({ params }: { params: Params }) => {
   // }, [params.id]);
 
   const questionDetail = await getQuestionById({ questionId: params.id });
+  const { userId: clerkId } = auth();
+
+  let mongoUser;
+
+  //*  We're getting UsersList from Database to pass it on Answer component, So we can know which user created the Answer
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
 
   //*  Object Destructing
   const {
+    _id: _questionId,
     title,
     content,
     tags,
@@ -150,7 +161,11 @@ const Page = async ({ params }: { params: Params }) => {
       </div>
 
       {/* ANSWER FORM */}
-      <Answer />
+      <Answer
+        question={content}
+        questionId={JSON.stringify(_questionId)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };
