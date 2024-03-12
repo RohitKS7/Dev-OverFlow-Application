@@ -53,7 +53,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
       form.reset();
 
-      // Clearing The Editor
+      // Clearing the Editor
       if (editorRef.current) {
         const editor = editorRef.current as any;
         editor.setContent("");
