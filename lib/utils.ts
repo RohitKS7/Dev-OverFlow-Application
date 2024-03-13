@@ -67,7 +67,35 @@ export const formatBigNumber = (num: number): string => {
     return (num / 1e6).toFixed(1) + "M";
   } else if (Math.abs(num) >= 1e3) {
     return (num / 1e3).toFixed(1) + "K";
-  } else {
+  } else if (num !== undefined) {
+    // Add this condition to check if num is defined
     return num.toString();
+  } else {
+    return "0"; // Return a default value if num is undefined
   }
 };
+
+//  this function `formatTimestamp` that takes in a Date object and returns a string in the format 'Sep 24, 2023, 8:10 PM':
+export const formatTimestamp = (createdAt: Date): string => {
+  // Create options for formatting the date
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  // Format the date using Intl.DateTimeFormat
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    createdAt
+  );
+
+  return formattedDate;
+};
+
+// Example usage
+const createdAt = new Date("2023-09-24T20:10:00");
+const timestamp = formatTimestamp(createdAt);
+console.log(timestamp); // Output: Sep 24, 2023, 8:10 PM

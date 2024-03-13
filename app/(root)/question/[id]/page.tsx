@@ -5,6 +5,7 @@ import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
+import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatBigNumber, getTimestamp } from "@/lib/utils";
@@ -80,8 +81,8 @@ const Page = async ({ params }: { params: Params }) => {
     content,
     tags,
     views,
-    // upvotes,
-    // downvotes,
+    upvotes,
+    downvotes,
     author,
     answers,
     createdAt,
@@ -96,7 +97,7 @@ const Page = async ({ params }: { params: Params }) => {
 
   return (
     <>
-      {/* TITLE AND AUTHOR */}
+      {/* TITLE, AUTHOR AND VOTING  */}
       <div className="flex-start w-full flex-col">
         <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
@@ -114,7 +115,25 @@ const Page = async ({ params }: { params: Params }) => {
               {authorName}
             </p>
           </Link>
-          <div className="flex justify-end">VOTING FUNCTIONALITY</div>
+          <div className="flex justify-end">
+            {/* 
+            1. `type` = To distinguish between question and answer Voting System since both have one.
+            2. `itemId` = Id of the item based on it's Voting System. In this case, questionId for question Voting system
+            3. `userId` = User who will upvote.
+            4. `hasUpVoted` = Checking if the current User has UpVoted this article? 
+            
+            */}
+            <Votes
+              type="question"
+              itemId={JSON.stringify(_questionId)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={upvotes.length}
+              hasUpVoted={upvotes.includes(mongoUser._id)}
+              downvotes={downvotes.length}
+              hasDownVoted={downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(_questionId)}
+            />
+          </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
           {title}
