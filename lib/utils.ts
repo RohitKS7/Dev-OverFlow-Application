@@ -94,8 +94,3 @@ export const formatTimestamp = (createdAt: Date): string => {
 
   return formattedDate;
 };
-
-// Example usage
-const createdAt = new Date("2023-09-24T20:10:00");
-const timestamp = formatTimestamp(createdAt);
-console.log(timestamp); // Output: Sep 24, 2023, 8:10 PM

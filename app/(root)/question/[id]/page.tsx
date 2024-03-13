@@ -1,5 +1,3 @@
-// "use client";
-
 import Answer from "@/components/forms/Answer";
 import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
@@ -12,13 +10,6 @@ import { formatBigNumber, getTimestamp } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-// import { useState, useEffect } from "react";
-
-/* In a Next.js dynamic route like '/app/(root)/question/[id]', the `[id]` part indicates that this segment of the route is dynamic and can be replaced with different values when accessed. 
-
-The `params` object in Next.js represents the dynamic parameters captured from the URL. In this case, it would contain an `id` property with the value specified in the URL.
-
-The `searchParams` is not directly related to Next.js dynamic routing but is more commonly used with URLs in general. It represents the query parameters of a URL, which are the key-value pairs following the `?` in a URL. For example, in the URL '/app/(root)/question/[id]?sortBy=date', the `searchParams` would include `{ sortBy: 'date' }`. */
 
 // interface QuestionProps {
 //   _id: string;
@@ -65,11 +56,10 @@ const Page = async ({ params }: { params: Params }) => {
   // }, [params.id]);
 
   const questionDetail = await getQuestionById({ questionId: params.id });
-  const { userId: clerkId } = auth();
 
+  const { userId: clerkId } = auth();
   let mongoUser;
 
-  //*  We're getting UsersList from Database to pass it on Answer component, So we can know which user created the Answer
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
@@ -89,7 +79,6 @@ const Page = async ({ params }: { params: Params }) => {
   } = questionDetail;
 
   const {
-    // _id: authorId,
     clerkId: authorClerkId,
     name: authorName,
     picture: authorPicture,
@@ -97,7 +86,7 @@ const Page = async ({ params }: { params: Params }) => {
 
   return (
     <>
-      {/* TITLE, AUTHOR AND VOTING  */}
+      {/* TITLE AND AUTHOR */}
       <div className="flex-start w-full flex-col">
         <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
@@ -116,6 +105,7 @@ const Page = async ({ params }: { params: Params }) => {
             </p>
           </Link>
           <div className="flex justify-end">
+            {/* VOTING FUNCTIONALITY */}
             {/* 
             1. `type` = To distinguish between question and answer Voting System since both have one.
             2. `itemId` = Id of the item based on it's Voting System. In this case, questionId for question Voting system
@@ -124,13 +114,13 @@ const Page = async ({ params }: { params: Params }) => {
             
             */}
             <Votes
-              type="question"
-              itemId={JSON.stringify(_questionId)}
-              userId={JSON.stringify(mongoUser._id)}
+              type="Question"
+              itemId={_questionId}
+              userId={mongoUser._id}
               upvotes={upvotes.length}
-              hasUpVoted={upvotes.includes(mongoUser._id)}
+              hasupVoted={upvotes.includes(mongoUser._id)}
               downvotes={downvotes.length}
-              hasDownVoted={downvotes.includes(mongoUser._id)}
+              hasdownVoted={downvotes.includes(mongoUser._id)}
               hasSaved={mongoUser?.saved.includes(_questionId)}
             />
           </div>
@@ -180,17 +170,18 @@ const Page = async ({ params }: { params: Params }) => {
         ))}
       </div>
 
+      {/* RENDER ANSWERS COMPONENT */}
       <AllAnswers
         questionId={JSON.stringify(_questionId)}
-        userId={JSON.stringify(mongoUser._id)}
+        userId={mongoUser._id}
         totalAnswers={answers.length}
       />
 
-      {/* ANSWER FORM */}
+      {/* RENDER ANSWER FORM */}
       <Answer
         question={content}
         questionId={JSON.stringify(_questionId)}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={mongoUser._id}
       />
     </>
   );

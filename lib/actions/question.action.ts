@@ -7,6 +7,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "./shared.types";
 import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
@@ -122,6 +123,90 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
       });
 
     return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//!  Adding and Updating upvotes in Question
+export async function upvoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDatabase();
+
+    // userId: who upvoted the question, questionId: Which question they upvoted, hasupVoted: Did they already upvoted?
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasupVoted) {
+      // Agar user ne upvote kra ho, tho uski ID pull karo and add in question model
+      updateQuery = { $pull: { upvotes: userId } };
+    } else if (hasdownVoted) {
+      // Agar user ne downvote kra ho, tho uski ID pull karo and upvotes me push. This to prevent User from downvoting and upvoting at the same time.
+      updateQuery = {
+        $pull: { downvotes: userId },
+        $push: { upvotes: userId },
+      };
+    } else {
+      // Agar kuch nahi kia ho, tho new action ke hisab se user ko upvote me add kr do
+      updateQuery = { $addToSet: { upvotes: userId } };
+    }
+
+    const question = await QuestionModel.findByIdAndUpdate(
+      questionId,
+      updateQuery,
+      { new: true }
+    );
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    // TODO: Increment author's reputataion
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//!  Adding and Updating downvotes in Question
+export async function downvoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDatabase();
+
+    // destructuring of Params
+    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    // Checking hasupVoted and hasdownVoted
+    if (hasdownVoted) {
+      updateQuery = { $pull: { downvotes: userId } };
+    } else if (hasupVoted) {
+      updateQuery = {
+        $pull: { upvotes: userId },
+        $push: { downvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downvotes: userId } };
+    }
+
+    const question = await QuestionModel.findByIdAndUpdate(
+      questionId,
+      updateQuery,
+      { new: true }
+    );
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    // TODO: Increment user's reputation by 10+
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
