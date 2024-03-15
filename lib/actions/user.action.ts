@@ -1,17 +1,21 @@
 "use server";
 
+import { FilterQuery } from "mongoose";
 import UserModel from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  GetSavedQuestionsParams,
   GetUserByIdParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import QuestionModel from "@/database/question.model";
+import TagModel from "@/database/tag.model";
+import Question from "@/components/forms/Question";
 
 //  ⁡⁣⁢⁣𝘊𝘳𝘦𝘢𝘵𝘦 𝘜𝘴𝘦𝘳⁡
 export async function createUser(createUserParams: CreateUserParams) {
@@ -115,7 +119,7 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
   }
 }
 
-//  ⁡⁣⁢⁣Toggle Save Question⁡ (⁡⁣⁢⁣t͟o͟g͟g͟l͟e ͟= a͟d͟d ͟& r͟e͟m͟o͟v͟e⁡)
+//  ⁡⁣⁢⁣Toggle Save Question⁡ (toggle = add & remove)
 export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   try {
     connectToDatabase();
@@ -129,7 +133,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     }
 
     // 𝘊𝘩𝘦𝘤𝘬𝘪𝘯𝘨 𝘪𝘧 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘪𝘴 𝘢𝘭𝘳𝘦𝘢𝘥𝘺 𝘴𝘢𝘷𝘦𝘥 𝘣𝘺 𝘶𝘴𝘦𝘳
-    const isQuestionSaved = user.saved.inlcudes(questionId);
+    const isQuestionSaved = user.saved.includes(questionId);
 
     if (isQuestionSaved) {
       // 𝘳𝘦𝘮𝘰𝘷𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘧𝘳𝘰𝘮 𝘴𝘢𝘷𝘦𝘥
@@ -148,6 +152,50 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     }
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//  ⁡⁣⁢⁣𝗚𝗲𝘁 𝗦𝗮𝘃𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀⁡
+export async function getSavedQuestions(params: GetSavedQuestionsParams) {
+  try {
+    connectToDatabase();
+
+    // eslint-disable-next-line no-unused-vars
+    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
+
+    const query: FilterQuery<typeof Question> = searchQuery
+      ? { title: { $regex: new RegExp(searchQuery, "i") } }
+      : {};
+
+    const user = await UserModel.findOne({ clerkId }).populate({
+      path: "saved",
+      // 𝘍𝘪𝘭𝘵𝘦𝘳 𝘲𝘶𝘦𝘳𝘺 𝘵𝘰 𝘴𝘦𝘭𝘦𝘤𝘵 𝘵𝘩𝘦 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵𝘴 𝘵𝘩𝘢𝘵 𝘮𝘢𝘵𝘤𝘩 𝘵𝘩𝘦 𝘲𝘶𝘦𝘳𝘺
+      // ⁡⁣⁢⁣𝘍𝘪𝘭𝘵𝘦𝘳𝘘𝘶𝘦𝘳𝘺⁡ 𝘤𝘰𝘮𝘪𝘯𝘨 𝘧𝘳𝘰𝘮 𝘮𝘰𝘯𝘨𝘰𝘰𝘴𝘦
+      match: query,
+      options: {
+        sort: { createdAt: -1 },
+      },
+      // 𝘞𝘦 𝘢𝘳𝘦 𝘱𝘰𝘱𝘶𝘭𝘢𝘵𝘪𝘯𝘨 ⁡⁢⁣⁣𝘛𝘢𝘨𝘴⁡ 𝘢𝘯𝘥 ⁡⁢⁣⁣𝘈𝘶𝘵𝘩𝘰𝘳𝘴⁡ 𝘪𝘯 ⁡⁢⁣⁣𝘚𝘢𝘷𝘦𝘥⁡ 𝘱𝘢𝘵𝘩 𝘰𝘧 ⁡⁣⁣⁢𝘜𝘴𝘦𝘳𝘔𝘰𝘥𝘦𝘭⁡.
+      populate: [
+        { path: "tags", model: TagModel, select: "_id name" },
+        {
+          path: "author",
+          model: UserModel,
+          select: "_id clerkId name picture",
+        },
+      ],
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const savedQuestions = user.saved;
+
+    return savedQuestions;
   } catch (error) {
     console.log(error);
     throw error;

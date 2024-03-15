@@ -33,6 +33,7 @@ const Votes = ({
   const pathName = usePathname();
   // const router = useRouter();
 
+  // ⁡⁣⁢⁣Handle Save Question Function⁡
   const handleSave = async () => {
     await toggleSaveQuestion({
       userId,
@@ -41,6 +42,7 @@ const Votes = ({
     });
   };
 
+  // ⁡⁣⁢⁣Handle Vote Function⁡
   const handleVote = async (action: string) => {
     // 𝘪𝘧 𝘶𝘴𝘦𝘳 𝘪𝘴 𝘯𝘰𝘵 𝘭𝘰𝘨𝘨𝘦𝘥-𝘪𝘯 𝘢𝘯𝘥 𝘵𝘳𝘺𝘪𝘯𝘨 𝘵𝘰 𝘷𝘰𝘵𝘦 𝘵𝘩𝘦𝘯 𝘳𝘦𝘵𝘶𝘳𝘯
     if (!userId) {
