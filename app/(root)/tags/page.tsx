@@ -58,7 +58,7 @@ const Tags = () => {
             //   <TagCard key={tag._id} tag={tag} />
             <Link
               key={tag._id}
-              href={`/profile/${tag._id}`}
+              href={`/tags/${tag._id}`}
               className="shadow-light200_darknone"
             >
               <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
