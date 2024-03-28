@@ -76,8 +76,11 @@ export const formatBigNumber = (num: number): string => {
 };
 
 //  this function `formatTimestamp` that takes in a Date object and returns a string in the format 'Sep 24, 2023, 8:10 PM':
-export const formatTimestamp = (createdAt: Date): string => {
-  // Create options for formatting the date
+export const formatTimestamp = (
+  createdAt: Date,
+  includeMonthYear: boolean = false
+): string => {
+  // Create options for formatting the date in the original way
   const options: Intl.DateTimeFormatOptions = {
     month: "short",
     day: "2-digit",
@@ -86,6 +89,15 @@ export const formatTimestamp = (createdAt: Date): string => {
     minute: "numeric",
     hour12: true,
   };
+
+  // If includeMonthYear is true, extract month and year from the createdAt date
+  if (includeMonthYear) {
+    const month = createdAt.toLocaleString("default", { month: "long" });
+    const year = createdAt.getFullYear();
+
+    // Return the formatted string with month and year
+    return `${month} ${year}`;
+  }
 
   // Format the date using Intl.DateTimeFormat
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(

@@ -14,8 +14,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
     searchQuery: searchParams.q,
   });
 
-  console.log(result);
-
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}

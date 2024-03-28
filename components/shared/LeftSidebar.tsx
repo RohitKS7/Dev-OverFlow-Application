@@ -1,23 +1,35 @@
 "use client";
 
 import { sidebarLinks } from "@/constants";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedOut, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
 
+// ⁡⁣⁢⁣  𝗦𝗺𝗮𝗹𝗹𝗲𝗿 𝗖𝗼𝗺𝗽𝗼𝗻𝗲𝗻𝘁⁡
 const NavContent = () => {
+  const { userId } = useAuth();
   const pathName = usePathname();
 
   return (
     <div className="flex flex-1 flex-col gap-6 ">
-      {/* use parenthesis in map like this `map(() => ())` to immediately return something and to obviously the next example is a function type map which will return something only after processing the function `map(() => {function return}) */}
+      {/* use parenthesis in map like this `map(() => ())` to immediately return something and Currently used map is function type map which will return something after the runs through the function */}
       {sidebarLinks.map((item) => {
         const isActive =
           (pathName.includes(item.route) && item.route.length > 1) ||
           pathName === item.route;
+
+        //  𝘐𝘧 𝘶𝘴𝘦𝘳𝘐𝘥 𝘦𝘹𝘪𝘴𝘵 𝘵𝘩𝘦𝘯 𝘋𝘪𝘳𝘦𝘤𝘵 𝘵𝘩𝘦𝘮 𝘵𝘰 𝘱𝘳𝘰𝘧𝘪𝘭𝘦 𝘥𝘦𝘵𝘢𝘪𝘭𝘴 𝘱𝘢𝘨𝘦
+        if (item.route === "/profile") {
+          if (userId) {
+            // 𝘵𝘢𝘬𝘦 𝘵𝘩𝘦 𝘤𝘶𝘳𝘳𝘦𝘯𝘵 𝘳𝘰𝘶𝘵𝘦 𝘢𝘯𝘥 𝘢𝘥𝘥 𝘶𝘴𝘦𝘳𝘐𝘥 𝘵𝘰 𝘪𝘵
+            item.route = `${item.route}/${userId}`;
+          } else {
+            return null;
+          }
+        }
 
         return (
           <Link
@@ -50,6 +62,7 @@ const NavContent = () => {
   );
 };
 
+//  ⁡⁣⁢⁣ 𝗠𝗮𝗶𝗻 𝗖𝗼𝗺𝗽𝗼𝗻𝗲𝗻𝘁⁡
 const LeftSidebar = () => {
   return (
     <section

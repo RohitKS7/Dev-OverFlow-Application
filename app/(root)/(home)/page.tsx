@@ -14,7 +14,7 @@ const Home = async () => {
   const result = await getQuestions({});
   return (
     <>
-      {/* HEADING and BUTTON */}
+      {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚 𝗮𝗻𝗱 𝗕𝗨𝗧𝗧𝗢𝗡⁡ */}
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900"> All Questions</h1>
 
@@ -26,7 +26,7 @@ const Home = async () => {
         </Link>
       </div>
 
-      {/* SEARCH and FILTER */}
+      {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛 𝗮𝗻𝗱 𝗙𝗜𝗟𝗧𝗘𝗥⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col md:flex-col">
         <LocalSearchbar
           route="/"
@@ -44,10 +44,10 @@ const Home = async () => {
         />
       </div>
 
-      {/* Filters for large screen  */}
+      {/* ⁡⁣⁢⁣𝗙𝗶𝗹𝘁𝗲𝗿𝘀 𝗳𝗼𝗿 𝗹𝗮𝗿𝗴𝗲 𝘀𝗰𝗿𝗲𝗲𝗻⁡  */}
       <HomeFilters />
 
-      {/* Question Card */}
+      {/* ⁡⁣⁢⁣𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗖𝗮𝗿𝗱⁡ */}
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
           result.questions.map((question) => (

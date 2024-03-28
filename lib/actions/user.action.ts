@@ -16,6 +16,7 @@ import { revalidatePath } from "next/cache";
 import QuestionModel from "@/database/question.model";
 import TagModel from "@/database/tag.model";
 import Question from "@/components/forms/Question";
+import AnswerModel from "@/database/answer.model";
 
 //  ⁡⁣⁢⁣𝘊𝘳𝘦𝘢𝘵𝘦 𝘜𝘴𝘦𝘳⁡
 export async function createUser(createUserParams: CreateUserParams) {
@@ -158,7 +159,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   }
 }
 
-//  ⁡⁣⁢⁣𝗚𝗲𝘁 𝗦𝗮𝘃𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀⁡
+//  ⁡⁣⁢⁣Get Saved Questions⁡
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
@@ -196,6 +197,37 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     const savedQuestions = user.saved;
 
     return { questions: savedQuestions };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//  ⁡⁣⁢⁣Get User Info⁡
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDatabase();
+
+    const { userId } = params;
+
+    //  ⁡⁢⁣⁣𝘤𝘭𝘦𝘳𝘬𝘐𝘥⁡ 𝘪𝘴 𝘦𝘲𝘶𝘢𝘭 𝘵𝘰 ⁡⁢⁣⁣𝘶𝘴𝘦𝘳𝘐𝘥⁡
+    const user = await UserModel.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("User not Found");
+    }
+
+    //  𝘊𝘰𝘶𝘯𝘵 𝘰𝘯𝘭𝘺 𝘵𝘩𝘦 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵𝘴 𝘸𝘩𝘦𝘳𝘦 𝘢𝘶𝘵𝘩𝘰𝘳 𝘪𝘴 𝘦𝘲𝘶𝘢𝘭 𝘵𝘰 𝘶𝘴𝘦𝘳𝘐𝘥 𝘸𝘦'𝘳𝘦 𝘨𝘦𝘵𝘵𝘪𝘯𝘨 𝘧𝘳𝘰𝘮 𝘢𝘣𝘰𝘷𝘦 𝘪𝘵'𝘭𝘭 𝘨𝘦𝘵 𝘢𝘭𝘭 𝘵𝘩𝘦 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵𝘴 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘣𝘺 𝘵𝘩𝘪𝘴 𝘶𝘴𝘦𝘳
+    const totalQuestions = await QuestionModel.countDocuments({
+      author: user._id,
+    });
+    const totalAnswers = await AnswerModel.countDocuments({ author: user._id });
+
+    return {
+      user,
+      totalQuestions,
+      totalAnswers,
+    };
   } catch (error) {
     console.log(error);
     throw error;
