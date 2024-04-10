@@ -6,6 +6,8 @@ import { SignedIn, auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProfileLink from "@/components/shared/ProfileLink";
+import Stats from "@/components/shared/Stats";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   // 𝘳𝘦𝘯𝘢𝘮𝘪𝘯𝘨 '𝘶𝘴𝘦𝘳𝘐𝘥' 𝘵𝘰 '𝘤𝘭𝘦𝘳𝘬𝘐𝘥'
@@ -41,21 +43,30 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
               {/* ⁡⁢⁣⁣𝘓𝘰𝘤𝘢𝘵𝘪𝘰𝘯⁡ */}
-              {userInfo?.user.location && <>location</>}
-              {/* ⁡⁢⁣⁣𝘑𝘰𝘪𝘯𝘦𝘥 𝘈𝘵⁡⁡ */}
-              <div className="flex-center gap-1">
-                <Image
-                  src="/assets/icons/calendar.svg"
-                  alt="Joined At"
-                  width={20}
-                  height={20}
+              {userInfo?.user.location && (
+                <ProfileLink
+                  imgUrl="/assets/icons/location.svg"
+                  title={userInfo?.user.location}
                 />
-                <p className="paragraph-medium text-dark400_light700">
-                  Joined {formattedDateWithMonthYear}
-                </p>
-              </div>
+              )}
+              {userInfo?.user.portfolioWebsite && (
+                <ProfileLink
+                  imgUrl="/assets/icons/link.svg"
+                  href={userInfo?.user.portfolioWebsite}
+                  title="Portfolio"
+                />
+              )}
+              {/* ⁡⁢⁣⁣𝘑𝘰𝘪𝘯𝘦𝘥 𝘈𝘵⁡⁡ */}
+              <ProfileLink
+                imgUrl="/assets/icons/calendar.svg"
+                title={`Joined At ${formattedDateWithMonthYear}`}
+              />
               {/* ⁡⁢⁣⁣𝘉𝘪𝘰⁡ */}
-              {userInfo?.user.bio && <p>{userInfo?.user.bio}</p>}
+              {userInfo?.user.bio && (
+                <p className="paragraph-regular text-dark400_light800 mt-8">
+                  {userInfo?.user.bio}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -76,7 +87,9 @@ const Page = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
-      Stats
+      {/* ⁡⁣⁢⁣𝗦𝗧𝗔𝗧𝗦⁡ */}
+      <Stats />
+      {/* ⁡⁣⁢⁣𝗨𝘀𝗲𝗿'𝘀 𝗖𝗿𝗲𝗮𝘁𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀 & 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡ */}
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1 ">
