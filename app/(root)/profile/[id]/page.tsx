@@ -8,6 +8,8 @@ import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
+import QuestionsTab from "@/components/shared/QuestionsTab";
+import AnswersTab from "@/components/shared/AnswersTab";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   // 𝘳𝘦𝘯𝘢𝘮𝘪𝘯𝘨 '𝘶𝘴𝘦𝘳𝘐𝘥' 𝘵𝘰 '𝘤𝘭𝘦𝘳𝘬𝘐𝘥'
@@ -18,6 +20,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
     userInfo?.user.joinedAt,
     true
   );
+
   return (
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">
@@ -88,20 +91,27 @@ const Page = async ({ params, searchParams }: URLProps) => {
         </div>
       </div>
       {/* ⁡⁣⁢⁣𝗦𝗧𝗔𝗧𝗦⁡ */}
-      <Stats />
+      <Stats
+        totalQuestions={userInfo?.totalQuestions}
+        totalAnswers={userInfo?.totalAnswers}
+      />
       {/* ⁡⁣⁢⁣𝗨𝘀𝗲𝗿'𝘀 𝗖𝗿𝗲𝗮𝘁𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀 & 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡ */}
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="flex-1">
-          <TabsList className="background-light800_dark400 min-h-[42px] p-1 ">
+          <TabsList className="background-light800_dark400 min-h-[42px] p-1  ">
             <TabsTrigger value="top-posts" className="tab">
               Top Posts
             </TabsTrigger>
-            <TabsTrigger value="answers" className="tab">
+            <TabsTrigger value="answers" className="tab ">
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">Posts</TabsContent>
-          <TabsContent value="answers">Answers</TabsContent>
+          <TabsContent value="top-posts">
+            <QuestionsTab />
+          </TabsContent>
+          <TabsContent value="answers">
+            <AnswersTab />
+          </TabsContent>
         </Tabs>
       </div>
     </>
