@@ -22,7 +22,7 @@ import { usePathname } from "next/navigation";
 interface Props {
   question: string;
   questionId: string;
-  authorId: string | null;
+  authorId: string;
 }
 
 const Answer = ({ question, questionId, authorId }: Props) => {
@@ -46,7 +46,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     try {
       await createAnswer({
         content: values.answer,
-        author: JSON.parse(authorId),
+        author: authorId,
         question: JSON.parse(questionId),
         path: pathName,
       });

@@ -20,9 +20,11 @@ interface QuestionProps {
   views: number;
   answers: Array<object>;
   createdAt: Date;
+  clerkId?: string | null;
 }
 
 const QuestionCard = ({
+  clerkId,
   _id,
   title,
   tags,
@@ -34,7 +36,7 @@ const QuestionCard = ({
 }: QuestionProps) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
-      {/* HEADING and CreatedAt  */}
+      {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ ⁡⁣⁢⁣𝗮𝗻𝗱 𝗖𝗿𝗲𝗮𝘁𝗲𝗱𝗔𝘁⁡  */}
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
@@ -51,13 +53,14 @@ const QuestionCard = ({
         {/* If signed-in add edit delete actions */}
       </div>
 
-      {/* Tags */}
+      {/* ⁡⁣⁢⁣𝗧𝗮𝗴𝘀⁡ */}
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
         ))}
       </div>
 
+      {/* ⁡⁣⁢⁣𝗠𝗘𝗧𝗥𝗜𝗖𝗦⁡ */}
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
           imgUrl={author.picture}

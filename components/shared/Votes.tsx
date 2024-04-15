@@ -106,7 +106,6 @@ const Votes = ({
       questionId: itemId,
       userId: userId || undefined,
     });
-    alert("viewed");
   }, [itemId, userId, pathName, router]);
 
   return (
