@@ -5,12 +5,15 @@ import { connectToDatabase } from "../mongoose";
 import TagModel from "@/database/tag.model";
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./shared.types";
 import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
+import AnswerModel from "@/database/answer.model";
+import InteractionModel from "@/database/interaction.model";
 
 //!  ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗮 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗼𝗻 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
 export async function createQuestion(params: CreateQuestionParams) {
@@ -205,6 +208,31 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     }
 
     // TODO: Increment user's reputation by 10+
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//   ⁡⁣⁢⁣𝗗𝗲𝗹𝗲𝘁𝗲 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId, path } = params;
+
+    await QuestionModel.deleteOne({ _id: questionId });
+    // 𝘋𝘦𝘭𝘦𝘵𝘦 𝘢𝘭𝘭 ⁡⁣⁣⁢𝘈𝘯𝘴𝘸𝘦𝘳𝘴⁡ 𝘢𝘴𝘴𝘰𝘤𝘪𝘢𝘵𝘦𝘥 𝘸𝘪𝘵𝘩 𝘵𝘩𝘪𝘴 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯
+    await AnswerModel.deleteMany({ question: questionId });
+    // 𝘋𝘦𝘭𝘦𝘵𝘦 𝘢𝘭𝘭 ⁡⁣⁣⁢𝘐𝘯𝘵𝘦𝘳𝘢𝘤𝘵𝘪𝘰𝘯𝘴⁡ 𝘳𝘦𝘭𝘢𝘵𝘦𝘥 𝘵𝘰 𝘵𝘩𝘪𝘴 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯
+    await InteractionModel.deleteMany({ question: questionId });
+    // 𝘜𝘱𝘥𝘢𝘵𝘦 𝘵𝘩𝘦 𝘛𝘢𝘨𝘴 𝘵𝘰 𝘯𝘰 𝘭𝘰𝘯𝘨𝘦𝘳 𝘪𝘯𝘤𝘭𝘶𝘥𝘦 𝘳𝘦𝘧 𝘵𝘩𝘪𝘴 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
+    await TagModel.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    ); // pull means nikal do iss field ko.
 
     revalidatePath(path);
   } catch (error) {

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Metric from "../shared/Metric";
 import { formatBigNumber, getTimestamp } from "@/lib/utils";
+import { SignedIn } from "@clerk/nextjs";
+import EditDeleteAction from "../shared/EditDeleteAction";
 
 interface Props {
   clerkId?: string | null;
@@ -27,6 +29,8 @@ const AnswerCard = ({
   upvotes,
   createdAt,
 }: Props) => {
+  const showActionButtons = clerkId && clerkId === author.clerkId; // only show Action Buttons if 'clerkId' exists and if 'clerkId' is equal to 'author.clerkId'
+
   return (
     <Link
       href={`/question/${question._id}/#${_id}`}
@@ -45,8 +49,15 @@ const AnswerCard = ({
           </div>
         </div>
 
-        {/* If signed-in add edit delete actions */}
+        {/* ⁡⁣⁣⁢𝘐𝘧 𝘴𝘪𝘨𝘯𝘦𝘥-𝘪𝘯 𝘢𝘥𝘥 𝘦𝘥𝘪𝘵 𝘥𝘦𝘭𝘦𝘵𝘦 𝘢𝘤𝘵𝘪𝘰𝘯𝘴⁡ */}
+        <SignedIn>
+          {showActionButtons && (
+            <EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
+          )}
+        </SignedIn>
       </div>
+
+      {/* ⁡⁣⁢⁣𝗠𝗘𝗧𝗥𝗜𝗖⁡ */}
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
           imgUrl={author.picture}

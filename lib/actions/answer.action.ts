@@ -5,22 +5,24 @@ import { connectToDatabase } from "../mongoose";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
+  DeleteAnswerParams,
   GetAnswersParams,
 } from "./shared.types";
 import QuestionModel from "@/database/question.model";
 import { revalidatePath } from "next/cache";
+import InteractionModel from "@/database/interaction.model";
 
-//! Create Answer Document on Database
+//! ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗔𝗻𝘀𝘄𝗲𝗿 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗼𝗻 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
 export async function createAnswer(params: CreateAnswerParams) {
   try {
     connectToDatabase();
 
-    // author and question is ID of those.
+    // 𝘢𝘶𝘵𝘩𝘰𝘳 𝘢𝘯𝘥 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘪𝘴 𝘐𝘋 𝘰𝘧 𝘵𝘩𝘰𝘴𝘦.
     const { content, author, question, path } = params;
 
     const newAnswer = await AnswerModel.create({ content, author, question });
 
-    // Add the answer to the question's answers array
+    // 𝘈𝘥𝘥 𝘵𝘩𝘦 𝘢𝘯𝘴𝘸𝘦𝘳 𝘵𝘰 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯'𝘴 𝘢𝘯𝘴𝘸𝘦𝘳𝘴 𝘢𝘳𝘳𝘢𝘺
     await QuestionModel.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
     });
@@ -32,7 +34,7 @@ export async function createAnswer(params: CreateAnswerParams) {
   }
 }
 
-//! Get All Answers
+//!  ⁡⁣⁢⁣𝗚𝗲𝘁 𝗔𝗹𝗹 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡
 export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDatabase();
@@ -50,7 +52,7 @@ export async function getAnswers(params: GetAnswersParams) {
   }
 }
 
-//!  Adding and Updating upvotes in Answer
+//!  ⁡⁣⁢⁣𝗔𝗱𝗱𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗽𝗱𝗮𝘁𝗶𝗻𝗴 𝘂𝗽𝘃𝗼𝘁𝗲𝘀 𝗶𝗻 𝗔𝗻𝘀𝘄𝗲𝗿⁡
 export async function upvoteAnswer(params: AnswerVoteParams) {
   try {
     connectToDatabase();
@@ -91,7 +93,7 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
   }
 }
 
-//!  Adding and Updating downvotes in Question
+//!  ⁡⁣⁢⁣𝗔𝗱𝗱𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗽𝗱𝗮𝘁𝗶𝗻𝗴 𝗱𝗼𝘄𝗻𝘃𝗼𝘁𝗲𝘀 𝗶𝗻 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
 export async function downvoteAnswer(params: AnswerVoteParams) {
   try {
     connectToDatabase();
@@ -122,6 +124,36 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     }
 
     // TODO: Increment user's reputation by 10+
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//   ⁡⁣⁢⁣𝗗𝗲𝗹𝗲𝘁𝗲 𝗔𝗻𝘀𝘄𝗲𝗿⁡
+export async function deleteAnswer(params: DeleteAnswerParams) {
+  try {
+    connectToDatabase();
+
+    const { answerId, path } = params;
+
+    const answer = await AnswerModel.findById(answerId);
+
+    if (!answer) {
+      throw new Error("Answer not Found");
+    }
+
+    // 𝘋𝘦𝘭𝘦𝘵𝘦 𝘵𝘩𝘦 𝘈𝘯𝘴𝘸𝘦𝘳
+    await answer.deleteOne({ _id: answerId });
+    // 𝘜𝘱𝘥𝘢𝘵𝘦 𝘢𝘭𝘭 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘳𝘦𝘭𝘢𝘵𝘦𝘥 𝘵𝘰 𝘵𝘩𝘴𝘪 𝘢𝘯𝘴𝘸𝘦𝘳
+    await QuestionModel.updateMany(
+      { _id: answer.question },
+      { $pull: { AnswerSchema: answerId } }
+    ); // pull means nikal do iss field ko.
+    // 𝘋𝘦𝘭𝘦𝘵𝘦 𝘢𝘭𝘭 ⁡⁣⁣⁢𝘐𝘯𝘵𝘦𝘳𝘢𝘤𝘵𝘪𝘰𝘯𝘴⁡ 𝘳𝘦𝘭𝘢𝘵𝘦𝘥 𝘵𝘰 𝘵𝘩𝘪𝘴 Answer
+    await InteractionModel.deleteMany({ question: answerId });
 
     revalidatePath(path);
   } catch (error) {
