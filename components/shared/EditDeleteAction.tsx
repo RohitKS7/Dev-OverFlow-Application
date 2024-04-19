@@ -8,6 +8,7 @@ interface Props {
   type: string;
   itemId: string;
 }
+
 const EditDeleteAction = ({ type, itemId }: Props) => {
   const pathName = usePathname();
   const router = useRouter();
