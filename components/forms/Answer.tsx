@@ -1,5 +1,6 @@
 "use client";
 
+// ⁡⁣⁢⁣𝗜𝗠𝗣𝗢𝗥𝗧𝗦⁡
 import { useRef, useState } from "react";
 import {
   Form,
@@ -25,13 +26,14 @@ interface Props {
   authorId: string;
 }
 
+// ⁡⁣⁢⁣𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗣𝗢𝗡𝗘𝗡𝗧⁡
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathName = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mode } = useTheme();
   const editorRef = useRef(null);
 
-  //!  1. Define your form.
+  //!  ⁡⁣⁢⁣𝟭. 𝗗𝗲𝗳𝗶𝗻𝗲 𝘆𝗼𝘂𝗿 𝗳𝗼𝗿𝗺.⁡
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
@@ -39,7 +41,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     },
   });
 
-  //!  2. Define a submit handler.
+  //!  ⁡⁣⁢⁣𝟮. 𝗗𝗲𝗳𝗶𝗻𝗲 𝗮 𝘀𝘂𝗯𝗺𝗶𝘁 𝗵𝗮𝗻𝗱𝗹𝗲𝗿.⁡
   const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
     setIsSubmitting(true);
 
@@ -89,8 +91,8 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         </Button>
       </div>
 
-      {/* FORM */}
-      {/* Spreading the values of React-Hook-Form from `form` in `Form` element to use the reacthookform. */}
+      {/* ⁡⁣⁢⁣𝗙𝗢𝗥𝗠⁡ */}
+      {/* ⁡⁣⁣⁢Spreading the values of React-Hook-Form from `⁡⁢⁣⁣form⁡` ⁡⁣⁣⁢in⁡ `⁡⁢⁣⁣Form⁡` ⁡⁣⁣⁢element to use the reacthookform.⁡⁡ */}
       <Form {...form}>
         <form
           className="mt-6 flex w-full flex-col gap-10"
