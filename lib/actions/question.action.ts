@@ -266,3 +266,19 @@ export async function editQuestion(params: EditQuestionParams) {
     throw error;
   }
 }
+
+//   Get Hot Question
+export async function getHotQuestions() {
+  try {
+    connectToDatabase();
+
+    const hotQuestions = await QuestionModel.find({}) // get all questions
+      .sort({ views: -1, upvotes: -1 }) // show Top viewed & upvoted on top
+      .limit(5); // limit the number of questions to 5
+
+    return hotQuestions;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

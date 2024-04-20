@@ -187,7 +187,7 @@ const Profile = ({ clerkId, user }: Props) => {
         <div className="mt-7 flex justify-end">
           <Button
             type="submit"
-            className="primary-gradient w-fit"
+            className="primary-gradient w-fit !text-light-900"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Saving..." : "Save"}

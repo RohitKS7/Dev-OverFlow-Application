@@ -42,10 +42,11 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const pathName = usePathname();
 
   // ⁡⁣⁣⁢Question Details to pre-populate the form field in case of Editing⁡
-  const parsedQuestionDetails = JSON.parse(questionDetails || "");
-  const groupedTags = parsedQuestionDetails.tags.map(
-    (tag: { name: any }) => tag.name
-  );
+  const parsedQuestionDetails =
+    type === "Edit" && JSON.parse(questionDetails || "");
+  const groupedTags =
+    type === "Edit" &&
+    parsedQuestionDetails.tags.map((tag: { name: any }) => tag.name);
 
   // ! ⁡⁣⁢⁣𝟭⁡⁣⁢⁣.⁡ ⁡⁣⁣⁢Define your form.⁡
   const form = useForm<z.infer<typeof QuestionsSchema>>({
