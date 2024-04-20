@@ -1,11 +1,14 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 // ========================================================
+
+//  ⁡⁣⁢⁣𝗚𝗲𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Converting computational date into Readable Date
 // Function created with the help of CHAT-GPT,
 // Searched like this for the answer
@@ -56,6 +59,7 @@ export const getTimestamp = (createdAt: Date): string => {
 
 // ======================================================
 
+// ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗕𝗶𝗴𝗡𝘂𝗺𝗯𝗲𝗿 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Function to convert Big Numbers in String ex:(10000 => 10K)
 /* Chat-gpt entered question:-
 
@@ -75,6 +79,9 @@ export const formatBigNumber = (num: number): string => {
   }
 };
 
+// ========================================================
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 //  this function `formatTimestamp` that takes in a Date object and returns a string in the format 'Sep 24, 2023, 8:10 PM':
 export const formatTimestamp = (
   createdAt: Date,
@@ -105,4 +112,59 @@ export const formatTimestamp = (
   );
 
   return formattedDate;
+};
+
+// ========================================================
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆⁡ ⁡⁣⁢⁣t⁡⁣⁢⁣o 𝗔𝗱𝗱 || Append || Update the query field⁡
+
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string;
+}
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  // access the current URL
+  const currentUrl = qs.parse(params);
+
+  // Extract the currentURL, then append the key we're updating and make that updatedversion a new 'value'
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+// ========================================================
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆 for 𝗿𝗲𝗺𝗼𝘃𝗶𝗻𝗴 URL query part from the URL⁡
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  //  Loop over Keys Array and Remove the Keys from currentURL
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
 };
