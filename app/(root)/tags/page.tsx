@@ -5,6 +5,7 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -17,19 +18,21 @@ interface TagsProps {
   createdOn: Date;
 }
 
-const Tags = () => {
+const Tags = ({ searchParams }: SearchParamsProps) => {
   const [tagsList, setTagsList] = useState<{ tags: TagsProps[] }>({ tags: [] });
 
   //!  Fetch All Tags
   //   There's another method to fetch tag see community page for it and why shouldn't we use that fetching method
   useEffect(() => {
     const fetchTagsList = async () => {
-      const data = await getAllTags({});
+      const data = await getAllTags({
+        searchQuery: searchParams.search,
+      });
       setTagsList({ tags: data.tags });
     };
 
     fetchTagsList();
-  }, []);
+  }, [searchParams.search]);
 
   return (
     <>

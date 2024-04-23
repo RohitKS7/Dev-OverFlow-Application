@@ -4,16 +4,18 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import React from "react";
 
-const CollectionPage = async () => {
+const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) return null;
 
   const result = await getSavedQuestions({
     clerkId: userId,
+    searchQuery: searchParams.search,
   });
 
   return (
@@ -41,8 +43,8 @@ const CollectionPage = async () => {
       {/* ⁡⁣⁢⁣𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗖𝗮𝗿𝗱⁡ */}
       <div className="mt-10 flex w-full flex-col gap-6">
         {/* // Check if result exists and is an array before accessing its length property */}
-        {result && Array.isArray(result) && result.length > 0 ? (
-          result.map((question: any) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

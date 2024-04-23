@@ -15,6 +15,7 @@ import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import AnswerModel from "@/database/answer.model";
 import InteractionModel from "@/database/interaction.model";
+import { FilterQuery } from "mongoose";
 
 //!  ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗮 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗼𝗻 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
 export async function createQuestion(params: CreateQuestionParams) {
@@ -91,8 +92,19 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
+    const { searchQuery } = params;
+
+    const query: FilterQuery<typeof QuestionModel> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
     // find all questions and populate(means adding data) all the related tags to that question in 'tags' field of QuestionModel
-    const questions = await QuestionModel.find({})
+    const questions = await QuestionModel.find(query)
       .populate({ path: "tags", model: TagModel })
       .populate({ path: "author", model: UserModel })
       .sort({

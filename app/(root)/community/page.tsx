@@ -5,6 +5,7 @@ import Filter from "@/components/shared/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 
 //! Using async in the component function directly:
@@ -27,8 +28,10 @@ import Link from "next/link";
 // Requires additional code complexity with the use of useEffect and conditional checks.
 // Can lead to less straightforward control flow, especially in more complex scenarios.
 
-const Community = async () => {
-  const usersList = await getAllUsers({});
+const Community = async ({ searchParams }: SearchParamsProps) => {
+  const usersList = await getAllUsers({
+    searchQuery: searchParams.search,
+  });
 
   return (
     <>

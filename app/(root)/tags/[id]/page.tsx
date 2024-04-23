@@ -11,7 +11,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: 1,
-    searchQuery: searchParams.q,
+    searchQuery: searchParams.search,
   });
 
   return (
@@ -25,7 +25,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col md:flex-col">
         <LocalSearchbar
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for tag questions"
@@ -43,8 +43,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
               _id={question._id}
               title={question.title}
               tags={question.tags}
-              // author={question.author}
-              // upvotes={question.upvotes}
+              author={question.author}
+              upvotes={question.upvotes}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}

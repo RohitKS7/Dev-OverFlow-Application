@@ -52,9 +52,15 @@ export async function getAllTags(getAllTagsParams: GetAllTagsParams) {
     connectToDatabase();
 
     //  If page doesn't exist than make it 1, same for pageSize if doesn't exist than make it 20
-    // const { page = 1, pageSize = 20, filter, searchQuery } = getAllUsersParams;
+    const { searchQuery } = getAllTagsParams;
 
-    const tags = await TagModel.find({});
+    const query: FilterQuery<ITag> = {};
+
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
+    }
+
+    const tags = await TagModel.find(query);
 
     return { tags };
   } catch (error) {
@@ -68,15 +74,32 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectToDatabase();
 
-    // eslint-disable-next-line no-unused-vars
-    const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+    const { tagId, searchQuery } = params;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
+    const query: FilterQuery<typeof QuestionModel> = {};
 
-    const tag = await TagModel.findOne(tagFilter).populate({
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    const tag = await TagModel.findOne({
+      ...tagFilter,
+      ...query,
+    }).populate({
       path: "questions",
       model: QuestionModel,
-      match: searchQuery ? { $regex: searchQuery, $options: "i" } : {},
+      match: searchQuery
+        ? {
+            $or: [
+              { title: { $regex: new RegExp(searchQuery, "i") } },
+              { content: { $regex: new RegExp(searchQuery, "i") } },
+            ],
+          }
+        : {},
       options: {
         sort: { createdAt: -1 },
       },
