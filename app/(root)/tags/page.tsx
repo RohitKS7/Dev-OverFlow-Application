@@ -27,12 +27,13 @@ const Tags = ({ searchParams }: SearchParamsProps) => {
     const fetchTagsList = async () => {
       const data = await getAllTags({
         searchQuery: searchParams.search,
+        filter: searchParams.filter,
       });
       setTagsList({ tags: data.tags });
     };
 
     fetchTagsList();
-  }, [searchParams.search]);
+  }, [searchParams.search, searchParams.filter]);
 
   return (
     <>

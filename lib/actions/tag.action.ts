@@ -52,15 +52,35 @@ export async function getAllTags(getAllTagsParams: GetAllTagsParams) {
     connectToDatabase();
 
     //  If page doesn't exist than make it 1, same for pageSize if doesn't exist than make it 20
-    const { searchQuery } = getAllTagsParams;
+    const { searchQuery, filter } = getAllTagsParams;
 
     const query: FilterQuery<ITag> = {};
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "popular":
+        sortOptions = { questions: -1 };
+        break;
+      case "recent":
+        sortOptions = { createdOn: -1 };
+        break;
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+      case "old":
+        sortOptions = { createdOn: 1 };
+        break;
+
+      default:
+        break;
+    }
 
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
 
-    const tags = await TagModel.find(query);
+    const tags = await TagModel.find(query).sort(sortOptions);
 
     return { tags };
   } catch (error) {
