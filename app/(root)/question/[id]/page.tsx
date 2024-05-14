@@ -7,6 +7,7 @@ import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatBigNumber, getTimestamp } from "@/lib/utils";
+import { URLProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,11 +31,7 @@ import Link from "next/link";
 //   __v: number;
 // }
 
-interface Params {
-  id: string;
-}
-
-const Page = async ({ params }: { params: Params }) => {
+const Page = async ({ params, searchParams }: URLProps) => {
   //! There is some sort of bug which I'm unable to decipher right now which is causing this error
   //* RangeError: Maximum call stack size exceeded At String.replace (<anonymous>)
   // TODO: Try to make the code work properly until then i'm using different method of data fetching
@@ -175,6 +172,8 @@ const Page = async ({ params }: { params: Params }) => {
         questionId={JSON.stringify(_questionId)}
         userId={mongoUser._id}
         totalAnswers={answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
       />
 
       {/* RENDER ANSWER FORM */}

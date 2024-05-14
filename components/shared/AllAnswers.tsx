@@ -13,7 +13,7 @@ interface Props {
   userId: string;
   totalAnswers: number;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 
 const AllAnswers = async ({
@@ -23,10 +23,12 @@ const AllAnswers = async ({
   page,
   filter,
 }: Props) => {
-  //!  Fetching All Answers
-  //* Don't forget to parse the stringified QuestionID, I got an error becoz of it and I was clueless for an hour. So, don't repeat this mistake again and always Parse your Stringified JSON data
+  //!  ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵𝗶𝗻𝗴 𝗔𝗹𝗹 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡
+  //* 𝘋𝘰𝘯'𝘵 𝘧𝘰𝘳𝘨𝘦𝘵 𝘵𝘰 𝘱𝘢𝘳𝘴𝘦 𝘵𝘩𝘦 𝘴𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘐𝘋, 𝘐 𝘨𝘰𝘵 𝘢𝘯 𝘦𝘳𝘳𝘰𝘳 𝘣𝘦𝘤𝘰𝘻 𝘰𝘧 𝘪𝘵 𝘢𝘯𝘥 𝘐 𝘸𝘢𝘴 𝘤𝘭𝘶𝘦𝘭𝘦𝘴𝘴 𝘧𝘰𝘳 𝘢𝘯 𝘩𝘰𝘶𝘳. 𝘚𝘰, 𝘥𝘰𝘯'𝘵 𝘳𝘦𝘱𝘦𝘢𝘵 𝘵𝘩𝘪𝘴 𝘮𝘪𝘴𝘵𝘢𝘬𝘦 𝘢𝘨𝘢𝘪𝘯 𝘢𝘯𝘥 𝘢𝘭𝘸𝘢𝘺𝘴 𝘗𝘢𝘳𝘴𝘦 𝘺𝘰𝘶𝘳 𝘚𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘑𝘚𝘖𝘕 𝘥𝘢𝘵𝘢
   const answersList = await getAnswers({
     questionId: JSON.parse(questionId),
+    page: page ? +page : 1, // `⁡⁣⁢⁣+𝗽𝗮𝗴𝗲⁡` this will convert a string into number
+    sortBy: filter,
   });
 
   return (
