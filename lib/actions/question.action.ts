@@ -92,9 +92,28 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof QuestionModel> = {};
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 }; // get the 'newest' one
+        break;
+
+      case "frequent":
+        sortOptions = { views: -1 }; // get the most "viewed" one
+        break;
+
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+
+      default:
+        break;
+    }
 
     if (searchQuery) {
       query.$or = [
@@ -107,13 +126,7 @@ export async function getQuestions(params: GetQuestionsParams) {
     const questions = await QuestionModel.find(query)
       .populate({ path: "tags", model: TagModel })
       .populate({ path: "author", model: UserModel })
-      .sort({
-        createdAt: -1,
-      }); /* `sort:` will make newly create question appear on top of other questions instead of in the bottom for example:
-      without sort => 1. Old question                     with sort => 1. Newly created Question    
-                      2. Newly Created question                        2. Old question
-      
-      */
+      .sort(sortOptions);
 
     return { questions };
   } catch (error) {
@@ -285,8 +298,13 @@ export async function getHotQuestions() {
     connectToDatabase();
 
     const hotQuestions = await QuestionModel.find({}) // get all questions
-      .sort({ views: -1, upvotes: -1 }) // show Top viewed & upvoted on top
-      .limit(5); // limit the number of questions to 5
+      .sort({ views: -1, upvotes: -1 }) // 𝘴𝘩𝘰𝘸 𝘛𝘰𝘱 𝘷𝘪𝘦𝘸𝘦𝘥 & 𝘶𝘱𝘷𝘰𝘵𝘦𝘥 𝘰𝘯 𝘵𝘰𝘱
+      /* `⁡⁣⁢⁣𝘀𝗼𝗿𝘁:⁡` will make newly create question appear on top of other questions instead of in the bottom for example:
+      ⁡⁣⁣⁢without sort⁡ ⁡⁢⁢⁢=>⁡ ⁡⁣⁣⁢1. Old question ⁡                      ⁡⁢⁣⁣with sort⁡ ⁡⁢⁢⁢=>⁡ ⁡⁢⁣⁣1. Newly created Question⁡    
+                      ⁡⁣⁣⁢2. Newly Created question  ⁡                        ⁣2. Old question⁡
+      
+      */
+      .limit(5); // l𝘪𝘮𝘪𝘵 𝘵𝘩𝘦 𝘯𝘶𝘮𝘣𝘦𝘳 𝘰𝘧 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴 𝘵𝘰 5
 
     return hotQuestions;
   } catch (error) {

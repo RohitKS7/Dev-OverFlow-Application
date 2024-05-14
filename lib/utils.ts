@@ -121,7 +121,7 @@ export const formatTimestamp = (
 interface UrlQueryParams {
   params: string;
   key: string;
-  value: string;
+  value: string | null;
 }
 
 export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
