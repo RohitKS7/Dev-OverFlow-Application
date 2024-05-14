@@ -197,13 +197,38 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "most_recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOptions = { createdAt: 1 };
+
+        break;
+      case "most_voted":
+        sortOptions = { upvotes: -1 };
+
+        break;
+      case "most_viewed":
+        sortOptions = { views: -1 };
+
+        break;
+      case "most_answered":
+        sortOptions = { answers: -1 };
+
+        break;
+
+      default:
+        break;
+    }
+
     const user = await UserModel.findOne({ clerkId }).populate({
       path: "saved",
-      // 𝘍𝘪𝘭𝘵𝘦𝘳 𝘲𝘶𝘦𝘳𝘺 𝘵𝘰 𝘴𝘦𝘭𝘦𝘤𝘵 𝘵𝘩𝘦 𝘥𝘰𝘤𝘶𝘮𝘦𝘯𝘵𝘴 𝘵𝘩𝘢𝘵 𝘮𝘢𝘵𝘤𝘩 𝘵𝘩𝘦 𝘲𝘶𝘦𝘳𝘺
-      // ⁡⁣⁢⁣𝘍𝘪𝘭𝘵𝘦𝘳𝘘𝘶𝘦𝘳𝘺⁡ 𝘤𝘰𝘮𝘪𝘯𝘨 𝘧𝘳𝘰𝘮 𝘮𝘰𝘯𝘨𝘰𝘰𝘴𝘦
       match: query,
       options: {
-        sort: { createdAt: -1 },
+        sort: sortOptions,
       },
       // 𝘞𝘦 𝘢𝘳𝘦 𝘱𝘰𝘱𝘶𝘭𝘢𝘵𝘪𝘯𝘨 ⁡⁢⁣⁣𝘛𝘢𝘨𝘴⁡ 𝘢𝘯𝘥 ⁡⁢⁣⁣𝘈𝘶𝘵𝘩𝘰𝘳𝘴⁡ 𝘪𝘯 ⁡⁢⁣⁣𝘚𝘢𝘷𝘦𝘥⁡ 𝘱𝘢𝘵𝘩 𝘰𝘧 ⁡⁣⁣⁢𝘜𝘴𝘦𝘳𝘔𝘰𝘥𝘦𝘭⁡.
       populate: [
