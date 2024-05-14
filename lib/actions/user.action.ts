@@ -108,10 +108,7 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
   try {
     connectToDatabase();
 
-    //  𝘐𝘧 ⁡⁢⁣⁣𝘱𝘢𝘨𝘦⁡ 𝘥𝘰𝘦𝘴𝘯'𝘵 𝘦𝘹𝘪𝘴𝘵 𝘵𝘩𝘢𝘯 𝘮𝘢𝘬𝘦 𝘪𝘵 ⁡⁣⁢⁣1⁡, 𝘴𝘢𝘮𝘦 𝘧𝘰𝘳 ⁡⁢⁣⁣𝘱𝘢𝘨𝘦𝘚𝘪𝘻𝘦⁡ 𝘪𝘧 𝘥𝘰𝘦𝘴𝘯'𝘵 𝘦𝘹𝘪𝘴𝘵 𝘵𝘩𝘢𝘯 𝘮𝘢𝘬𝘦 𝘪𝘵 ⁡⁣⁢⁣20⁡
-    // const { page = 1, pageSize = 20, filter, searchQuery } = getAllUsersParams;
-
-    const { searchQuery } = getAllUsersParams;
+    const { searchQuery, filter } = getAllUsersParams;
 
     // 𝘲𝘶𝘦𝘳𝘺 𝘪𝘴 𝘦𝘲𝘶𝘢𝘭 𝘵𝘰 𝘦𝘮𝘱𝘵𝘺 𝘰𝘣𝘫𝘦𝘤𝘵 𝘢𝘵 𝘵𝘩𝘦 𝘴𝘵𝘢𝘳𝘵
     const query: FilterQuery<typeof UserModel> = {};
@@ -123,7 +120,24 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
       ];
     }
 
-    const users = await UserModel.find(query).sort({ createdAt: -1 });
+    let sortOptions = {};
+
+    switch (filter) {
+      case "new_users":
+        sortOptions = { joinedAt: -1 };
+        break;
+      case "old_users":
+        sortOptions = { joinedAt: 1 };
+        break;
+      case "top_contributors":
+        sortOptions = { reputation: -1 };
+        break;
+
+      default:
+        break;
+    }
+
+    const users = await UserModel.find(query).sort(sortOptions);
 
     return { users };
   } catch (error) {

@@ -62,13 +62,14 @@ const UserCard = ({ user }: UserProps) => {
     >
       <article className="background-light900_dark200 light-border flex-center w-full flex-col rounded-2xl border p-8 ">
         {/* Image */}
-        <Image
-          src={user.picture}
-          alt="user profile picture"
-          width={100}
-          height={100}
-          className="rounded-full"
-        />
+        <div className="relative size-[100px] overflow-hidden rounded-full">
+          <Image
+            fill
+            src={user.picture}
+            alt="user-profile picture"
+            className="w-full object-cover"
+          />
+        </div>
 
         {/*  Name and UserName */}
         <div className="mt-4 text-center">

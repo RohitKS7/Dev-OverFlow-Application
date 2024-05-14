@@ -31,6 +31,7 @@ import Link from "next/link";
 const Community = async ({ searchParams }: SearchParamsProps) => {
   const usersList = await getAllUsers({
     searchQuery: searchParams.search,
+    filter: searchParams.filter,
   });
 
   return (
