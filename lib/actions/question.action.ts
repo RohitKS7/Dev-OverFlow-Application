@@ -92,10 +92,17 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    // 𝘗𝘢𝘨𝘦 𝘢𝘯𝘥 𝘗𝘢𝘨𝘦𝘚𝘪𝘻𝘦 𝘷𝘢𝘭𝘶𝘦𝘴 𝘢𝘳𝘦 𝘤𝘰𝘮𝘪𝘯𝘨 𝘧𝘳𝘰𝘮 𝘱𝘢𝘳𝘢𝘮𝘴 𝘣𝘶𝘵 𝘪𝘧 𝘯𝘰𝘵 𝘵𝘩𝘦𝘯 𝘪𝘵 𝘸𝘪𝘭𝘭 𝘶𝘴𝘦 𝘵𝘩𝘦𝘪𝘳 𝘥𝘦𝘧𝘢𝘶𝘭𝘵 𝘷𝘢𝘭𝘶𝘦𝘴
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
 
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    // 𝘊𝘢𝘭𝘤𝘶𝘭𝘢𝘵𝘦 𝘵𝘩𝘦 𝘯𝘶𝘮𝘣𝘦𝘳 𝘰𝘧 𝘱𝘰𝘴𝘵𝘴 𝘵𝘰 𝘴𝘬𝘪𝘱 𝘣𝘢𝘴𝘦𝘥 𝘰𝘯 𝘵𝘩𝘦 𝘱𝘢𝘨𝘦 𝘯𝘶𝘮𝘣𝘦𝘳 𝘢𝘯𝘥 𝘱𝘢𝘨𝘦 𝘴𝘪𝘻𝘦
+    const skipAmount = (page - 1) * pageSize; // pageNumber - 1 and then multiply the result with pageSize
+
+    // ⁡⁣⁢⁣𝗤𝘂𝗲𝗿𝘆⁡
     const query: FilterQuery<typeof QuestionModel> = {};
 
+    // ⁡⁣⁢⁣𝗙𝗶𝗹𝘁𝗲𝗿⁡
     let sortOptions = {};
 
     switch (filter) {
@@ -122,13 +129,32 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
+    // ⁡⁣⁢⁣𝗥𝗲𝘁𝗿𝗶𝘃𝗲 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀⁡
     // find all questions and populate(means adding data) all the related tags to that question in 'tags' field of QuestionModel
     const questions = await QuestionModel.find(query)
       .populate({ path: "tags", model: TagModel })
       .populate({ path: "author", model: UserModel })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
 
-    return { questions };
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    const totalQuestions = await QuestionModel.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length; // questions.length is the number of questions we are showing on a specific page.
+
+    /* ⁡⁣⁢⁣𝗛𝗲𝗿𝗲'𝘀 𝗮𝗻 𝗲𝘅𝗮𝗺𝗽𝗹𝗲 𝘁𝗼 𝗶𝗹𝗹𝘂𝘀𝘁𝗿𝗮𝘁𝗲⁡:
+    
+   - Suppose there are a total of ⁡⁣⁣⁢50 questions⁡ in the database.
+
+   - The current page is page 2 (page = 2) and the page size is 20 (pageSize = 20).
+   
+   - Therefore, skipAmount would be ⁡⁢⁣⁣(2 - 1) * 20 = 20⁡.
+
+   - If questions.length is, for example, 20 (indicating that 20 questions were retrieved for the current page), then isNext would be calculated as⁡⁢⁣⁣ `50 > (20 + 20)⁡`, which evaluates to true.
+
+   - This means that there are more questions available beyond the current page, and ⁡⁣⁣⁢isNext would be true⁡. */
+
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;

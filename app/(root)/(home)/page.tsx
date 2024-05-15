@@ -2,6 +2,7 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
@@ -11,13 +12,14 @@ import Link from "next/link";
 import React from "react";
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
-  // !  𝘍𝘦𝘵𝘤𝘩𝘪𝘯𝘨 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘥𝘢𝘵𝘢 𝘧𝘳𝘰𝘮 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦 𝘶𝘴𝘪𝘯𝘨 SearchQuery
+  // !  𝘍𝘦𝘵𝘤𝘩𝘪𝘯𝘨 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯s 𝘧𝘳𝘰𝘮 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦
   const result = await getQuestions({
     searchQuery: searchParams.search,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
-  // Fetch Recommended Questions
+  // ⁡⁣⁣⁢𝗧𝗢𝗗𝗢⁡ Fetch Recommended Questions
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚 𝗮𝗻𝗱 𝗕𝗨𝗧𝗧𝗢𝗡⁡ */}
@@ -79,6 +81,14 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
             linkText="Ask a Question"
           />
         )}
+      </div>
+
+      {/* ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡ */}
+      <div className="mt-10 ">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1} // this ⁡⁣⁢⁣'𝗣𝗹𝘂𝘀'`+`⁡ symbol will convert a string into number
+          isNext={result.isNext}
+        />
       </div>
     </>
   );

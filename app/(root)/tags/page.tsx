@@ -1,46 +1,26 @@
-"use client";
-
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
-interface TagsProps {
-  _id: string;
-  name: string;
-  description: string;
-  questions: string[];
-  followers: string[];
-  createdOn: Date;
-}
-
-const Tags = ({ searchParams }: SearchParamsProps) => {
-  const [tagsList, setTagsList] = useState<{ tags: TagsProps[] }>({ tags: [] });
-
-  //!  Fetch All Tags
-  //   There's another method to fetch tag see community page for it and why shouldn't we use that fetching method
-  useEffect(() => {
-    const fetchTagsList = async () => {
-      const data = await getAllTags({
-        searchQuery: searchParams.search,
-        filter: searchParams.filter,
-      });
-      setTagsList({ tags: data.tags });
-    };
-
-    fetchTagsList();
-  }, [searchParams.search, searchParams.filter]);
+const Tags = async ({ searchParams }: SearchParamsProps) => {
+  //!  ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵 𝗔𝗹𝗹 𝗧𝗮𝗴𝘀⁡
+  const tagsList = await getAllTags({
+    searchQuery: searchParams.search,
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <>
-      {/* HEADING */}
+      {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}
       <h1 className="h1-bold text-dark100_light900"> Tags </h1>
 
-      {/* SEARCH and FILTER */}
+      {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛 𝗮𝗻𝗱 𝗙𝗜𝗟𝗧𝗘𝗥⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col ">
         <LocalSearchbar
           route="/tags"
@@ -95,6 +75,14 @@ const Tags = ({ searchParams }: SearchParamsProps) => {
           />
         )}
       </section>
+
+      {/* ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡ */}
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={tagsList.isNext}
+        />
+      </div>
     </>
   );
 };

@@ -7,6 +7,7 @@ import ParseHTML from "./ParseHTML";
 import Link from "next/link";
 import { formatTimestamp } from "@/lib/utils";
 import Votes from "./Votes";
+import Pagination from "./Pagination";
 
 interface Props {
   questionId: string;
@@ -27,14 +28,18 @@ const AllAnswers = async ({
   //* 𝘋𝘰𝘯'𝘵 𝘧𝘰𝘳𝘨𝘦𝘵 𝘵𝘰 𝘱𝘢𝘳𝘴𝘦 𝘵𝘩𝘦 𝘴𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘐𝘋, 𝘐 𝘨𝘰𝘵 𝘢𝘯 𝘦𝘳𝘳𝘰𝘳 𝘣𝘦𝘤𝘰𝘻 𝘰𝘧 𝘪𝘵 𝘢𝘯𝘥 𝘐 𝘸𝘢𝘴 𝘤𝘭𝘶𝘦𝘭𝘦𝘴𝘴 𝘧𝘰𝘳 𝘢𝘯 𝘩𝘰𝘶𝘳. 𝘚𝘰, 𝘥𝘰𝘯'𝘵 𝘳𝘦𝘱𝘦𝘢𝘵 𝘵𝘩𝘪𝘴 𝘮𝘪𝘴𝘵𝘢𝘬𝘦 𝘢𝘨𝘢𝘪𝘯 𝘢𝘯𝘥 𝘢𝘭𝘸𝘢𝘺𝘴 𝘗𝘢𝘳𝘴𝘦 𝘺𝘰𝘶𝘳 𝘚𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘑𝘚𝘖𝘕 𝘥𝘢𝘵𝘢
   const answersList = await getAnswers({
     questionId: JSON.parse(questionId),
-    page: page ? +page : 1, // `⁡⁣⁢⁣+𝗽𝗮𝗴𝗲⁡` this will convert a string into number
+    page: page ? +page : 1, // `⁡⁣⁢⁣+` this plus will convert a string into number
     sortBy: filter,
   });
 
   return (
     <div className="mt-11">
-      <div className="flex-between ">
-        <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
+      <div className="flex-between relative">
+        <span className="text-dark100_light900 absolute -top-4 w-full border "></span>
+
+        <h3 className="primary-text-gradient h3-semibold">
+          {totalAnswers} Answers
+        </h3>
 
         <Filter filters={AnswerFilters} />
       </div>
@@ -80,6 +85,11 @@ const AllAnswers = async ({
             <ParseHTML data={answer.content} />
           </article>
         ))}
+      </div>
+
+      {/* ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡ */}
+      <div className="mt-10">
+        <Pagination pageNumber={page ? +page : 1} isNext={answersList.isNext} />
       </div>
     </div>
   );

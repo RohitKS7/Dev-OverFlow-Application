@@ -108,11 +108,11 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = getAllUsersParams;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = getAllUsersParams;
 
+    // ⁡⁣⁢⁣𝗤𝘂𝗲𝗿𝘆⁡
     // 𝘲𝘶𝘦𝘳𝘺 𝘪𝘴 𝘦𝘲𝘶𝘢𝘭 𝘵𝘰 𝘦𝘮𝘱𝘵𝘺 𝘰𝘣𝘫𝘦𝘤𝘵 𝘢𝘵 𝘵𝘩𝘦 𝘴𝘵𝘢𝘳𝘵
     const query: FilterQuery<typeof UserModel> = {};
-
     if (searchQuery) {
       query.$or = [
         { name: { $regex: new RegExp(searchQuery, "i") } },
@@ -120,8 +120,8 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
       ];
     }
 
+    // ⁡⁣⁢⁣⁡⁣⁢⁣𝗙𝗶𝗹𝘁𝗲𝗿⁡
     let sortOptions = {};
-
     switch (filter) {
       case "new_users":
         sortOptions = { joinedAt: -1 };
@@ -137,9 +137,20 @@ export async function getAllUsers(getAllUsersParams: GetAllUsersParams) {
         break;
     }
 
-    const users = await UserModel.find(query).sort(sortOptions);
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    const skipAmount = (page - 1) * pageSize;
 
-    return { users };
+    // ⁡⁣⁢⁣𝗥𝗲𝘁𝗿𝗶𝘃𝗲 𝗨𝘀𝗲𝗿𝘀⁡
+    const users = await UserModel.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    const totalUsers = await UserModel.countDocuments(query);
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -190,15 +201,18 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
 
-    // eslint-disable-next-line no-unused-vars
-    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
+    const { clerkId, page = 1, pageSize = 2, filter, searchQuery } = params;
 
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    const skipAmount = (page - 1) * pageSize;
+
+    // ⁡⁣⁢⁣𝗤𝘂𝗲𝗿𝘆⁡
     const query: FilterQuery<typeof QuestionModel> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
 
+    // ⁡⁣⁢⁣⁡⁣⁢⁣𝗙𝗶𝗹𝘁𝗲𝗿⁡
     let sortOptions = {};
-
     switch (filter) {
       case "most_recent":
         sortOptions = { createdAt: -1 };
@@ -224,11 +238,14 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
         break;
     }
 
+    // ⁡⁣⁢⁣𝗥𝗲𝘁𝗿𝗶𝘃𝗲 𝗨𝘀𝗲𝗿 𝗦𝗮𝘃𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀⁡
     const user = await UserModel.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
       options: {
         sort: sortOptions,
+        skip: skipAmount,
+        limit: pageSize + 1,
       },
       // 𝘞𝘦 𝘢𝘳𝘦 𝘱𝘰𝘱𝘶𝘭𝘢𝘵𝘪𝘯𝘨 ⁡⁢⁣⁣𝘛𝘢𝘨𝘴⁡ 𝘢𝘯𝘥 ⁡⁢⁣⁣𝘈𝘶𝘵𝘩𝘰𝘳𝘴⁡ 𝘪𝘯 ⁡⁢⁣⁣𝘚𝘢𝘷𝘦𝘥⁡ 𝘱𝘢𝘵𝘩 𝘰𝘧 ⁡⁣⁣⁢𝘜𝘴𝘦𝘳𝘔𝘰𝘥𝘦𝘭⁡.
       populate: [
@@ -247,7 +264,10 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 
     const savedQuestions = user.saved;
 
-    return { questions: savedQuestions };
+    // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
+    const isNext = savedQuestions.length > pageSize;
+
+    return { questions: savedQuestions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -290,8 +310,9 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
 
-    // eslint-disable-next-line no-unused-vars
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 2 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const totalQuestions = await QuestionModel.countDocuments({
       author: userId,
@@ -300,9 +321,13 @@ export async function getUserQuestions(params: GetUserStatsParams) {
     const userQuestions = await QuestionModel.find({ author: userId })
       .sort({ views: -1, upvotes: -1 })
       .populate("tags", "_id name")
-      .populate("author", "_id clerkId name picture");
+      .populate("author", "_id clerkId name picture")
+      .skip(skipAmount)
+      .limit(pageSize);
 
-    return { totalQuestions, questions: userQuestions };
+    const isNext = totalQuestions > skipAmount + userQuestions.length;
+
+    return { totalQuestions, questions: userQuestions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -315,7 +340,9 @@ export async function getUserAnswers(params: GetUserStatsParams) {
     connectToDatabase();
 
     // eslint-disable-next-line no-unused-vars
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 2 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await AnswerModel.countDocuments({
       author: userId,
@@ -324,9 +351,13 @@ export async function getUserAnswers(params: GetUserStatsParams) {
     const userAnswers = await AnswerModel.find({ author: userId })
       .sort({ upvotes: -1 })
       .populate("question", "_id title")
-      .populate("author", "_id clerkId name picture");
+      .populate("author", "_id clerkId name picture")
+      .skip(skipAmount)
+      .limit(pageSize);
 
-    return { totalAnswers, answers: userAnswers };
+    const isNext = totalAnswers > skipAmount + userAnswers.length;
+
+    return { totalAnswers, answers: userAnswers, isNext };
   } catch (error) {
     console.log(error);
     throw error;
