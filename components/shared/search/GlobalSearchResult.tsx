@@ -6,19 +6,17 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import GlobalFilters from "./GlobalFilters";
+import { globalSearchFunc } from "@/lib/actions/general.action";
 
 const GlobalSearchResult = () => {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([
-    { type: "question", id: 1, title: "Next.js questinos" },
-    { type: "tag", id: 2, title: "nextjs" },
-    { type: "user", id: 3, title: "Rohit" },
-  ]);
+  const [result, setResult] = useState([]);
 
   const globalSearch = searchParams.get("globalSearch");
   const type = searchParams.get("type");
 
+  // ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵 𝗔𝗹𝗹 𝗗𝗮𝘁𝗮 according to type and globalSearch⁡
   useEffect(() => {
     const fetchResult = async () => {
       setResult([]);
@@ -26,6 +24,11 @@ const GlobalSearchResult = () => {
 
       try {
         // Fetch Every Data from our database
+        const res = await globalSearchFunc({
+          query: globalSearch,
+          type,
+        });
+        setResult(JSON.parse(res));
       } catch (error) {
         console.error(error);
         throw error;
@@ -33,10 +36,27 @@ const GlobalSearchResult = () => {
         setIsLoading(false);
       }
     };
+
+    if (globalSearch) {
+      fetchResult();
+    }
   }, [globalSearch, type]);
 
+  // Route to Clicked Search
   const renderLink = (type: string, id: string) => {
-    return "/";
+    switch (type) {
+      case "question":
+        return `/question/${id}`;
+      case "answer":
+        return `/question/${id}`;
+      case "user":
+        return `/profile/${id}`;
+      case "tag":
+        return `/tags/${id}`;
+
+      default:
+        return "/";
+    }
   };
 
   return (
@@ -46,6 +66,7 @@ const GlobalSearchResult = () => {
       <div className="space-y-5">
         <p className="text-dark400_light900 paragraph-semibold ">Top Match</p>
 
+        {/* ⁡⁣⁢⁣𝗟𝗼𝗮𝗱𝗲𝗿⁡ ⁡⁣⁢⁣𝗮𝗻𝗱 𝗖𝗼𝗻𝘁𝗲𝗻𝘁⁡ */}
         {isLoading ? (
           <div className="flex-center flex-col px-5">
             <ReloadIcon className="my-2 size-10 animate-spin text-primary-500" />
@@ -58,7 +79,7 @@ const GlobalSearchResult = () => {
             {result.length > 0 ? (
               result.map((item: any, index: number) => (
                 <Link
-                  href={renderLink("type", "id")}
+                  href={renderLink(item.type, item.id)}
                   key={item.type + item.id + index}
                   className=" flex w-full cursor-pointer items-start gap-3 px-5 py-2.5 hover:bg-light-700/50 dark:bg-dark-500/50"
                 >

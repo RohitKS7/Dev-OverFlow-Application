@@ -201,7 +201,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { clerkId, page = 1, pageSize = 2, filter, searchQuery } = params;
+    const { clerkId, page = 1, pageSize = 5, filter, searchQuery } = params;
 
     // ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡
     const skipAmount = (page - 1) * pageSize;
@@ -310,7 +310,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
 
-    const { userId, page = 1, pageSize = 2 } = params;
+    const { userId, page = 1, pageSize = 4 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
@@ -340,7 +340,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
     connectToDatabase();
 
     // eslint-disable-next-line no-unused-vars
-    const { userId, page = 1, pageSize = 2 } = params;
+    const { userId, page = 1, pageSize = 4 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 

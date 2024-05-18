@@ -52,7 +52,7 @@ export async function getAllTags(getAllTagsParams: GetAllTagsParams) {
     connectToDatabase();
 
     //  If page doesn't exist than make it 1, same for pageSize if doesn't exist than make it 20
-    const { searchQuery, filter, page = 1, pageSize = 5 } = getAllTagsParams;
+    const { searchQuery, filter, page = 1, pageSize = 8 } = getAllTagsParams;
 
     const query: FilterQuery<ITag> = {};
 
@@ -101,7 +101,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectToDatabase();
 
-    const { tagId, searchQuery, page = 1, pageSize = 1 } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 5 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
