@@ -90,13 +90,14 @@ const Page = async ({ params, searchParams }: URLProps) => {
             href={`/profile/${authorClerkId}`}
             className="flex items-center justify-start gap-1"
           >
-            <Image
-              src={authorPicture}
-              alt="profile"
-              width={20}
-              height={20}
-              className="rounded-full"
-            />
+            <div className="relative size-[20px] overflow-hidden rounded-full">
+              <Image
+                fill
+                src={authorPicture}
+                alt="profile"
+                className="object-cover"
+              />
+            </div>
             <p className="paragraph-semibold text-dark300_light700">
               {authorName}
             </p>

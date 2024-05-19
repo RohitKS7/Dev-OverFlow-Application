@@ -17,17 +17,16 @@ import AnswerModel from "@/database/answer.model";
 import InteractionModel from "@/database/interaction.model";
 import { FilterQuery } from "mongoose";
 
-//!  ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗮 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗼𝗻 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
+//!  ⁡⁣⁢⁣Create a Question Document on Database⁡
 export async function createQuestion(params: CreateQuestionParams) {
-  // eslint-disable-next-line no-empty
   try {
-    //!  Connect to Database
+    //!  ⁡⁣⁢⁣𝗖𝗼𝗻𝗻𝗲𝗰𝘁 𝘁𝗼 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
     connectToDatabase();
 
     //  path is the URL for home after the question is submitted successfully to 'Revalidate' next.js
     const { title, content, tags, author, path } = params;
 
-    //!  Create the question
+    //!  ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝘁𝗵𝗲 𝗾𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
     //   `create()` : This method is used to create and save a new document in the MongoDB database based on the provided data.
     const question = await QuestionModel.create({
       title,
@@ -37,29 +36,29 @@ export async function createQuestion(params: CreateQuestionParams) {
 
     const tagDocuments = [];
 
-    //   ********  Making connection between TagModel and QuestionModel by adding the `question_id` in 'question' array of TagModel *******
+    //   ********  ⁡⁣⁢⁣𝗠𝗮𝗸𝗶𝗻𝗴 𝗰𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗼𝗻 𝗯𝗲𝘁𝘄𝗲𝗲𝗻 𝗧𝗮𝗴𝗠𝗼𝗱𝗲𝗹 𝗮𝗻𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝗠𝗼𝗱𝗲𝗹⁡ by adding the `question_id` in 'question' array of TagModel *******
     //   Create the tags or get them if they already exist
     for (const tag of tags) {
       //  This code is using the findOneAndUpdate() method from Mongoose to interact with the TagModel. Let's break down each part of the function call:
       const existingTag = await TagModel.findOneAndUpdate(
-        // 1. Query Criteria: The first parameter allows us to find something.
+        // ⁡⁣⁣⁢1. Query Criteria:⁡ The first parameter allows us to find something.
         /*    
         This part specifies the criteria for finding a document in the TagModel collection. It searches for a document where the name field matches the provided tag using a case-insensitive regular expression ($regex), which ensures that the search is not case-sensitive.
         */
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
 
-        // 2. Update Operations:  The second one allows us to update it.
+        // ⁡⁣⁣⁢2. Update Operations:⁡  The second one allows us to update it.
         /* 
         This part specifies the update operations to be performed on the matched document.
-          - `$setOnInsert` operator sets the value of the name field to the provided tag value if a document is created during the upsert operation (i.e., if no matching document is found).
-          - `$push operator` adds the _id of the question to the question array field in the document. It's assuming that question is a reference to another model, likely the Question model.
+          - ⁡⁢⁣⁣`$setOnInsert`⁡ operator sets the value of the name field to the provided tag value if a document is created during the upsert operation (i.e., if no matching document is found).
+          - ⁡⁢⁣⁣`$push operator`⁡ adds the _id of the question to the question array field in the document. It's assuming that question is a reference to another model, likely the Question model.
         */
         { $setOnInsert: { name: tag }, $push: { questions: question._id } },
 
-        // 3. Options:   and the last one Provides some additional options.
+        // ⁡⁣⁣⁢3. Options:⁡   and the last one Provides some additional options.
         /* 
-          - `upsert: true` specifies that if no document is found matching the query criteria, a new document should be created based on the update operations.
-          - `new: true` ensures that the method returns the modified document if it's upserted or updated.
+          - `⁡⁢⁣⁣upsert: true`⁡ specifies that if no document is found matching the query criteria, a new document should be created based on the update operations.
+          - ⁡⁢⁣⁣`new: true`⁡ ensures that the method returns the modified document if it's upserted or updated.
         */
         { upsert: true, new: true }
       );
@@ -68,7 +67,7 @@ export async function createQuestion(params: CreateQuestionParams) {
       tagDocuments.push(existingTag._id);
     }
 
-    //   ********  Making connection between QuestionModel and TagModel by adding the `tag_id` in 'tags' array of QuestionModel *******
+    //   ********  ⁡⁣⁢⁣𝗠𝗮𝗸𝗶𝗻𝗴 𝗰𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗼𝗻 𝗯𝗲𝘁𝘄𝗲𝗲𝗻 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝗠𝗼𝗱𝗲𝗹 𝗮𝗻𝗱 𝗧𝗮𝗴𝗠𝗼𝗱𝗲𝗹⁡ by adding the `tag_id` in 'tags' array of QuestionModel *******
     //   Find the Question by ID and push the tag-ID of each tag in QuestionModel's tag array.
     await QuestionModel.findByIdAndUpdate(question._id, {
       //   `$push`: This is a MongoDB update operator that adds elements to an array field. In this case, it's adding elements to the tags array field.
@@ -76,18 +75,25 @@ export async function createQuestion(params: CreateQuestionParams) {
       $push: { tags: { $each: tagDocuments } },
     });
 
-    //   Create an interaction record for the user's asked-questions action (means how the number of questions the author have created)
+    //  ⁡⁣⁣⁢ ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗮𝗻 𝗶𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗿𝗲𝗰𝗼𝗿𝗱⁡ ⁡⁣⁣⁢for the user's asked-questions action⁡⁡ (means how many number of questions the author have created)
+    await InteractionModel.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
 
-    //   Increment author's reputation by +5 for creating a question
+    //   ⁡⁣⁣⁢Increment author's reputation by +5 for creating a question⁡
+    await UserModel.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
-    //!   The revalidatePath function is a feature in Next.js that allows you to update data on a specific page without requiring a full page reload.
+    //!   ⁡⁣⁢⁣𝗧𝗵𝗲 𝗿𝗲𝘃𝗮𝗹𝗶𝗱𝗮𝘁𝗲𝗣𝗮𝘁𝗵 𝗳𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡ is a feature in Next.js that allows you to update data on a specific page without requiring a full page reload.
     revalidatePath(path);
   } catch (error) {
     console.error("Error creating question:", error);
   }
 }
 
-//!  ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵𝗶𝗻𝗴 𝗾𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗱𝗮𝘁𝗮⁡
+//!  ⁡⁣⁢⁣Fetching question data⁡
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
@@ -161,7 +167,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-//!  ⁡⁣⁢⁣𝗚𝗲𝘁 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗕𝘆 𝗜𝗱⁡
+//!  ⁡⁣⁢⁣Get Question By Id⁡
 export async function getQuestionById(params: GetQuestionByIdParams) {
   try {
     connectToDatabase();
@@ -184,7 +190,7 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
   }
 }
 
-//!  ⁡⁣⁢⁣𝗔𝗱𝗱𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗽𝗱𝗮𝘁𝗶𝗻𝗴 𝘂𝗽𝘃𝗼𝘁𝗲𝘀 𝗶𝗻 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+//!  ⁡⁣⁢⁣Adding and Updating upvotes in Question⁡
 export async function upvoteQuestion(params: QuestionVoteParams) {
   try {
     connectToDatabase();
@@ -218,7 +224,19 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
-    // TODO: Increment author's reputataion
+    // ⁡⁣⁣⁢Increment author's reputataion⁡⁣⁣⁢ by +1/-1⁡ for upvoting and revoking respectivly
+    if (question.author === userId) {
+      console.error("You Can't Increment your own reputation", userId);
+    } else {
+      await UserModel.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasupVoted ? -1 : 1 }, // if already upvoted and then clicking it again to revoke the vote then '-1' else '+1'
+      });
+    }
+
+    // ⁡⁣⁣⁢Increment author's reputation by +10/-10⁡ for recieving an upvote/downvote to the question
+    await UserModel.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasupVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -227,7 +245,7 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
   }
 }
 
-//!  ⁡⁣⁢⁣𝗔𝗱𝗱𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗽𝗱𝗮𝘁𝗶𝗻𝗴 𝗱𝗼𝘄𝗻𝘃𝗼𝘁𝗲𝘀 𝗶𝗻 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+//!  ⁡⁣⁢⁣Adding and Updating downvotes in Question⁡
 export async function downvoteQuestion(params: QuestionVoteParams) {
   try {
     connectToDatabase();
@@ -259,7 +277,15 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
-    // TODO: Increment user's reputation by 10+
+    // ⁡⁣⁣⁢Increment author's reputataion by +1/-1⁡⁡ for downvoting and revoking respectivly
+    await UserModel.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasdownVoted ? -1 : 1 }, // if already upvoted and then clicking it again to revoke the vote then '-1' else '+1'
+    });
+
+    // ⁡⁣⁣⁢Increment author's reputation by +10/-10⁡ for recieving an upvote/downvote to the question
+    await UserModel.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasdownVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -268,7 +294,7 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
   }
 }
 
-//   ⁡⁣⁢⁣𝗗𝗲𝗹𝗲𝘁𝗲 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+//   ⁡⁣⁢⁣Delete Question⁡
 export async function deleteQuestion(params: DeleteQuestionParams) {
   try {
     connectToDatabase();
@@ -293,7 +319,7 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
   }
 }
 
-//   ⁡⁣⁢⁣𝗘𝗱𝗶𝘁 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+//   ⁡⁣⁢⁣Edit Question⁡
 export async function editQuestion(params: EditQuestionParams) {
   try {
     connectToDatabase();
@@ -318,7 +344,7 @@ export async function editQuestion(params: EditQuestionParams) {
   }
 }
 
-//   Get Hot Question
+//   ⁡⁣⁢⁣Get Hot Question⁡
 export async function getHotQuestions() {
   try {
     connectToDatabase();

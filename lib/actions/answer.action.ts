@@ -11,8 +11,9 @@ import {
 import QuestionModel from "@/database/question.model";
 import { revalidatePath } from "next/cache";
 import InteractionModel from "@/database/interaction.model";
+import UserModel from "@/database/user.model";
 
-//! ⁡⁣⁢⁣𝗖𝗿𝗲𝗮𝘁𝗲 𝗔𝗻𝘀𝘄𝗲𝗿 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁 𝗼𝗻 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲⁡
+//! ⁡⁣⁢⁣Create Answer Document on Database⁡
 export async function createAnswer(params: CreateAnswerParams) {
   try {
     connectToDatabase();
@@ -22,10 +23,22 @@ export async function createAnswer(params: CreateAnswerParams) {
 
     const newAnswer = await AnswerModel.create({ content, author, question });
 
-    // 𝘈𝘥𝘥 𝘵𝘩𝘦 𝘢𝘯𝘴𝘸𝘦𝘳 𝘵𝘰 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯'𝘴 𝘢𝘯𝘴𝘸𝘦𝘳𝘴 𝘢𝘳𝘳𝘢𝘺
-    await QuestionModel.findByIdAndUpdate(question, {
+    // 𝘈𝘥𝘥 𝘵𝘩𝘦 𝘢𝘯𝘴𝘸𝘦𝘳 𝘵𝘰 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘔𝘰𝘥𝘦𝘭'𝘴 𝘢𝘯𝘴𝘸𝘦𝘳𝘴 𝘢𝘳𝘳𝘢𝘺
+    const questionObject = await QuestionModel.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
     });
+
+    //  ⁡⁣⁣⁢ ⁡⁣⁢⁣⁡⁣⁢⁣Create an interaction record for the user's answer action ⁡
+    await InteractionModel.create({
+      user: author,
+      action: "answer",
+      question, // entire question
+      answer: newAnswer._id,
+      tags: questionObject.tags,
+    });
+
+    // ⁡⁣⁣⁢Increment User's Reputation by +10 for answering an question⁡
+    await UserModel.findByIdAndUpdate(author, { $inc: { reputation: +10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -113,7 +126,19 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
       throw new Error("Asnwer not found");
     }
 
-    // TODO: Increment author's reputataion
+    // ⁡⁣⁣⁢Increment User's Reputation by +2/-2 for upvoting/revoking⁡
+    if (userId === answer.author) {
+      console.log("You Can't Increment your own reputation");
+    } else {
+      await UserModel.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasupVoted ? -2 : 2 },
+      });
+    }
+
+    //  ⁡⁣⁣⁢Increment author's reputation by +15/-15⁡ for recieving an upvote/downvote to the answer
+    await UserModel.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasupVoted ? -15 : 15 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -122,7 +147,7 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
   }
 }
 
-//!  ⁡⁣⁢⁣𝗔𝗱𝗱𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗽𝗱𝗮𝘁𝗶𝗻𝗴 𝗱𝗼𝘄𝗻𝘃𝗼𝘁𝗲𝘀 𝗶𝗻 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻⁡
+//!  ⁡⁣⁢⁣Adding and Updating downvotes in Answer⁡
 export async function downvoteAnswer(params: AnswerVoteParams) {
   try {
     connectToDatabase();
@@ -152,7 +177,15 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
       throw new Error("Asnwer not found");
     }
 
-    // TODO: Increment user's reputation by 10+
+    // ⁡⁣⁣⁢Increment User's Reputation by +1/-1 for downvoting/revoking
+    await UserModel.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasdownVoted ? -2 : 2 },
+    });
+
+    // ⁡⁣⁣⁢Increment author's reputation by +15/-15⁡ for recieving an upvote/downvote to the answer
+    await UserModel.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasdownVoted ? -15 : 15 },
+    });
 
     revalidatePath(path);
   } catch (error) {

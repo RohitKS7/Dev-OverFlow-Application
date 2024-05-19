@@ -24,14 +24,15 @@ const Metric = ({
   // it's this component's content to make optional rendering of clickable and non-clickable component.
   const metricContent = (
     <>
-      <Image
-        src={imgUrl}
-        alt={alt}
-        width={16}
-        height={16}
-        // * "href" = if it's a link
-        className={`object-contain ${href ? "rounded-full" : ""}`}
-      />
+      <div className="relative size-[16px] overflow-hidden">
+        <Image
+          fill
+          src={imgUrl}
+          alt={alt}
+          // * "href" = if it's a link
+          className={`object-cover ${href ? "rounded-full" : ""}`}
+        />
+      </div>
 
       <p className={`${textStyles} flex items-center gap-1`}>
         {value}
