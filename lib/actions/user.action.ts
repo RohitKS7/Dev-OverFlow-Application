@@ -17,6 +17,8 @@ import { revalidatePath } from "next/cache";
 import QuestionModel from "@/database/question.model";
 import TagModel from "@/database/tag.model";
 import AnswerModel from "@/database/answer.model";
+import { BadgeCriteriaType } from "@/types";
+import { assignBadges } from "../utils";
 
 //  ⁡⁣⁢⁣𝘊𝘳𝘦𝘢𝘵𝘦 𝘜𝘴𝘦𝘳⁡
 export async function createUser(createUserParams: CreateUserParams) {
@@ -294,10 +296,75 @@ export async function getUserInfo(params: GetUserByIdParams) {
     });
     const totalAnswers = await AnswerModel.countDocuments({ author: user._id });
 
+    // ⁡⁢⁣⁢𝗝𝗦𝗠 𝗠𝗲𝘁𝗵𝗼𝗱 𝗳𝗼𝗿 𝗕𝗮𝗱𝗴𝗲𝗶𝗻𝗴 𝗦𝘆𝘀𝘁𝗲𝗺⁡ (based on no. of answers, questions, upvotes/downvotes on them, views etc. of an user)
+    const [questionUpvotes] = await QuestionModel.aggregate([
+      { $match: { author: user._id } },
+      {
+        $project: {
+          _id: 0,
+          upvotes: { $size: "$upvotes" },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalUpvotes: { $sum: "$upvotes" },
+        },
+      },
+    ]);
+
+    const [answerUpvotes] = await AnswerModel.aggregate([
+      { $match: { author: user._id } },
+      {
+        $project: {
+          _id: 0,
+          upvotes: { $size: "$upvotes" },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalUpvotes: { $sum: "$upvotes" },
+        },
+      },
+    ]);
+
+    const [questionViews] = await QuestionModel.aggregate([
+      { $match: { author: user._id } },
+      {
+        $group: {
+          _id: null,
+          totalViews: { $sum: "$views" },
+        },
+      },
+    ]);
+
+    const criteria = [
+      { type: "QUESTION_COUNT" as BadgeCriteriaType, count: totalQuestions },
+      { type: "ANSWER_COUNT" as BadgeCriteriaType, count: totalAnswers },
+      {
+        type: "QUESTION_UPVOTES" as BadgeCriteriaType,
+        count: questionUpvotes?.totalUpvotes || 0,
+      },
+      {
+        type: "ANSWER_UPVOTES" as BadgeCriteriaType,
+        count: answerUpvotes?.totalUpvotes || 0,
+      },
+      {
+        type: "TOTAL_VIEWS" as BadgeCriteriaType,
+        count: questionViews?.totalViews || 0,
+      },
+    ];
+
+    //  @ts-ignore
+    const badgeCounts = assignBadges({ criteria });
+
     return {
       user,
       totalQuestions,
       totalAnswers,
+      badgeCounts,
+      reputation: user.reputation,
     };
   } catch (error) {
     console.log(error);
@@ -305,7 +372,7 @@ export async function getUserInfo(params: GetUserByIdParams) {
   }
 }
 
-// ⁡⁣⁢⁣ 𝗚𝗲𝘁 𝗨𝘀𝗲𝗿'𝘀 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀⁡
+// ⁡⁣⁢⁣ Get User's Questions⁡
 export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
@@ -334,7 +401,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   }
 }
 
-// ⁡⁣⁢⁣ ⁡⁣⁢⁣𝗚𝗲𝘁 𝗨𝘀𝗲𝗿'𝘀 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡
+// ⁡⁣⁢⁣ ⁡⁣⁢⁣Get User's Answers⁡
 export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDatabase();

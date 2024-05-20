@@ -1,12 +1,14 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
+import { BADGE_CRITERIA } from "@/constants";
+import { BadgeCounts } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// ========================================================
+// ⁡⁢⁣⁢========================================================⁡
 
 //  ⁡⁣⁢⁣𝗚𝗲𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Converting computational date into Readable Date
@@ -57,7 +59,7 @@ export const getTimestamp = (createdAt: Date): string => {
   return "just now";
 };
 
-// ======================================================
+// ⁡⁢⁣⁢======================================================⁡
 
 // ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗕𝗶𝗴𝗡𝘂𝗺𝗯𝗲𝗿 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Function to convert Big Numbers in String ex:(10000 => 10K)
@@ -79,7 +81,7 @@ export const formatBigNumber = (num: number): string => {
   }
 };
 
-// ========================================================
+// ⁡⁢⁣⁢========================================================⁡
 
 //  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 //  this function `formatTimestamp` that takes in a Date object and returns a string in the format 'Sep 24, 2023, 8:10 PM':
@@ -114,7 +116,7 @@ export const formatTimestamp = (
   return formattedDate;
 };
 
-// ========================================================
+// ⁡⁢⁣⁢========================================================⁡
 
 //  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆⁡ ⁡⁣⁢⁣t⁡⁣⁢⁣o 𝗔𝗱𝗱 || Append || Update the query field⁡
 
@@ -140,7 +142,7 @@ export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
   );
 };
 
-// ========================================================
+// ⁡⁢⁣⁢========================================================⁡
 
 //  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆 for 𝗿𝗲𝗺𝗼𝘃𝗶𝗻𝗴 URL query part from the URL⁡
 
@@ -167,4 +169,40 @@ export const removeKeysFromQuery = ({
     },
     { skipNull: true }
   );
+};
+
+// ⁡⁢⁣⁡⁢⁣⁢========================================================⁡
+
+// ⁡⁣⁢⁣𝗔𝘀𝘀𝗶𝗴𝗻 𝗕𝗮𝗱𝗴𝗲 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
+
+interface BadgeParam {
+  criteria: {
+    forEach(arg0: (item: any) => void): unknown;
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  };
+}
+
+export const assignBadges = (params: BadgeParam) => {
+  const badgeCounts: BadgeCounts = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0,
+  };
+
+  const { criteria } = params;
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    // @ts-ignore
+    const badgeLevels: any = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
 };
