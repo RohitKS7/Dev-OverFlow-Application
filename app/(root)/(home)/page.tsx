@@ -10,6 +10,7 @@ import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
+import Loading from "./loading";
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   // !  𝘍𝘦𝘵𝘤𝘩𝘪𝘯𝘨 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯s 𝘧𝘳𝘰𝘮 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦
@@ -18,6 +19,10 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,
   });
+
+  const isLoading = true;
+
+  if (isLoading) return <Loading />;
 
   // ⁡⁣⁣⁢𝗧𝗢𝗗𝗢⁡ Fetch Recommended Questions
   return (
