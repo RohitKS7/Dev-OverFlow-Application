@@ -8,7 +8,6 @@ import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
-import Loading from "./loading";
 
 //! Using async in the component function directly:
 
@@ -36,10 +35,6 @@ const Community = async ({ searchParams }: SearchParamsProps) => {
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,
   });
-
-  const isLoading = true;
-
-  if (isLoading) return <Loading />;
 
   return (
     <>
