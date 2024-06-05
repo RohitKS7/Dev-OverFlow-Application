@@ -13,7 +13,7 @@ export const connectToDatabase = async () => {
 
   // Checking if our database is connnected?
   if (isConnected) {
-    return console.log("MongoDB is already connected");
+    return;
   }
 
   //  Connect to MongoDB Atlas Database
@@ -23,8 +23,6 @@ export const connectToDatabase = async () => {
     });
 
     isConnected = true;
-
-    console.log("MongoDB is connected");
   } catch (error) {
     console.log("MongoDB connection failed", error);
   }

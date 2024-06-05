@@ -30,12 +30,11 @@ body {
   .btn-tertiary {
     @apply bg-light-700 dark:bg-dark-300 !important;
   }
-  .markdown {
+  /* .markdown {
     @apply max-w-full prose dark:prose-p:text-light-700 dark:pros;
-  }
-
+  } */
   .tab {
-    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-5;
+    @apply min-h-full dark:bg-dark-400 bg-light-800 text-light-500;
   }
 
   .no-focus {

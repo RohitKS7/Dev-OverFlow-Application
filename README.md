@@ -1,6 +1,6 @@
 ## About Project
 
-DevOverFlow is a clone of StackOverflow
+DevOverFlow is a clone of StackOverflow.
 
 ## Project Code Structure
 
@@ -12,7 +12,13 @@ DevOverFlow is a clone of StackOverflow
 
 - `/components/shared` folder contians only those component which we wanna share across the application.
 
-- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `use client`.
+- `Context` components => Context is a React library which by default is client-side, But Next.js is server-side so don't forget to use `"use client"`.
+
+- `/app/api` contains "Webhooks" which is Connecting our 'Clerk-user-database' to 'MongoDb-database'
+
+- `/app/api/webhooks` contains webhooks which is connecting our 'clerk database' and 'mongoDB database'.
+
+- `/app/(root)/question/[id]` is a dynamic route for question details page.
 
 - `/app/api/webhooks` contains webhooks which is connecting our 'clerk database' and 'mongoDB database'.
 
@@ -21,6 +27,8 @@ DevOverFlow is a clone of StackOverflow
 - Remember when creating a Server-action, Always connect to database first.
 
 - don't forget to enable server actions in `next.config` like this
+
+- `"use server"` in server-action function or on top of server-action separate file.
 
 ```bash
 const nextConfig = {
@@ -49,19 +57,19 @@ const nextConfig = {
 
 ### ESLint
 
-1.  Install `JavaScript Standard Style` for ESLint. Then add 'standard' in `.eslintrc.json`.
+1.  Install "JavaScript Standard Style' for ESLint. Then add 'standard' in `.eslintrc.json`.
 
 ```bash
 npm install eslint-config-standard
 ```
 
-2. Run ESLint to check any potential errors & bug.
+2. Run "ESLint" to check any potential errors & bug.
 
 ```bash
 npm run lint
 ```
 
-3. Tailwind plugin of ESLint.
+3. Tailwind plugin of "ESLint".
    Sometimes we write styles like this `min-h-screen flex-col flex` which is not a logical method to write tailwind and we have to read the whole class everytime. So, in order to maintain readability and logical pattern this Plugin comes in handy.
    After installation simply add it in your `.eslintrc.json` file.
 
@@ -70,10 +78,30 @@ npm install eslint-plugin-tailwindcss
 ```
 
 4. To avoid conflicts between Prettier and ESLint, install.
-   This will removes all ESLint rules that could conflict with Prettier. Once Installed, add "prettier" to your `.eslintrc.json` file.
+   This will removes all "ESLint" rules that could conflict with Prettier. Once Installed, add "prettier" to your `.eslintrc.json` file.
 
 ```bash
 npm install eslint-config-prettier
+```
+
+5. "Prism.js" is a fantastic code highlighting library. The code highlighting in question details page you are seeing! is done using "Prism.js"
+
+```bash
+npm install prismjs
+```
+
+6. "HTML-React-Parser" to convert an HTML string to one or more React elements.
+
+```bash
+npm install html-react-parser
+```
+
+example : Here as you can see instead of using built-in HTML parser property "creatElement()" we're using HTML-React-Parser for better and easier coding.
+
+```bash
+import parse from 'html-react-parser';
+
+parse('<p>Hello, World!</p>'); // React.createElement('p', {}, 'Hello, World!')
 ```
 
 ### Authentication
@@ -99,6 +127,16 @@ Pick the components you need. Copy and paste the code into your project and cust
 4. When you install this library, you'll see it overwrote your `global.css` and `tailwind.config.ts`. But Don't worry, Just copy and paste your old styles.
 
 5. It'll add `/lib/utils.ts` in your code for better customization. and It'll also add `ui` in your component folder which contains ShadCN components.
+
+### Webhooks Svix
+
+- "Svix": provides a package for verifying the webhook signature, making it easy to verify the authenticity of the webhook events.
+
+```bash
+npm install svix
+```
+
+- For more info, Visit [Clerk Webhooks Guide](https://clerk.com/docs/integrations/webhooks/sync-data)
 
 > TIPS :
 

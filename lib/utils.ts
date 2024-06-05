@@ -1,11 +1,16 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import qs from "query-string";
+import { BADGE_CRITERIA } from "@/constants";
+import { BadgeCounts } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// ========================================================
+// ⁡⁢⁣⁢========================================================⁡
+
+//  ⁡⁣⁢⁣𝗚𝗲𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Converting computational date into Readable Date
 // Function created with the help of CHAT-GPT,
 // Searched like this for the answer
@@ -54,8 +59,9 @@ export const getTimestamp = (createdAt: Date): string => {
   return "just now";
 };
 
-// ======================================================
+// ⁡⁢⁣⁢======================================================⁡
 
+// ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗕𝗶𝗴𝗡𝘂𝗺𝗯𝗲𝗿 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
 // Function to convert Big Numbers in String ex:(10000 => 10K)
 /* Chat-gpt entered question:-
 
@@ -67,7 +73,136 @@ export const formatBigNumber = (num: number): string => {
     return (num / 1e6).toFixed(1) + "M";
   } else if (Math.abs(num) >= 1e3) {
     return (num / 1e3).toFixed(1) + "K";
-  } else {
+  } else if (num !== undefined) {
+    // Add this condition to check if num is defined
     return num.toString();
+  } else {
+    return "0"; // Return a default value if num is undefined
   }
+};
+
+// ⁡⁢⁣⁢========================================================⁡
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺𝗮𝘁𝗧𝗶𝗺𝗲𝗦𝘁𝗮𝗺𝗽 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
+//  this function `formatTimestamp` that takes in a Date object and returns a string in the format 'Sep 24, 2023, 8:10 PM':
+export const formatTimestamp = (
+  createdAt: Date,
+  includeMonthYear: boolean = false
+): string => {
+  // Create options for formatting the date in the original way
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  // If includeMonthYear is true, extract month and year from the createdAt date
+  if (includeMonthYear) {
+    const month = createdAt.toLocaleString("default", { month: "long" });
+    const year = createdAt.getFullYear();
+
+    // Return the formatted string with month and year
+    return `${month} ${year}`;
+  }
+
+  // Format the date using Intl.DateTimeFormat
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    createdAt
+  );
+
+  return formattedDate;
+};
+
+// ⁡⁢⁣⁢========================================================⁡
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆⁡ ⁡⁣⁢⁣t⁡⁣⁢⁣o 𝗔𝗱𝗱 || Append || Update the query field⁡
+
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string | null;
+}
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  // access the current URL
+  const currentUrl = qs.parse(params);
+
+  // Extract the currentURL, then append the key we're updating and make that updatedversion a new 'value'
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+// ⁡⁢⁣⁢========================================================⁡
+
+//  ⁡⁣⁢⁣𝗙𝗼𝗿𝗺 𝗨𝗥𝗟 𝗤𝘂𝗲𝗿𝘆 for 𝗿𝗲𝗺𝗼𝘃𝗶𝗻𝗴 URL query part from the URL⁡
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  //  Loop over Keys Array and Remove the Keys from currentURL
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+// ⁡⁢⁣⁡⁢⁣⁢========================================================⁡
+
+// ⁡⁣⁢⁣𝗔𝘀𝘀𝗶𝗴𝗻 𝗕𝗮𝗱𝗴𝗲 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻⁡
+
+interface BadgeParam {
+  criteria: {
+    forEach(arg0: (item: any) => void): unknown;
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  };
+}
+
+export const assignBadges = (params: BadgeParam) => {
+  const badgeCounts: BadgeCounts = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0,
+  };
+
+  const { criteria } = params;
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    // @ts-ignore
+    const badgeLevels: any = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
 };
