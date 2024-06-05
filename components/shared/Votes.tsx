@@ -10,6 +10,7 @@ import { formatBigNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   type: string;
@@ -32,6 +33,7 @@ const Votes = ({
   hasdownVoted,
   hasSaved,
 }: Props) => {
+  const { toast } = useToast();
   const pathName = usePathname();
   const router = useRouter();
 
@@ -42,16 +44,26 @@ const Votes = ({
       questionId: itemId,
       path: pathName,
     });
+
+    return toast({
+      title: `Question ${
+        !hasSaved ? "saved in" : "removed from"
+      } your collection`,
+      variant: !hasSaved ? "default" : "destructive",
+    });
   };
 
   // ⁡⁣⁢⁣Handle Vote Function⁡
   const handleVote = async (action: string) => {
     // 𝘪𝘧 𝘶𝘴𝘦𝘳 𝘪𝘴 𝘯𝘰𝘵 𝘭𝘰𝘨𝘨𝘦𝘥-𝘪𝘯 𝘢𝘯𝘥 𝘵𝘳𝘺𝘪𝘯𝘨 𝘵𝘰 𝘷𝘰𝘵𝘦 𝘵𝘩𝘦𝘯 𝘳𝘦𝘵𝘶𝘳𝘯
     if (!userId) {
-      console.error("Please log in to perform this action");
+      return toast({
+        title: "Please log in",
+        description: "You must be logged in to perform this action",
+      });
     }
 
-    // 𝘐𝘧 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 𝘶𝘱𝘷𝘰𝘵𝘦
+    // 𝘐𝘧 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 ⁡⁣⁣⁢𝙪𝙥𝙫𝙤𝙩𝙚⁡
     if (action === "upvote") {
       // 𝘢𝘯𝘥 𝘐𝘧 𝘶𝘱𝘷𝘰𝘵𝘦 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘰𝘯 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯
       if (type === "Question") {
@@ -72,11 +84,14 @@ const Votes = ({
         });
       }
 
-      // 𝘦𝘹𝘪𝘵 𝘧𝘳𝘰𝘮 𝘵𝘩𝘪𝘴 𝘧𝘶𝘯𝘤𝘵𝘪𝘰𝘯
-      return;
+      // ⁡⁢⁣⁢Toast⁡
+      return toast({
+        title: `Upvote ${!hasupVoted ? "Successfull" : "Removed"}`,
+        variant: !hasupVoted ? "default" : "destructive",
+      });
     }
 
-    // 𝘐𝘧 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 𝘥𝘰𝘸𝘯𝘷𝘰𝘵𝘦
+    // 𝘐𝘧 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 ⁡⁣⁣⁢𝙙𝙤𝙬𝙣𝙫𝙤𝙩𝙚⁡
     if (action === "downvote") {
       // 𝘢𝘯𝘥 𝘐𝘧 𝘥𝘰𝘸𝘯𝘷𝘰𝘵𝘦 𝘢𝘤𝘵𝘪𝘰𝘯 𝘪𝘴 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘦𝘥 𝘰𝘯 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯
       if (type === "Question") {
@@ -97,7 +112,11 @@ const Votes = ({
         });
       }
 
-      // exit from this function
+      // ⁡⁢⁣⁢Toast⁡
+      return toast({
+        title: `Downvote ${!hasdownVoted ? "Successfull" : "Removed"}`,
+        variant: !hasdownVoted ? "default" : "destructive",
+      });
     }
   };
 
