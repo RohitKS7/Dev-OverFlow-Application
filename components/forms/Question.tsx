@@ -25,6 +25,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { useToast } from "@/components/ui/use-toast";
 
 // ⁡⁣⁢⁣𝗣𝗥𝗢𝗣𝗦⁡
 interface Props {
@@ -35,6 +36,7 @@ interface Props {
 
 // ⁡⁣⁢⁣𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗣𝗢𝗡𝗘𝗡𝗧⁡
 const Question = ({ type, mongoUserId, questionDetails }: Props) => {
+  const { toast } = useToast();
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,6 +74,12 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           path: pathName,
         });
 
+        // Show Notification Toast
+        toast({
+          title: "Question Edited Successfully",
+          variant: "default",
+        });
+
         router.push(`/question/${parsedQuestionDetails._id}`);
       } else {
         // 𝘮𝘢𝘬𝘦 𝘢𝘯 𝘢𝘴𝘺𝘯𝘤 𝘤𝘢𝘭𝘭 𝘵𝘰 𝘺𝘰𝘶𝘳 𝘈𝘗𝘐(𝘣𝘢𝘤𝘬𝘦𝘯𝘥) -> 𝘵𝘰 𝘤𝘳𝘦𝘢𝘵𝘦 𝘢 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
@@ -85,11 +93,23 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           author: JSON.parse(mongoUserId),
           path: pathName,
         });
+
+        // Show Notification Toast
+        toast({
+          title: "Question Asked Successfully",
+          variant: "default",
+        });
+
         // 𝘈𝘧𝘵𝘦𝘳 𝘵𝘩𝘢𝘵 𝘯𝘢𝘷𝘪𝘨𝘢𝘵𝘦 𝘣𝘢𝘤𝘬 𝘵𝘰 𝘩𝘰𝘮𝘦 𝘱𝘢𝘨𝘦 𝘵𝘰 𝘴𝘦𝘦 𝘵𝘩𝘦 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
         router.push("/");
       }
     } catch (error) {
       console.log(error);
+
+      toast({
+        title: "Error Creating Question",
+        variant: "destructive",
+      });
       throw error;
     } finally {
       setIsSubmitting(false);
