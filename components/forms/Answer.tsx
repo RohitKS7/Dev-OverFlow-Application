@@ -19,6 +19,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   question: string;
@@ -28,6 +29,7 @@ interface Props {
 
 // ⁡⁣⁢⁣𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗣𝗢𝗡𝗘𝗡𝗧⁡
 const Answer = ({ question, questionId, authorId }: Props) => {
+  const { toast } = useToast();
   const pathName = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
@@ -56,6 +58,11 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
       form.reset();
 
+      toast({
+        title: "Answer Created Successfuly",
+        variant: "default",
+      });
+
       // Clearing the Editor
       if (editorRef.current) {
         const editor = editorRef.current as any;
@@ -63,6 +70,11 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       }
     } catch (error) {
       console.log(error);
+
+      toast({
+        title: "Error While Creating The Answer",
+        variant: "destructive",
+      });
       throw error;
     } finally {
       // finally:  is used to say "Whatever happens (process successfull or failed) Just setIsSubmitting to false"
@@ -88,6 +100,10 @@ const Answer = ({ question, questionId, authorId }: Props) => {
       );
 
       if (!response.ok) {
+        toast({
+          title: "Too Many Requests",
+          variant: "destructive",
+        });
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -106,7 +122,10 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         editor.setContent(formattedAnswer);
       }
 
-      // Toast...
+      toast({
+        title: "Answer Generated Successfuly",
+        variant: "default",
+      });
     } catch (error: any) {
       console.error("Fetch error:", error.message);
     } finally {
