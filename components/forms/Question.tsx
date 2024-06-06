@@ -25,7 +25,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
-import { useToast } from "@/components/ui/use-toast";
+import { useToastContext } from "@/context/ToastContext";
 
 // ⁡⁣⁢⁣𝗣𝗥𝗢𝗣𝗦⁡
 interface Props {
@@ -36,7 +36,7 @@ interface Props {
 
 // ⁡⁣⁢⁣𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗣𝗢𝗡𝗘𝗡𝗧⁡
 const Question = ({ type, mongoUserId, questionDetails }: Props) => {
-  const { toast } = useToast();
+  const { showToast } = useToastContext();
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,7 +75,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         });
 
         // Show Notification Toast
-        toast({
+        showToast({
           title: "Question Edited Successfully",
           variant: "default",
         });
@@ -95,7 +95,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         });
 
         // Show Notification Toast
-        toast({
+        showToast({
           title: "Question Asked Successfully",
           variant: "default",
         });
@@ -106,7 +106,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
     } catch (error) {
       console.log(error);
 
-      toast({
+      showToast({
         title: "Error Creating Question",
         variant: "destructive",
       });
