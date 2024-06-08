@@ -7,6 +7,13 @@ import { getAllTags } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tags | Dev OverFlow",
+  description: "Search across 1M+ tags for your prefered question..",
+};
+
 const Tags = async ({ searchParams }: SearchParamsProps) => {
   //!  ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵 𝗔𝗹𝗹 𝗧𝗮𝗴𝘀⁡
   const tagsList = await getAllTags({
