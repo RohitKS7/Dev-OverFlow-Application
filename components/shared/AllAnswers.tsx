@@ -33,9 +33,9 @@ const AllAnswers = async ({
   });
 
   return (
-    <div className="mt-11">
+    <div className="mt-16">
       <div className="flex-between relative">
-        <span className="text-dark100_light900 absolute -top-4 w-full border "></span>
+        <span className="text-dark100_light900 absolute -top-8 mb-2 w-full border"></span>
 
         <h3 className="primary-text-gradient h3-semibold">
           {totalAnswers} Answers
