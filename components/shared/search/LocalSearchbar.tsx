@@ -61,7 +61,7 @@ const LocalSearchbar = ({
   return (
     <div className="relative w-full ">
       <div
-        className={`background-light800_darkgradient relative flex min-h-[56px] grow ${otherClasses} items-center gap-4 rounded-[10px] px-4`}
+        className={`relative flex min-h-[56px] grow bg-light-800 dark:bg-[linear-gradient(268deg,#e7803db3_0%,rgba(27,30,36,0.69)_100%)] ${otherClasses} items-center gap-4 rounded-[10px] px-4`}
       >
         {/* We only wanna show this when Icon Position is on the left side */}
         {iconPosition === "left" && (

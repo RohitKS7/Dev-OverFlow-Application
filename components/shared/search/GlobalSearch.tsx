@@ -75,7 +75,7 @@ const GlobalSearch = () => {
       className="relative w-full max-w-[600px] max-lg:hidden"
       ref={searchContainerRef}
     >
-      <div className="background-light800_darkgradient relative flex min-h-[56px] grow items-center gap-1 rounded-xl px-4 ">
+      <div className="relative flex min-h-[56px] grow items-center gap-1 rounded-xl bg-light-800 px-4 dark:bg-[linear-gradient(268deg,#e7803db3_0%,rgba(27,30,36,0.69)_100%)] ">
         <Image
           src="/assets/icons/search.svg"
           alt="search"

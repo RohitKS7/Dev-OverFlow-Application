@@ -6,11 +6,15 @@ import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
-import { getQuestions } from "@/lib/actions/question.action";
+import {
+  getQuestions,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Home | Dev OverFlow",
@@ -19,14 +23,31 @@ export const metadata: Metadata = {
 };
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
+  const { userId } = auth();
   // !  𝘍𝘦𝘵𝘤𝘩𝘪𝘯𝘨 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯s 𝘧𝘳𝘰𝘮 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦
-  const result = await getQuestions({
-    searchQuery: searchParams.search,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  let result;
 
-  // ⁡⁣⁣⁢𝗧𝗢𝗗𝗢⁡ Fetch Recommended Questions
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.search,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams.search,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
+
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚 𝗮𝗻𝗱 𝗕𝗨𝗧𝗧𝗢𝗡⁡ */}

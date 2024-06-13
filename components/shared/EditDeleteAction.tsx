@@ -63,38 +63,48 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
   };
 
   return (
-    <HoverCard openDelay={0} closeDelay={1000000000}>
-      <div className="flex items-center justify-end gap-3 max-sm:w-full">
-        {type === "Question" && (
-          <>
-            <HoverCardTrigger className="w-10">
-              <Image
-                src="/assets/icons/edit.svg"
-                alt="Edit Button"
-                width={14}
-                height={14}
-                className="cursor-pointer object-contain"
-                onClick={handleEdit}
-              />
-            </HoverCardTrigger>
-            <HoverCardContent side="top" className="w-40 dark:bg-light-400 ">
-              Edit Question
-            </HoverCardContent>
-          </>
-        )}
-
-        <Image
-          src="/assets/icons/trash.svg"
-          alt="Delete Button"
-          width={14}
-          height={14}
-          className={`cursor-pointer object-contain ${
-            loading ? "cursor-not-allowed opacity-50" : ""
-          }`}
-          onClick={!loading ? handleDelete : undefined}
-        />
-      </div>
-    </HoverCard>
+    <div className="flex items-center justify-end gap-3 max-sm:w-full">
+      {type === "Question" && (
+        <HoverCard openDelay={100} closeDelay={100}>
+          <HoverCardTrigger className="w-4">
+            <Image
+              src="/assets/icons/edit.svg"
+              alt="Edit Button"
+              width={14}
+              height={14}
+              className="cursor-pointer object-contain"
+              onClick={handleEdit}
+            />
+          </HoverCardTrigger>
+          <HoverCardContent
+            side="top"
+            className="w-32 border-none bg-[#f4f6f8] p-[6px] text-center text-primary-500  dark:bg-orange-100"
+          >
+            Edit Question
+          </HoverCardContent>
+        </HoverCard>
+      )}
+      <HoverCard openDelay={100} closeDelay={100}>
+        <HoverCardTrigger className="w-4">
+          <Image
+            src="/assets/icons/trash.svg"
+            alt="Delete Button"
+            width={14}
+            height={14}
+            className={`cursor-pointer object-contain ${
+              loading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            onClick={!loading ? handleDelete : undefined}
+          />
+        </HoverCardTrigger>
+        <HoverCardContent
+          side="top"
+          className="w-36 border-none bg-red-500 p-[6px] text-center  text-dark-500"
+        >
+          Delete Question
+        </HoverCardContent>
+      </HoverCard>
+    </div>
   );
 };
 

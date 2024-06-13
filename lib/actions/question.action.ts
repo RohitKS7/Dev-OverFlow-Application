@@ -10,6 +10,7 @@ import {
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
+  RecommendedParams,
 } from "./shared.types";
 import UserModel from "@/database/user.model";
 import { revalidatePath } from "next/cache";
@@ -361,6 +362,82 @@ export async function getHotQuestions() {
     return hotQuestions;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+//   ⁣Recommended Questions⁡
+export async function getRecommendedQuestions(params: RecommendedParams) {
+  try {
+    await connectToDatabase();
+
+    const { userId, page = 1, pageSize = 8, searchQuery } = params;
+
+    // find user
+    const user = await UserModel.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    const skipAmount = (page - 1) * pageSize;
+
+    // Find the user's Interactions
+    const userInteractions = await InteractionModel.find({ user: user._id })
+      .populate("tags")
+      .exec();
+
+    // Extract tags from user's interactions
+    const userTags = userInteractions.reduce((tags, interaction) => {
+      if (interaction.tags) {
+        tags = tags.concat(interaction.tags);
+      }
+
+      return tags;
+    }, []);
+
+    // Get distinct tag IDs from user's interactions
+    const distinctUserTagIds = [
+      ...new Set(userTags.map((tag: any) => tag._id)),
+    ];
+
+    const query: FilterQuery<typeof QuestionModel> = {
+      $and: [
+        { tags: { $in: distinctUserTagIds } }, // Questions with user's tags
+        {
+          author: {
+            $ne: user._id,
+          },
+        }, // Exclude user's own questions
+      ],
+    };
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: searchQuery, $options: "i" } },
+        { content: { $regex: searchQuery, $options: "i" } },
+      ];
+    }
+
+    const totalQuestions = await QuestionModel.countDocuments(query);
+
+    const recommendedQuestions = await QuestionModel.find(query)
+      .populate({
+        path: "tags",
+        model: TagModel,
+      })
+      .populate({
+        path: "author",
+        model: UserModel,
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
+
+    return { questions: recommendedQuestions, isNext };
+  } catch (error) {
+    console.error("Error getting recommended questions", error);
     throw error;
   }
 }
