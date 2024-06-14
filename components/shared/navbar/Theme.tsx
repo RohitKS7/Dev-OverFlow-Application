@@ -26,7 +26,6 @@ const Theme = () => {
               alt="sun-light"
               width={20}
               height={20}
-              className="active-theme"
             />
           ) : (
             <Image
@@ -34,7 +33,6 @@ const Theme = () => {
               alt="moon-dark"
               width={20}
               height={20}
-              className="active-theme"
             />
           )}
         </MenubarTrigger>
@@ -53,13 +51,7 @@ const Theme = () => {
                 }
               }}
             >
-              <Image
-                src={item.icon}
-                alt={item.value}
-                width={16}
-                height={16}
-                className={`${mode === item.value && "active-theme"}`}
-              />
+              <Image src={item.icon} alt={item.value} width={16} height={16} />
               <p
                 className={`body-semibold text-light-500 ${
                   mode === item.value

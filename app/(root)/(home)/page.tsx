@@ -56,7 +56,7 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
 
         <Link href="/ask-question" className=" flex justify-end max-sm:w-full">
           {/* exlaimation mark "!" is used to tell ShadCN,that this style is important */}
-          <Button className="hover:hover-primary-gradient primary-gradient min-h-[46px] px-4 py-3 !text-light-900  ">
+          <Button className="primary-gradient hover:hover-primary-gradient min-h-[46px] px-4 py-3 !text-light-900  ">
             Ask a Question
           </Button>
         </Link>

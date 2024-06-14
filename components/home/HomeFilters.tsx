@@ -42,7 +42,7 @@ const HomeFilters = () => {
           onClick={() => handleTypeClick(item.value)}
           className={`body-medium rounded-lg px-6 py-3 capitalize shadow-none ${
             active === item.value
-              ? "bg-orange-100 text-primary-500"
+              ? "primary-gradient !text-light-900"
               : "bg-light-800 text-light-500 hover:bg-light-700 dark:bg-dark-300  dark:hover:bg-dark-400 "
           }`}
         >

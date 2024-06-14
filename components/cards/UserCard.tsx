@@ -1,11 +1,11 @@
-"use client";
+// "use client";
 
 import { getTopInteractedTags } from "@/lib/actions/tag.action";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 import RenderTag from "../shared/RenderTag";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 interface UserProps {
   user: {
@@ -37,23 +37,29 @@ interface UserProps {
 // Requires additional code complexity with the use of useEffect and conditional checks.
 // Can lead to less straightforward control flow, especially in more complex scenarios.
 
-const UserCard = ({ user }: UserProps) => {
+const UserCard = async ({ user }: UserProps) => {
+  const tags = await getTopInteractedTags({ userId: user._id });
+
+  console.log(tags);
+
   //!   This 'useState' and 'useEffect' logic is being used to prevent hydration because Next.js expects components to be synchronous, but you're using async in your component definition which could cause issues during server-side rendering (SSR) and client-side hydration.
   // TODO: Remove this Logic if needed in future
-  const [interactedTags, setInteractedTags] = useState<
-    { _id: number; name: string }[]
-  >([]);
+  // const [interactedTags, setInteractedTags] = useState<
+  //   { _id: number; name: string }[]
+  // >([]);
+  // const [interactedTags, setInteractedTags] = useState([]);
 
-  useEffect(() => {
-    // Fetch data only on the client side
-    if (typeof window !== "undefined") {
-      const fetchInteractedTags = async () => {
-        const tags = await getTopInteractedTags({ userId: user._id });
-        setInteractedTags(tags);
-      };
-      fetchInteractedTags();
-    }
-  }, [user._id]);
+  // useEffect(() => {
+  //   // Fetch data only on the client side
+  //   if (typeof window !== "undefined") {
+  //     const fetchInteractedTags = async () => {
+  //       const tags = await getTopInteractedTags({ userId: user._id });
+
+  //       setInteractedTags(tags);
+  //     };
+  //     fetchInteractedTags();
+  //   }
+  // }, [user._id]);
 
   return (
     <Link
@@ -83,14 +89,14 @@ const UserCard = ({ user }: UserProps) => {
 
         {/* Tags */}
         <div className="mt-5">
-          {interactedTags.length > 0 ? (
+          {tags ? (
             <div className="flex items-center gap-2">
-              {interactedTags.map((tag) => (
+              {tags.map((tag: any) => (
                 <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
               ))}
             </div>
           ) : (
-            <Badge>No Tags Yet</Badge>
+            <Badge className="text-dark400_light700">No Tags Yet</Badge>
           )}
         </div>
       </article>

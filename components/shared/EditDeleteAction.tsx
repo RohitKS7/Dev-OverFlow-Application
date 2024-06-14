@@ -78,7 +78,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
           </HoverCardTrigger>
           <HoverCardContent
             side="top"
-            className="w-32 border-none bg-[#f4f6f8] p-[6px] text-center text-primary-500  dark:bg-orange-100"
+            className="primary-gradient w-32 border-none bg-[#f4f6f8] p-[6px] text-center !text-light-900"
           >
             Edit Question
           </HoverCardContent>
