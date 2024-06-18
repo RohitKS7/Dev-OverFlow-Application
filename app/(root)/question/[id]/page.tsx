@@ -98,7 +98,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
                 className="object-cover"
               />
             </div>
-            <p className="paragraph-semibold text-dark300_light700">
+            <p className="paragraph-semibold text-gray700_light700">
               {authorName}
             </p>
           </Link>
@@ -123,7 +123,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             />
           </div>
         </div>
-        <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
+        <h2 className="h2-semibold text-gray600_light900 mt-3.5 w-full text-left">
           {title}
         </h2>
       </div>
@@ -135,21 +135,21 @@ const Page = async ({ params, searchParams }: URLProps) => {
           alt="clock icon"
           value={` asked ${getTimestamp(createdAt)}`}
           title="."
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
         <Metric
           imgUrl="/assets/icons/message.svg"
           alt="Answers"
           value={formatBigNumber(answers.length)}
           title=" Answers "
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
           value={formatBigNumber(views)}
           title=" views "
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
       </div>
 

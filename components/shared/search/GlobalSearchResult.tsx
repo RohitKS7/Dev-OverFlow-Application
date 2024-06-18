@@ -70,7 +70,7 @@ const GlobalSearchResult = () => {
         {isLoading ? (
           <div className="flex-center flex-col px-5">
             <ReloadIcon className="my-2 size-10 animate-spin text-primary-500" />
-            <p className="text-dark200_light800 body-regular">
+            <p className="text-gray600_light800 body-regular">
               Browsing the entire database
             </p>
           </div>
@@ -91,7 +91,7 @@ const GlobalSearchResult = () => {
                     className="invert-colors mt-1 object-contain"
                   />
                   <div className="flex flex-col">
-                    <p className="body-medium text-dark200_light800 line-clamp-1">
+                    <p className="body-medium text-gray600_light800 line-clamp-1">
                       {item.title}
                     </p>
                     <p className="text-light400_light500 small-medium mt-1 font-bold capitalize">
@@ -102,7 +102,7 @@ const GlobalSearchResult = () => {
               ))
             ) : (
               <div className="flex-center flex-col px-5">
-                <p className="text-dark200_light800 body-regular px-5 py-2.5">
+                <p className="text-gray600_light800 body-regular px-5 py-2.5">
                   Oops, no results found
                 </p>
               </div>

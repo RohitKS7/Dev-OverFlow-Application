@@ -184,12 +184,12 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="title"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-gray700_light700 min-h-[56px] border outline-[#eeeeee] "
                   {...field}
                 />
               </FormControl>
@@ -208,7 +208,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="explanation"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Detailed explanation of your problem{" "}
                 <span className="text-primary-500">*</span>
               </FormLabel>
@@ -272,7 +272,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="tags"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               {/* FormControl can only take a single element. but I made a rookie mistake and added another element(map for inputvalues) resulting in error. To prevent this just wrap both elements inside a HTML wrapping element which is this `<>Both Element</>`  */}
@@ -280,7 +280,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                 <>
                   <Input
                     disabled={type === "Edit"}
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-gray700_light700 min-h-[56px] border outline-[#eeeeee]"
                     placeholder="Add tags..."
                     // remove this spread operator `{...field}` , to manually adjust the output
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -325,7 +325,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         {/* ⁡⁣⁣⁢𝗥𝗲𝘂𝘀𝗮𝗯𝗹𝗲 𝗳𝗼𝗿𝗺 𝗯𝘆 𝗰𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗳𝗼𝗿 𝘁𝘆𝗽𝗲⁡ */}
         <Button
           type="submit"
-          className="primary-gradient w-full !text-light-900"
+          className="primary-gradient mb-8 w-full !text-light-900"
           disabled={isSubmitting}
         >
           {isSubmitting ? (

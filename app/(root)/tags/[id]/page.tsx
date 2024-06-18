@@ -18,7 +18,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}
-      <h1 className="h1-bold text-dark100_light900 uppercase">
+      <h1 className="h1-bold text-gray500_light900 uppercase">
         {" "}
         {result.tagTitle}{" "}
       </h1>

@@ -8,7 +8,7 @@
   /* * Now write your desired className here */
   .background-light850_dark100 {
     /* * Now apply your classes here for background in light and dark mode at once */
-    @apply bg-light-850 dark:bg-dark-100;
+    @apply bg-[#fffaf0] dark:bg-dark-100;
   }
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
@@ -38,42 +38,37 @@
     @apply bg-light-800 dark:bg-dark-300 !important;
   }
 
-  .text-dark100_light900 {
-    @apply text-dark-100 dark:text-light-900 !important;
+  .text-gray500_light900 {
+    @apply text-gray-500 dark:text-light-900 !important;
   }
-  .text-dark200_light900 {
-    @apply text-dark-200 dark:text-light-900;
+  .text-gray600_light900 {
+    @apply text-gray-600 dark:text-light-900;
   }
-  .text-dark200_light800 {
-    @apply text-dark-200 dark:text-light-800 !important;
+  .text-gray600_light800 {
+    @apply text-gray-600 dark:text-light-800 !important;
   }
-  .text-dark300_light700 {
-    @apply text-dark-300 dark:text-light-700;
+  .text-gray700_light700 {
+    @apply text-gray-700 dark:text-light-700;
   }
-  .text-dark400_light700 {
-    @apply text-dark-400 dark:text-light-700;
+  .text-gray600_light700 {
+    @apply text-gray-600 dark:text-light-700 !important;
   }
-  .text-dark500_light700 {
-    @apply text-dark-500 dark:text-light-700 !important;
+  .text-gray500_light500 {
+    @apply text-gray-500 dark:text-light-500;
   }
-  .text-dark500_light500 {
-    @apply text-dark-500 dark:text-light-500;
-  }
-  .text-dark300_light900 {
-    @apply text-dark-300 dark:text-light-900 !important;
-  }
-  .text-dark400_light800 {
-    @apply text-dark-400 dark:text-light-800;
+  .text-gray700_light800 {
+    @apply text-gray-700 dark:text-light-800;
   }
   .text-light400_light500 {
     @apply text-light-400 dark:text-light-500;
   }
-  .text-dark400_light500 {
-    @apply text-dark-400 dark:text-light-500;
+  .text-gray700_light500 {
+    @apply text-gray-700 dark:text-light-500;
   }
   .text-dark400_light900 {
-    @apply text-dark-400 dark:text-light-900 !important;
+    @apply text-gray-700 dark:text-light-900 !important;
   }
+
   .light-border {
     @apply border-light-800 dark:border-dark-300;
   }

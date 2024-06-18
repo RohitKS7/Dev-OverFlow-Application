@@ -52,7 +52,7 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚 𝗮𝗻𝗱 𝗕𝗨𝗧𝗧𝗢𝗡⁡ */}
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold text-dark100_light900"> All Questions</h1>
+        <h1 className="h1-bold text-gray500_light900 "> All Questions</h1>
 
         <Link href="/ask-question" className=" flex justify-end max-sm:w-full">
           {/* exlaimation mark "!" is used to tell ShadCN,that this style is important */}

@@ -21,7 +21,7 @@ const ProfileLink = ({ imgUrl, href, title }: ProfileLinkProps) => {
           {title}
         </Link>
       ) : (
-        <p className="paragraph-medium text-dark400_light700">{title}</p>
+        <p className="paragraph-medium text-gray700_light700">{title}</p>
       )}
     </div>
   );

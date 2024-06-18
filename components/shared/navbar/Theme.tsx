@@ -56,7 +56,7 @@ const Theme = () => {
                 className={`body-semibold text-light-500 ${
                   mode === item.value
                     ? "text-primary-500"
-                    : "text-dark100_light900"
+                    : "text-gray500_light900"
                 } `}
               >
                 {item.label}{" "}

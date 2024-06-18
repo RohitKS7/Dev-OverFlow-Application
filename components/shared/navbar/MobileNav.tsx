@@ -37,7 +37,7 @@ const NavContent = () => {
               className={`${
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
-                  : "text-dark300_light900"
+                  : "text-dark400_light900"
               } flex-start gap-4 bg-transparent p-4`}
             >
               <Image
@@ -85,7 +85,7 @@ const MobileNav = () => {
             alt="DevOverflow"
           />
 
-          <p className="h2-bold text-dark100_light900 font-spaceGrotesk">
+          <p className="h2-bold text-gray500_light900 font-spaceGrotesk">
             Dev <span className="text-primary-500">Overflow</span>
           </p>
         </Link>

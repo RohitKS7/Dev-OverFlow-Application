@@ -35,7 +35,7 @@ const AllAnswers = async ({
   return (
     <div className="mt-16">
       <div className="flex-between relative">
-        <span className="text-dark100_light900 absolute -top-8 mb-2 w-full border"></span>
+        <span className="text-gray500_light900 absolute -top-8 mb-2 w-full border"></span>
 
         <h3 className="primary-text-gradient h3-semibold">
           {totalAnswers} Answers
@@ -61,7 +61,7 @@ const AllAnswers = async ({
                   />
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center">
-                  <p className="body-semibold text-dark300_light700 ">
+                  <p className="body-semibold text-gray700_light700 ">
                     {answer.author.name}
                   </p>
 

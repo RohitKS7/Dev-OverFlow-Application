@@ -37,11 +37,11 @@ const Page = async ({ params, searchParams }: URLProps) => {
           {/* ⁡⁣⁣⁢NAME, USERNAME, BIO, LOCATION, ⁡⁣⁣⁢JOINED AT⁡⁡ */}
           <div className="mt-3">
             {/* ⁡⁢⁣⁣Name⁡ */}
-            <h2 className="h2-bold text-dark100_light900">
+            <h2 className="h2-bold text-gray500_light900">
               {userInfo?.user.name}
             </h2>
             {/* ⁡⁢⁣⁣Username⁡ */}
-            <p className="paragraph-regular text-dark200_light800">
+            <p className="paragraph-regular text-gray600_light800">
               @{userInfo?.user.username}
             </p>
 
@@ -67,7 +67,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
               />
               {/* ⁡⁢⁣⁣𝘉𝘪𝘰⁡ */}
               {userInfo?.user.bio && (
-                <p className="paragraph-regular text-dark400_light800 mt-8">
+                <p className="paragraph-regular text-gray700_light800 mt-8">
                   {userInfo?.user.bio}
                 </p>
               )}
@@ -83,7 +83,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             {/* 𝗜𝗳 𝘁𝗵𝗮𝘁'𝘀 𝘁𝗵𝗲 𝗰𝗮𝘀𝗲 𝘁𝗵𝗲𝗻 𝘀𝗵𝗼𝘄 𝗘𝗗𝗜𝗧 𝗼𝗽𝘁𝗶𝗼𝗻 */}
             {clerkId === userInfo?.user.clerkId && (
               <Link href="/profile/edit">
-                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3 ">
+                <Button className="paragraph-medium btn-secondary text-dark400_light900 min-h-[46px] min-w-[175px] px-4 py-3 ">
                   Edit Profile
                 </Button>
               </Link>

@@ -25,7 +25,7 @@ const Tags = async ({ searchParams }: SearchParamsProps) => {
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}
-      <h1 className="h1-bold text-dark100_light900"> Tags </h1>
+      <h1 className="h1-bold text-gray500_light900"> Tags </h1>
 
       {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛 𝗮𝗻𝗱 𝗙𝗜𝗟𝗧𝗘𝗥⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col ">
@@ -54,17 +54,17 @@ const Tags = async ({ searchParams }: SearchParamsProps) => {
             >
               <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
                 <div className="background-light800_dark400 w-fit rounded-sm px-5 py-1.5">
-                  <p className="paragraph-semibold text-dark300_light900">
+                  <p className="paragraph-semibold text-dark400_light900">
                     {tag.name}
                   </p>
                 </div>
-                <p className="small-regular text-dark500_light700 mt-4">
+                <p className="small-regular text-gray600_light700 mt-4">
                   JavaScript is a versatile, high-level programming language
                   primarily used for web development. It enables interactive web
                   pages and dynamic content through client-side scripting.
                   {/* {tag.description} */}
                 </p>
-                <p className="small-medium text-dark400_light500 mt-3.5">
+                <p className="small-medium text-gray700_light500 mt-3.5">
                   <span className="body-semibold primary-text-gradient mr-2.5">
                     {tag.questions.length} +
                   </span>

@@ -136,7 +136,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
   return (
     <>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
-        <h4 className="paragraph-semibold text-dark400_light800">
+        <h4 className="paragraph-semibold text-gray700_light800">
           Write your answer here
         </h4>
 

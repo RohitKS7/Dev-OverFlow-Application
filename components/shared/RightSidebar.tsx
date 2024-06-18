@@ -11,7 +11,8 @@ const RightSidebar = async () => {
   return (
     <section className="custom-scrollbar background-light900_dark200 light-border sticky right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l p-6 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden">
       <div>
-        <h3 className="h3-bold text-dark200_light900 relative text-center">
+        {/* text-gray600_light900 */}
+        <h3 className="h3-bold  primary-text-gradient relative text-center ">
           <span className="absolute -top-4 left-0 h-[2px] w-full bg-[#a8a29e]"></span>
           Top Questions
           <span className="absolute left-0 top-10 h-[2px] w-full bg-[#a8a29e]"></span>
@@ -39,7 +40,7 @@ const RightSidebar = async () => {
         </div>
       </div>
       <div className="mt-8">
-        <h3 className="h3-bold text-dark200_light900 relative text-center">
+        <h3 className="h3-bold primary-text-gradient relative text-center">
           <span className="absolute -top-4 left-0 h-[2px] w-full bg-[#a8a29e]"></span>
           Popular Tags
           <span className="absolute left-0 top-10 h-[2px] w-full bg-[#a8a29e]"></span>
