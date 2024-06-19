@@ -37,7 +37,7 @@ const NavContent = () => {
               className={`${
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
-                  : "text-dark400_light900"
+                  : "text-gray700_light900"
               } flex-start gap-4 bg-transparent p-4`}
             >
               <Image
@@ -108,7 +108,7 @@ const MobileNav = () => {
 
               <SheetClose asChild>
                 <Link href="/sign-up">
-                  <Button className="small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px]  w-full rounded-lg px-4 py-3 shadow-none">
+                  <Button className="small-medium light-border-2 btn-tertiary text-gray700_light900 min-h-[41px]  w-full rounded-lg px-4 py-3 shadow-none">
                     Sign Up
                   </Button>
                 </Link>

@@ -25,7 +25,7 @@ const RightSidebar = async () => {
               href={`/question/${question._id}`}
               className="flex cursor-pointer items-center justify-between gap-7 "
             >
-              <p className="body-medium text-dark-500 hover:text-primary-500 dark:text-light-700 dark:hover:text-primary-500">
+              <p className="body-medium text-gray700_light900 hover:text-primary-500 dark:hover:text-primary-500">
                 {question.title}
               </p>
               <Image

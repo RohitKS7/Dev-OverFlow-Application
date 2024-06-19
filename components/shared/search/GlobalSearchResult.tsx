@@ -64,7 +64,7 @@ const GlobalSearchResult = () => {
       <GlobalFilters />
       <div className="my-5 h-px bg-light-700/50 dark:bg-dark-500/50" />
       <div className="space-y-5">
-        <p className="text-dark400_light900 paragraph-semibold ">Top Match</p>
+        <p className="text-gray700_light900 paragraph-semibold ">Top Match</p>
 
         {/* ⁡⁣⁢⁣𝗟𝗼𝗮𝗱𝗲𝗿⁡ ⁡⁣⁢⁣𝗮𝗻𝗱 𝗖𝗼𝗻𝘁𝗲𝗻𝘁⁡ */}
         {isLoading ? (

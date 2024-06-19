@@ -83,7 +83,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             {/* 𝗜𝗳 𝘁𝗵𝗮𝘁'𝘀 𝘁𝗵𝗲 𝗰𝗮𝘀𝗲 𝘁𝗵𝗲𝗻 𝘀𝗵𝗼𝘄 𝗘𝗗𝗜𝗧 𝗼𝗽𝘁𝗶𝗼𝗻 */}
             {clerkId === userInfo?.user.clerkId && (
               <Link href="/profile/edit">
-                <Button className="paragraph-medium btn-secondary text-dark400_light900 min-h-[46px] min-w-[175px] px-4 py-3 ">
+                <Button className="paragraph-medium btn-secondary text-gray700_light900 min-h-[46px] min-w-[175px] px-4 py-3 ">
                   Edit Profile
                 </Button>
               </Link>
