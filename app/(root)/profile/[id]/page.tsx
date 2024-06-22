@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { getUserInfo } from "@/lib/actions/user.action";
 import { formatTimestamp } from "@/lib/utils";
 import { URLProps } from "@/types";
-import { SignedIn, auth } from "@clerk/nextjs";
+import { SignedIn, auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

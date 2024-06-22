@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import Link from "next/link";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs/server";
 import { Button } from "@/components/ui/button";
 import { sidebarLinks } from "@/constants";
 // usePathname is used to get the URL of pages in our application and it is a server side component

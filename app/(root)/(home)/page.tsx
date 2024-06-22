@@ -14,7 +14,7 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
   title: "Home | Dev OverFlow",
