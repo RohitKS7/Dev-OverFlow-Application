@@ -11,6 +11,12 @@ import { URLProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dev OverFlow | Question",
+  description: "Dev Overflow is a community of 1,000,000+ developers. Join us.",
+};
 
 // interface QuestionProps {
 //   _id: string;
@@ -60,6 +66,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
+
+  console.log(mongoUser);
 
   //*  Object Destructing
   const {
@@ -114,11 +122,11 @@ const Page = async ({ params, searchParams }: URLProps) => {
             <Votes
               type="Question"
               itemId={_questionId}
-              userId={mongoUser._id}
+              userId={mongoUser?._id}
               upvotes={upvotes.length}
-              hasupVoted={upvotes.includes(mongoUser._id)}
+              hasupVoted={upvotes.includes(mongoUser?._id)}
               downvotes={downvotes.length}
-              hasdownVoted={downvotes.includes(mongoUser._id)}
+              hasdownVoted={downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(_questionId)}
             />
           </div>
@@ -171,7 +179,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       {/* RENDER ANSWERS COMPONENT */}
       <AllAnswers
         questionId={JSON.stringify(_questionId)}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={answers.length}
         page={searchParams?.page}
         filter={searchParams?.filter}
@@ -181,7 +189,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <Answer
         question={content}
         questionId={JSON.stringify(_questionId)}
-        authorId={mongoUser._id}
+        authorId={mongoUser?._id}
       />
     </>
   );

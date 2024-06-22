@@ -80,7 +80,10 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           variant: "default",
         });
 
-        router.push(`/question/${parsedQuestionDetails._id}`);
+        // Delay before redirecting
+        setTimeout(() => {
+          router.push(`/question/${parsedQuestionDetails._id}`);
+        }, 1000); // 1s
       } else {
         // 𝘮𝘢𝘬𝘦 𝘢𝘯 𝘢𝘴𝘺𝘯𝘤 𝘤𝘢𝘭𝘭 𝘵𝘰 𝘺𝘰𝘶𝘳 𝘈𝘗𝘐(𝘣𝘢𝘤𝘬𝘦𝘯𝘥) -> 𝘵𝘰 𝘤𝘳𝘦𝘢𝘵𝘦 𝘢 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
         // 𝘸𝘩𝘪𝘤𝘩 𝘤𝘰𝘯𝘵𝘢𝘪𝘯 𝘢𝘭𝘭 𝘧𝘰𝘳𝘮 𝘥𝘢𝘵𝘢
@@ -101,7 +104,9 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         });
 
         // 𝘈𝘧𝘵𝘦𝘳 𝘵𝘩𝘢𝘵 𝘯𝘢𝘷𝘪𝘨𝘢𝘵𝘦 𝘣𝘢𝘤𝘬 𝘵𝘰 𝘩𝘰𝘮𝘦 𝘱𝘢𝘨𝘦 𝘵𝘰 𝘴𝘦𝘦 𝘵𝘩𝘦 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
-        router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 1000); // 1s
       }
     } catch (error) {
       console.log(error);

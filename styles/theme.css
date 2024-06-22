@@ -66,7 +66,7 @@
     @apply text-gray-700 dark:text-light-500;
   }
   .text-gray700_light900 {
-    @apply text-gray-700 dark:text-light-900 !important;
+    @apply text-gray-700 dark:text-light-900;
   }
 
   .light-border {

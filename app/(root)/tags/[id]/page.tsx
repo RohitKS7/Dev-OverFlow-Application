@@ -38,7 +38,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <div className="mt-10 flex w-full flex-col gap-6">
         {/* // Check if result exists and is an array before accessing its length property */}
         {result.tagRelatedQuestions.length > 0 ? (
-          result.tagRelatedQuestions.map((question: IQuestion) => (
+          result.tagRelatedQuestions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

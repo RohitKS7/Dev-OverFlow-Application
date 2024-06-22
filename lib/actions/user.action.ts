@@ -62,6 +62,10 @@ export async function getUserById(getUserParams: GetUserByIdParams) {
 
     const user = await UserModel.findOne({ clerkId: userId });
 
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     return user;
   } catch (error) {
     console.log(error);

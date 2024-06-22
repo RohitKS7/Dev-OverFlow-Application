@@ -25,7 +25,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">
         {/* ⁡⁣⁢⁣𝗨𝗦𝗘𝗥 𝗜𝗡𝗙𝗢⁡ */}
-        <div className="flex flex-col items-start gap-4 lg:flex-row">
+        <div className="flex flex-col items-start gap-4 lg:flex-row w-full ">
           <div className="relative size-[140px] overflow-hidden rounded-full">
             <Image
               fill
@@ -35,7 +35,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
             />
           </div>
           {/* ⁡⁣⁣⁢NAME, USERNAME, BIO, LOCATION, ⁡⁣⁣⁢JOINED AT⁡⁡ */}
-          <div className="mt-3">
+          <div className="mt-3 w-3/4">
             {/* ⁡⁢⁣⁣Name⁡ */}
             <h2 className="h2-bold text-gray500_light900">
               {userInfo?.user.name}
