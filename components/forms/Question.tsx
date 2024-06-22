@@ -172,7 +172,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     // explaination of above line:- This line is spitting a new array after filtering the tag we clicked meaning this array will not include the clicked tag and spits the remaining tags in an arrya which we will append in our existing tags array
 
-    console.log(newTags);
     form.setValue("tags", newTags);
   };
 

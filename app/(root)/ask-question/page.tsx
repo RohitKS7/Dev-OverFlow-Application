@@ -26,6 +26,7 @@ const AskQuestion = async () => {
     <div>
       <h1 className="h1-bold text-gray500_light900">Ask a question</h1>
       <div className="mt-9">
+        {/* Question is a Form component which is server - side */}
         <Question mongoUserId={JSON.stringify(mongoUser?._id)} />
       </div>
     </div>

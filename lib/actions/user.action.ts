@@ -90,11 +90,9 @@ export async function deleteUser(deleteUserParams: DeleteUserParams) {
     // Delete user from database and all the things they did as a user such as: questions, answers, comments, etc.
 
     // 𝘨𝘦𝘵 𝘶𝘴𝘦𝘳 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴 𝘪𝘥𝘴
-    const userQuestionIds = await QuestionModel.find({
+    await QuestionModel.find({
       author: user._id,
     }).distinct("_id");
-
-    console.log(userQuestionIds);
 
     // 𝘥𝘦𝘭𝘦𝘵𝘦 𝘶𝘴𝘦𝘳'𝘴 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴
     await QuestionModel.deleteMany({ author: user._id });

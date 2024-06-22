@@ -40,8 +40,6 @@ interface UserProps {
 const UserCard = async ({ user }: UserProps) => {
   const tags = await getTopInteractedTags({ userId: user._id });
 
-  console.log(tags);
-
   //!   This 'useState' and 'useEffect' logic is being used to prevent hydration because Next.js expects components to be synchronous, but you're using async in your component definition which could cause issues during server-side rendering (SSR) and client-side hydration.
   // TODO: Remove this Logic if needed in future
   // const [interactedTags, setInteractedTags] = useState<

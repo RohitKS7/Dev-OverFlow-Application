@@ -13,7 +13,7 @@ interface Props {
   questionId: string;
   userId: string;
   totalAnswers: number;
-  page?: number;
+  page?: number | undefined;
   filter?: string;
 }
 
@@ -24,11 +24,12 @@ const AllAnswers = async ({
   page,
   filter,
 }: Props) => {
+  // Convert page to number
   //!  ⁡⁣⁢⁣𝗙𝗲𝘁𝗰𝗵𝗶𝗻𝗴 𝗔𝗹𝗹 𝗔𝗻𝘀𝘄𝗲𝗿𝘀⁡
   //* 𝘋𝘰𝘯'𝘵 𝘧𝘰𝘳𝘨𝘦𝘵 𝘵𝘰 𝘱𝘢𝘳𝘴𝘦 𝘵𝘩𝘦 𝘴𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘐𝘋, 𝘐 𝘨𝘰𝘵 𝘢𝘯 𝘦𝘳𝘳𝘰𝘳 𝘣𝘦𝘤𝘰𝘻 𝘰𝘧 𝘪𝘵 𝘢𝘯𝘥 𝘐 𝘸𝘢𝘴 𝘤𝘭𝘶𝘦𝘭𝘦𝘴𝘴 𝘧𝘰𝘳 𝘢𝘯 𝘩𝘰𝘶𝘳. 𝘚𝘰, 𝘥𝘰𝘯'𝘵 𝘳𝘦𝘱𝘦𝘢𝘵 𝘵𝘩𝘪𝘴 𝘮𝘪𝘴𝘵𝘢𝘬𝘦 𝘢𝘨𝘢𝘪𝘯 𝘢𝘯𝘥 𝘢𝘭𝘸𝘢𝘺𝘴 𝘗𝘢𝘳𝘴𝘦 𝘺𝘰𝘶𝘳 𝘚𝘵𝘳𝘪𝘯𝘨𝘪𝘧𝘪𝘦𝘥 𝘑𝘚𝘖𝘕 𝘥𝘢𝘵𝘢
   const answersList = await getAnswers({
     questionId: JSON.parse(questionId),
-    page: page ? +page : 1, // `⁡⁣⁢⁣+` this plus will convert a string into number
+    page: page ?? 1,
     sortBy: filter,
   });
 
@@ -88,7 +89,7 @@ const AllAnswers = async ({
         ))}
       </div>
 
-      {/* ⁡⁣⁢⁣𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡ */}
+      {/* 𝗣𝗮𝗴𝗶𝗻𝗮𝘁𝗶𝗼𝗻⁡ */}
       <div className="mt-10">
         <Pagination pageNumber={page ? +page : 1} isNext={answersList.isNext} />
       </div>

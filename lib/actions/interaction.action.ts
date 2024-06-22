@@ -20,13 +20,11 @@ export async function viewQuestion(params: ViewQuestionParams) {
 
     // ⁡⁣⁣⁢𝘎𝘦𝘵 𝘵𝘩𝘦 𝘦𝘹𝘪𝘴𝘵𝘪𝘯𝘨 𝘐𝘯𝘵𝘦𝘳𝘢𝘤𝘵𝘪𝘰𝘯 𝘰𝘧 𝘜𝘴𝘦𝘳 𝘪𝘧 𝘸𝘦 𝘩𝘢𝘷𝘦⁡
     if (userId) {
-      const existingInteraction = await InteractionModel.findOne({
+      await InteractionModel.findOne({
         user: userId,
         action: "view",
         question: questionId,
       });
-
-      if (existingInteraction) return console.log("User has already viewed");
 
       // ⁡⁣⁣⁢𝘐𝘧 𝘸𝘦 ⁡⁣⁢⁣𝘏𝘢𝘷𝘦𝘯'𝘵⁡ ⁡⁣⁣⁢𝘵𝘩𝘦𝘯⁡ ⁡⁣⁢⁣𝘊𝘳𝘦𝘢𝘵𝘦 𝘢 𝘐𝘯𝘵𝘦𝘳𝘢𝘤𝘵𝘪𝘰𝘯 𝘋𝘰𝘤𝘶𝘮𝘦𝘯𝘵⁡
       await InteractionModel.create({

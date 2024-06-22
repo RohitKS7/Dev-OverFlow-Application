@@ -67,8 +67,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
     mongoUser = await getUserById({ userId: clerkId });
   }
 
-  console.log(mongoUser);
-
   //*  Object Destructing
   const {
     _id: _questionId,
@@ -181,7 +179,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
         questionId={JSON.stringify(_questionId)}
         userId={mongoUser?._id}
         totalAnswers={answers.length}
-        page={searchParams?.page}
+        page={searchParams?.page ? parseInt(searchParams.page, 10) : undefined}
         filter={searchParams?.filter}
       />
 
