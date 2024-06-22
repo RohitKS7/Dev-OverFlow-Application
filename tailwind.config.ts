@@ -17,6 +17,13 @@ module.exports = {
     },
     extend: {
       colors: {
+        border: "hsl(var(--border))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
         primary: {
           500: "#f08080",
           100: "#e9b8b8", //  f080806e
