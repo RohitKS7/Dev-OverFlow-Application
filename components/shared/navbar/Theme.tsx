@@ -26,7 +26,6 @@ const Theme = () => {
               alt="sun-light"
               width={20}
               height={20}
-              className="active-theme"
             />
           ) : (
             <Image
@@ -34,11 +33,10 @@ const Theme = () => {
               alt="moon-dark"
               width={20}
               height={20}
-              className="active-theme"
             />
           )}
         </MenubarTrigger>
-        <MenubarContent className="absolute right-[-3rem] mt-3 min-w-[120px] rounded border bg-white py-2 dark:border-dark-400 dark:bg-dark-300 ">
+        <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border bg-light-900 py-2 dark:border-dark-400 dark:bg-dark-300 ">
           {/* mapping over items */}
           {themes.map((item) => (
             <MenubarItem
@@ -53,18 +51,12 @@ const Theme = () => {
                 }
               }}
             >
-              <Image
-                src={item.icon}
-                alt={item.value}
-                width={16}
-                height={16}
-                className={`${mode === item.value && "active-theme"}`}
-              />
+              <Image src={item.icon} alt={item.value} width={16} height={16} />
               <p
                 className={`body-semibold text-light-500 ${
                   mode === item.value
                     ? "text-primary-500"
-                    : "text-dark100_light900"
+                    : "text-gray500_light900"
                 } `}
               >
                 {item.label}{" "}

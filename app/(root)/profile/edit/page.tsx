@@ -12,7 +12,7 @@ const page = async ({ params }: ParamsProps) => {
 
   return (
     <>
-      <h1 className="h1-bold text-dark100_light900">Edit Profile</h1>
+      <h1 className="h1-bold text-gray500_light900">Edit Profile</h1>
 
       <div className="mt-9">
         <Profile

@@ -10,6 +10,7 @@ import {
 import TagModel, { ITag } from "@/database/tag.model";
 import { FilterQuery } from "mongoose";
 import QuestionModel from "@/database/question.model";
+import InteractionModel from "@/database/interaction.model";
 
 //   ⁡⁣⁢⁣𝗚𝗲𝘁 𝗧𝗼𝗽 𝗜𝗻𝘁𝗲𝗿𝗮𝗰𝘁𝗲𝗱 𝗧𝗮𝗴𝘀 𝗼𝗳 𝗮𝗻 𝗨𝘀𝗲𝗿⁡
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
@@ -24,22 +25,24 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 
     if (!user) throw new Error("User not found");
 
-    // TODO: find interaction for the user and group of tags... from InteractionModel we'll create
+    // Find the user's Interactions
+    const userTags = await InteractionModel.aggregate([
+      { $match: { user: user._id } }, // Match interactions for the given user
+      { $unwind: "$tags" }, // Deconstruct the tags array
+      {
+        $group: {
+          _id: "$tags",
+          count: { $sum: 1 },
+        },
+      }, // Group by tag ID and count occurrences
+      { $sort: { count: -1 } }, // Sort by the count in descending order
+      { $limit: 3 },
+    ]);
 
-    return [
-      {
-        _id: 1,
-        name: "tag1",
-      },
-      {
-        _id: 2,
-        name: "tag2",
-      },
-      {
-        _id: 3,
-        name: "tag3",
-      },
-    ];
+    const populatedTags = await TagModel.find({
+      _id: { $in: userTags.map((tag) => tag._id) },
+    });
+    return populatedTags;
   } catch (error) {
     console.log(error);
     throw error;

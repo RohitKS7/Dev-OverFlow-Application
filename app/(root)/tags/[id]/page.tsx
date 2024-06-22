@@ -2,7 +2,6 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { IQuestion } from "@/database/question.model";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 
@@ -18,7 +17,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
   return (
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}
-      <h1 className="h1-bold text-dark100_light900 uppercase">
+      <h1 className="h1-bold text-gray500_light900 uppercase">
         {" "}
         {result.tagTitle}{" "}
       </h1>
@@ -38,7 +37,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <div className="mt-10 flex w-full flex-col gap-6">
         {/* // Check if result exists and is an array before accessing its length property */}
         {result.tagRelatedQuestions.length > 0 ? (
-          result.tagRelatedQuestions.map((question: IQuestion) => (
+          result.tagRelatedQuestions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

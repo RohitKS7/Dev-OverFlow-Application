@@ -25,7 +25,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
     <>
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ */}
 
-      <h1 className="h1-bold text-dark100_light900"> Your Collection </h1>
+      <h1 className="h1-bold text-gray500_light900"> Your Collection </h1>
 
       {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛 and 𝗙𝗜𝗟𝗧𝗘𝗥⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col md:flex-col">

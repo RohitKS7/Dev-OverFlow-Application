@@ -146,7 +146,7 @@ const Votes = ({
           />
 
           <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1 ">
-            <p className="subtle-medium text-dark400_light900">
+            <p className="subtle-medium text-gray700_light900">
               {formatBigNumber(upvotes)}
             </p>
           </div>
@@ -168,7 +168,7 @@ const Votes = ({
           />
 
           <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1 ">
-            <p className="subtle-medium text-dark400_light900">
+            <p className="subtle-medium text-gray700_light900">
               {formatBigNumber(downvotes)}
             </p>
           </div>

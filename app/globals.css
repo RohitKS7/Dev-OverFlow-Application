@@ -8,6 +8,24 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --border: 216 34% 17%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+  }
+}
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;
@@ -19,7 +37,7 @@ body {
     @apply flex justify-start items-center;
   }
   .card-wrapper {
-    @apply bg-light-900 dark:dark-gradient shadow-light-300 dark:shadow-dark-100;
+    @apply bg-light-900 dark:dark-gradient shadow-[-10px_10px_20px_0px_rgb(218,213,213,0.42)] dark:shadow-dark-100;
   }
   .btn {
     @apply bg-light-800 dark:bg-dark-300 !important;
@@ -42,9 +60,11 @@ body {
   }
 
   .primary-gradient {
-    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+    background: linear-gradient(129deg, #f08080 0%, #e9b8b8 100%);
   }
-
+  .hover-primary-gradient {
+    background: linear-gradient(338deg, #f08080 0%, #e9b8b8 100%);
+  }
   .dark-gradient {
     background: linear-gradient(
       232deg,
@@ -68,7 +88,7 @@ body {
 }
 
 .primary-text-gradient {
-  background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+  background: linear-gradient(111deg, #f08080 0%, #e9b8b8 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -126,7 +146,7 @@ code {
 
 /* Clerk */
 .cl-internal-b3fm6y {
-  background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
+  background: linear-gradient(111deg, #f08080 0%, #e9b8b8 100%);
 }
 .hash-span {
   margin-top: -140px;

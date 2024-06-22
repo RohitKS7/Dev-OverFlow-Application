@@ -11,6 +11,12 @@ import { URLProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dev OverFlow | Question",
+  description: "Dev Overflow is a community of 1,000,000+ developers. Join us.",
+};
 
 // interface QuestionProps {
 //   _id: string;
@@ -98,7 +104,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
                 className="object-cover"
               />
             </div>
-            <p className="paragraph-semibold text-dark300_light700">
+            <p className="paragraph-semibold text-gray700_light700">
               {authorName}
             </p>
           </Link>
@@ -114,16 +120,16 @@ const Page = async ({ params, searchParams }: URLProps) => {
             <Votes
               type="Question"
               itemId={_questionId}
-              userId={mongoUser._id}
+              userId={mongoUser?._id}
               upvotes={upvotes.length}
-              hasupVoted={upvotes.includes(mongoUser._id)}
+              hasupVoted={upvotes.includes(mongoUser?._id)}
               downvotes={downvotes.length}
-              hasdownVoted={downvotes.includes(mongoUser._id)}
+              hasdownVoted={downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(_questionId)}
             />
           </div>
         </div>
-        <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">
+        <h2 className="h2-semibold text-gray600_light900 mt-3.5 w-full  text-left">
           {title}
         </h2>
       </div>
@@ -135,21 +141,21 @@ const Page = async ({ params, searchParams }: URLProps) => {
           alt="clock icon"
           value={` asked ${getTimestamp(createdAt)}`}
           title="."
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
         <Metric
           imgUrl="/assets/icons/message.svg"
           alt="Answers"
           value={formatBigNumber(answers.length)}
           title=" Answers "
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
         <Metric
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
           value={formatBigNumber(views)}
           title=" views "
-          textStyles=" small-medium text-dark400_light800"
+          textStyles=" small-medium text-gray700_light800"
         />
       </div>
 
@@ -171,9 +177,9 @@ const Page = async ({ params, searchParams }: URLProps) => {
       {/* RENDER ANSWERS COMPONENT */}
       <AllAnswers
         questionId={JSON.stringify(_questionId)}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={answers.length}
-        page={searchParams?.page}
+        page={searchParams?.page ? parseInt(searchParams.page, 10) : undefined}
         filter={searchParams?.filter}
       />
 
@@ -181,7 +187,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <Answer
         question={content}
         questionId={JSON.stringify(_questionId)}
-        authorId={mongoUser._id}
+        authorId={mongoUser?._id}
       />
     </>
   );

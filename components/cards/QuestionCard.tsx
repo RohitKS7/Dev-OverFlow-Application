@@ -17,6 +17,7 @@ interface QuestionProps {
     _id: string;
     name: string;
     picture: string;
+    clerkId: string;
   };
   upvotes: string[];
   views: number;
@@ -43,12 +44,12 @@ const QuestionCard = ({
       {/* ⁡⁣⁢⁣𝗛𝗘𝗔𝗗𝗜𝗡𝗚⁡ ⁡⁣⁢⁣𝗮𝗻𝗱 𝗖𝗿𝗲𝗮𝘁𝗲𝗱𝗔𝘁⁡  */}
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
-          <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
+          <span className="subtle-regular text-gray700_light700 line-clamp-1 flex sm:hidden">
             {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
             {/* `line-clamp-1` this style will make this possible 'How to make div center aligned?' => 'How to make...' . Meaning it will hide the overflowed text in container when the space is not sufficient to render the entire sentence */}
-            <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
+            <h3 className="sm:h3-semibold base-semibold text-gray600_light900 line-clamp-1 flex-1 hover:text-primary-500">
               {title}
             </h3>
           </Link>
@@ -78,7 +79,7 @@ const QuestionCard = ({
           title={` - asked ${getTimestamp(createdAt)}`}
           href={`/profile/${author._id}`}
           isAuthor
-          textStyles="body-medium text-dark400_light700"
+          textStyles="body-medium text-gray700_light700 hover:text-primary-500"
         />
         <div className="flex justify-end gap-3 max-sm:flex-wrap max-sm:justify-start">
           <Metric
@@ -86,21 +87,21 @@ const QuestionCard = ({
             alt="Upvotes"
             value={formatBigNumber(upvotes.length)}
             title=" Votes "
-            textStyles=" small-medium text-dark400_light800"
+            textStyles=" small-medium text-gray700_light800"
           />
           <Metric
             imgUrl="/assets/icons/message.svg"
             alt="Answers"
             value={formatBigNumber(answers.length)}
             title=" Answers "
-            textStyles=" small-medium text-dark400_light800"
+            textStyles=" small-medium text-gray700_light800"
           />
           <Metric
             imgUrl="/assets/icons/eye.svg"
             alt="eye"
             value={formatBigNumber(views)}
             title=" views "
-            textStyles=" small-medium text-dark400_light800"
+            textStyles=" small-medium text-gray700_light800"
           />
         </div>
       </div>

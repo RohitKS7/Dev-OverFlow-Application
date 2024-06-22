@@ -18,6 +18,7 @@ import { useState } from "react";
 import { ProfileSchema } from "@/lib/validations";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.action";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
   clerkId: string;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const Profile = ({ clerkId, user }: Props) => {
+  const { toast } = useToast();
   const parsedUser = JSON.parse(user);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -60,9 +62,21 @@ const Profile = ({ clerkId, user }: Props) => {
         path: pathName,
       });
 
+      // 𝘚𝘩𝘰𝘸 𝘴𝘶𝘤𝘤𝘦𝘴𝘴 𝘵𝘰𝘢𝘴𝘵 𝘯𝘰𝘵𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯
+      toast({
+        title: "Profile updated successfully",
+        variant: "default",
+      });
       router.back();
     } catch (error) {
       console.log(error);
+
+      // 𝘚𝘩𝘰𝘸 𝘦𝘳𝘳𝘰𝘳 𝘵𝘰𝘢𝘴𝘵 𝘯𝘰𝘵𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯
+      toast({
+        title: "Error updating profile",
+        variant: "destructive",
+      });
+
       throw error;
     } finally {
       setIsSubmitting(false);
@@ -81,13 +95,13 @@ const Profile = ({ clerkId, user }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Name <span className="text-primary-500">*</span>
               </FormLabel>
 
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light800_dark300 light-border-2 text-gray700_light700 min-h-[56px] border"
                   placeholder="Your Name"
                   {...field}
                 />
@@ -103,13 +117,13 @@ const Profile = ({ clerkId, user }: Props) => {
           name="username"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Username <span className="text-primary-500">*</span>
               </FormLabel>
 
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light800_dark300 light-border-2 text-gray700_light700 min-h-[56px] border"
                   placeholder="Your Username"
                   {...field}
                 />
@@ -126,12 +140,14 @@ const Profile = ({ clerkId, user }: Props) => {
           name="portfolioWebsite"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>Portfolio Link</FormLabel>
+              <FormLabel className="paragraph-semibold text-gray700_light800">
+                Portfolio Link
+              </FormLabel>
 
               <FormControl>
                 <Input
                   type="url"
-                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light800_dark300 light-border-2 text-gray700_light700 min-h-[56px] border"
                   placeholder="Your portfolio link"
                   {...field}
                 />
@@ -148,11 +164,13 @@ const Profile = ({ clerkId, user }: Props) => {
           name="location"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>Location</FormLabel>
+              <FormLabel className="paragraph-semibold text-gray700_light800">
+                Location
+              </FormLabel>
 
               <FormControl>
                 <Input
-                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light800_dark300 light-border-2 text-gray700_light700 min-h-[56px] border"
                   placeholder="where are you from?"
                   {...field}
                 />
@@ -169,11 +187,13 @@ const Profile = ({ clerkId, user }: Props) => {
           name="bio"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
-              <FormLabel>About You</FormLabel>
+              <FormLabel className="paragraph-semibold text-gray700_light800">
+                About You
+              </FormLabel>
 
               <FormControl>
                 <Textarea
-                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light800_dark300 light-border-2 text-gray700_light700 min-h-[56px] border"
                   placeholder="what's special about your?"
                   {...field}
                 />

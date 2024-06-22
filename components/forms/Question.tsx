@@ -25,6 +25,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { useToast } from "@/components/ui/use-toast";
 
 // ⁡⁣⁢⁣𝗣𝗥𝗢𝗣𝗦⁡
 interface Props {
@@ -35,6 +36,7 @@ interface Props {
 
 // ⁡⁣⁢⁣𝗠𝗔𝗜𝗡 𝗖𝗢𝗠𝗣𝗢𝗡𝗘𝗡𝗧⁡
 const Question = ({ type, mongoUserId, questionDetails }: Props) => {
+  const { toast } = useToast();
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,7 +74,16 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           path: pathName,
         });
 
-        router.push(`/question/${parsedQuestionDetails._id}`);
+        // Show Notification Toast
+        toast({
+          title: "Question Edited Successfully",
+          variant: "default",
+        });
+
+        // Delay before redirecting
+        setTimeout(() => {
+          router.push(`/question/${parsedQuestionDetails._id}`);
+        }, 1000); // 1s
       } else {
         // 𝘮𝘢𝘬𝘦 𝘢𝘯 𝘢𝘴𝘺𝘯𝘤 𝘤𝘢𝘭𝘭 𝘵𝘰 𝘺𝘰𝘶𝘳 𝘈𝘗𝘐(𝘣𝘢𝘤𝘬𝘦𝘯𝘥) -> 𝘵𝘰 𝘤𝘳𝘦𝘢𝘵𝘦 𝘢 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
         // 𝘸𝘩𝘪𝘤𝘩 𝘤𝘰𝘯𝘵𝘢𝘪𝘯 𝘢𝘭𝘭 𝘧𝘰𝘳𝘮 𝘥𝘢𝘵𝘢
@@ -85,11 +96,25 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           author: JSON.parse(mongoUserId),
           path: pathName,
         });
+
+        // Show Notification Toast
+        toast({
+          title: "Question Asked Successfully",
+          variant: "default",
+        });
+
         // 𝘈𝘧𝘵𝘦𝘳 𝘵𝘩𝘢𝘵 𝘯𝘢𝘷𝘪𝘨𝘢𝘵𝘦 𝘣𝘢𝘤𝘬 𝘵𝘰 𝘩𝘰𝘮𝘦 𝘱𝘢𝘨𝘦 𝘵𝘰 𝘴𝘦𝘦 𝘵𝘩𝘦 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯
-        router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 1000); // 1s
       }
     } catch (error) {
       console.log(error);
+
+      toast({
+        title: "Error Creating Question",
+        variant: "destructive",
+      });
       throw error;
     } finally {
       setIsSubmitting(false);
@@ -147,7 +172,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
     const newTags = field.value.filter((t: string) => t !== tag);
     // explaination of above line:- This line is spitting a new array after filtering the tag we clicked meaning this array will not include the clicked tag and spits the remaining tags in an arrya which we will append in our existing tags array
 
-    console.log(newTags);
     form.setValue("tags", newTags);
   };
 
@@ -164,12 +188,12 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="title"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-gray700_light700 min-h-[56px] border outline-[#eeeeee] "
                   {...field}
                 />
               </FormControl>
@@ -188,7 +212,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="explanation"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Detailed explanation of your problem{" "}
                 <span className="text-primary-500">*</span>
               </FormLabel>
@@ -252,7 +276,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           name="tags"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
+              <FormLabel className="paragraph-semibold text-gray700_light800">
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               {/* FormControl can only take a single element. but I made a rookie mistake and added another element(map for inputvalues) resulting in error. To prevent this just wrap both elements inside a HTML wrapping element which is this `<>Both Element</>`  */}
@@ -260,7 +284,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
                 <>
                   <Input
                     disabled={type === "Edit"}
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-gray700_light700 min-h-[56px] border outline-[#eeeeee]"
                     placeholder="Add tags..."
                     // remove this spread operator `{...field}` , to manually adjust the output
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -305,7 +329,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         {/* ⁡⁣⁣⁢𝗥𝗲𝘂𝘀𝗮𝗯𝗹𝗲 𝗳𝗼𝗿𝗺 𝗯𝘆 𝗰𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗳𝗼𝗿 𝘁𝘆𝗽𝗲⁡ */}
         <Button
           type="submit"
-          className="primary-gradient w-full !text-light-900"
+          className="primary-gradient mb-8 w-full !text-light-900"
           disabled={isSubmitting}
         >
           {isSubmitting ? (

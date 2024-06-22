@@ -104,6 +104,12 @@ import parse from 'html-react-parser';
 parse('<p>Hello, World!</p>'); // React.createElement('p', {}, 'Hello, World!')
 ```
 
+7. "npm check updates" This will upgrades your packages.json dependencies to the latest versions. ignoring specified versions. And to run it just type
+
+```bash
+ncu
+```
+
 ### Authentication
 
 1. We're using `Clerk` authentication services for easier and better auth process. Everything is happening according to docs available on Clerk's website, So for any questions visit the site.
