@@ -13,6 +13,9 @@ const isPublicRoutes = createRouteMatcher([
   "/profile/:id",
   "/community",
   "/jobs",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/chatgpt",
 ]);
 
 // exclude public routes and Protect all other routes.

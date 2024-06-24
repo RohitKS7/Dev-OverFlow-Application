@@ -148,6 +148,10 @@ code {
 .cl-internal-b3fm6y {
   background: linear-gradient(111deg, #f08080 0%, #e9b8b8 100%);
 }
+.cl-internal-ttumny {
+  border: none;
+  box-shadow: none;
+}
 .hash-span {
   margin-top: -140px;
   padding-bottom: 140px;
