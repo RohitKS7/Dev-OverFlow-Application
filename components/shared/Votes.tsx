@@ -39,6 +39,15 @@ const Votes = ({
 
   // ⁡⁣⁢⁣Handle Save Question Function⁡
   const handleSave = async () => {
+    // 𝘪𝘧 𝘶𝘴𝘦𝘳 𝘪𝘴 𝘯𝘰𝘵 𝘭𝘰𝘨𝘨𝘦𝘥-𝘪𝘯 𝘢𝘯𝘥 𝘵𝘳𝘺𝘪𝘯𝘨 𝘵𝘰 𝘷𝘰𝘵𝘦 𝘵𝘩𝘦𝘯 𝘳𝘦𝘵𝘶𝘳𝘯
+    if (!userId) {
+      return toast({
+        title: "Please log in",
+        description: "You must be logged-in to perform this action",
+        variant: "destructive",
+      });
+    }
+
     await toggleSaveQuestion({
       userId,
       questionId: itemId,
@@ -60,6 +69,7 @@ const Votes = ({
       return toast({
         title: "Please log in",
         description: "You must be logged in to perform this action",
+        variant: "destructive",
       });
     }
 

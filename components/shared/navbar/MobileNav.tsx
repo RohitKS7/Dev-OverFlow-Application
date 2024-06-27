@@ -77,7 +77,7 @@ const MobileNav = () => {
         className="background-light900_dark200 border-none"
       >
         {/* LOGO and Heading of mobile navbar */}
-        <Link href="/" className="flex items-center gap-1">
+        <Link href="/" className="flex items-center gap-1 pb-4">
           <Image
             src="/assets/images/site-logo.svg"
             width={23}
@@ -90,14 +90,14 @@ const MobileNav = () => {
           </p>
         </Link>
 
-        <div className="no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-auto">
+        <div className="no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-scroll">
           <SheetClose asChild>
             <NavContent />
           </SheetClose>
 
           {/* To show when user is signed out */}
           <SignedOut>
-            <div className="flex flex-col gap-3">
+            <div className="mt-8 flex flex-col gap-3">
               <SheetClose asChild>
                 <Link href="/sign-in">
                   <Button className="small-medium btn-secondary min-h-[41px]  w-full rounded-lg px-4 py-3 ">

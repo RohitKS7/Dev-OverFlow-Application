@@ -8,7 +8,7 @@
   /* * Now write your desired className here */
   .background-light850_dark100 {
     /* * Now apply your classes here for background in light and dark mode at once */
-    @apply bg-[#fffaf0] dark:bg-dark-100;
+    @apply bg-[#f080800d] dark:bg-dark-100;
   }
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
