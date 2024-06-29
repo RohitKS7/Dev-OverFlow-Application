@@ -87,6 +87,9 @@ body {
   );
 }
 
+.intro-shadow {
+  box-shadow: 0 19px 38px hsl(0deg 60% 80%), 0 15px 12px hsl(0deg 60% 80%);
+}
 .primary-text-gradient {
   background: linear-gradient(111deg, #f08080 0%, #e9b8b8 100%);
   background-clip: text;

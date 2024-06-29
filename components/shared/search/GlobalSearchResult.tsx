@@ -55,7 +55,7 @@ const GlobalSearchResult = () => {
         return `/tags/${id}`;
 
       default:
-        return "/";
+        return "/home";
     }
   };
 

@@ -30,7 +30,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
       {/* ⁡⁣⁢⁣𝗦𝗘𝗔𝗥𝗖𝗛 and 𝗙𝗜𝗟𝗧𝗘𝗥⁡ */}
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col md:flex-col">
         <LocalSearchbar
-          route="/"
+          route="/home"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for questions"

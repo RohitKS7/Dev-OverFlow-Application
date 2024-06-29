@@ -24,7 +24,6 @@ export const metadata: Metadata = {
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
-  // !  𝘍𝘦𝘵𝘤𝘩𝘪𝘯𝘨 𝘵𝘩𝘦 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯s 𝘧𝘳𝘰𝘮 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦
   let result;
 
   if (searchParams?.filter === "recommended") {

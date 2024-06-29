@@ -84,7 +84,14 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
   // ⁡⁢⁣⁢AI Answer Generation Function⁡
   const generateAIAnswer = async () => {
-    if (!authorId) return;
+    if (!authorId) {
+      return toast({
+        title: "Please log in",
+        description: "You must be logged-in to perform this action",
+        variant: "destructive",
+      });
+    }
+
     setIsSubmittingAI(true);
 
     try {

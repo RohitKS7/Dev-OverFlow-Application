@@ -69,7 +69,7 @@ const MobileNav = () => {
           alt="Menu"
           width={36}
           height={36}
-          className="invert-colors sm:hidden"
+          className="sm:hidden"
         />
       </SheetTrigger>
       <SheetContent
@@ -77,7 +77,7 @@ const MobileNav = () => {
         className="background-light900_dark200 border-none"
       >
         {/* LOGO and Heading of mobile navbar */}
-        <Link href="/" className="flex items-center gap-1 pb-4">
+        <Link href="/home" className="flex items-center gap-1">
           <Image
             src="/assets/images/site-logo.svg"
             width={23}
@@ -90,7 +90,7 @@ const MobileNav = () => {
           </p>
         </Link>
 
-        <div className="no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-scroll">
+        <div className="no-scrollbar flex h-[calc(100dvh-80px)] flex-col justify-between overflow-y-auto">
           <SheetClose asChild>
             <NavContent />
           </SheetClose>

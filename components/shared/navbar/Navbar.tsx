@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       {/* LOGO and Title */}
-      <Link href="/" className="flex items-center gap-1">
+      <Link href="/home" className="flex items-center gap-1">
         <Image
           src="/assets/images/site-logo.svg"
           width={23}
@@ -32,7 +32,7 @@ const Navbar = () => {
         {/* Checking : Only when user is signed in, they can see anything */}
         <SignedIn>
           <UserButton
-            afterSignOutUrl="/"
+            afterSignOutUrl="/home"
             appearance={{
               elements: {
                 avatarBox: "h-10 w-10",

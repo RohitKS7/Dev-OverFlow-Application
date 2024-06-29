@@ -6,7 +6,7 @@ DevOverFlow is a clone of StackOverflow.
 
 #### Client Side
 
-- `page.tsx` within `/app/(root)/(home)` folder is acting as a entry point, so we don't need `page.tsx` within `/app` folder.
+- `page.tsx` within `/app` folder is acting as a entry point,
 
 - `(auth)` contains Authentication setup using Clerk.
 
