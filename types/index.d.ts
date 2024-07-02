@@ -5,6 +5,20 @@ export interface SidebarLink {
   label: string;
 }
 
+export interface ProjectLinks {
+  imgURL: string;
+  projectlink: string;
+  codelink: string;
+  label: string;
+  type: string;
+}
+
+export interface SocialLinks {
+  imgURL: string;
+  link: string;
+  label: string;
+}
+
 export interface Job {
   id?: string;
   employer_name?: string;
