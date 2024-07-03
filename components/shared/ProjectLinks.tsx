@@ -9,9 +9,9 @@ import { EmblaOptionsType } from "embla-carousel";
 const OPTIONS: EmblaOptionsType = {
   align: "start",
   loop: true,
-  breakpoints: {
-    "(max-width: 640px)": { axis: "y" }, // --> 420px screens and axis will change from "X" (right to left scroll) to "Y" (down to up scroll)
-  },
+  // breakpoints: {
+  //   "(max-width: 640px)": { axis: "y" }, // --> 420px screens and axis will change from "X" (right to left scroll) to "Y" (down to up scroll)
+  // },
 };
 
 const ProjectLinks = () => {
@@ -19,11 +19,11 @@ const ProjectLinks = () => {
 
   return (
     <div className="embla" ref={emblaRef}>
-      <div className="embla__container items-center justify-center gap-5 max-sm:flex-col">
+      <div className="embla__container items-center justify-center gap-5 ">
         {projectLinks.map((item) => (
           <div
             key={item.label + item.projectlink}
-            className=" embla__slide  flex cursor-pointer items-center justify-center bg-[#ffdada] max-sm:w-max max-sm:p-3 sm:px-3 sm:pt-3"
+            className=" embla__slide  flex cursor-pointer items-center justify-center rounded-md bg-[#ffdada]  max-sm:p-3 sm:px-3 sm:pt-3"
           >
             <div className="flex-center max-w-40 flex-col gap-3">
               <Link
@@ -33,7 +33,7 @@ const ProjectLinks = () => {
                 <div>
                   {item.label}
                   <p className="mt-[2px]">{item.type}</p>
-                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[-40px] flex items-end justify-center bg-[#ffdada] p-[5px] text-gray-700 opacity-0 duration-300 group-hover:opacity-100">
+                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[-40px] flex items-end justify-center bg-[#ffdada] p-[5px] text-gray-700 opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
                     Code
                   </div>
                 </div>
@@ -46,7 +46,7 @@ const ProjectLinks = () => {
                   height={150}
                   className="object-contain"
                 />
-                <div className="paragraph-semibold absolute inset-x-0 bottom-0 flex items-end justify-center bg-[#ffdada] text-gray-700 opacity-0 duration-300 group-hover:opacity-100">
+                <div className="paragraph-semibold absolute inset-x-0 bottom-0 flex items-end justify-center bg-[#ffdada] text-gray-700 opacity-0 duration-300 group-hover:opacity-100 md:hidden">
                   Website
                 </div>
               </Link>

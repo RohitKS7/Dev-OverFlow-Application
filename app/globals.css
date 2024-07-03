@@ -175,8 +175,8 @@ code {
 
 /* Embla Carousel */
 .embla {
-  margin-inline: 5rem;
-  width: 55rem;
+  /* margin-inline: 5rem;
+  width: 55rem; */
   overflow: hidden;
 }
 
@@ -188,5 +188,5 @@ code {
 }
 
 .embla__slide {
-  flex: 0 0 27%;
+  flex: 0 0 30%;
 }
