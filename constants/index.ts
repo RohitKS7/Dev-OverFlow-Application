@@ -46,18 +46,19 @@ export const sidebarLinks: SidebarLink[] = [
 
 export const socialLinks: SocialLinks[] = [
   {
-    imgURL: "/assets/icons/github-gray.svg",
-    link: "https://twitter.com/SumanRohitK7",
+    imgURL: "/assets/icons/github.svg",
+    link: "https://github.com/RohitKS7",
+
     label: "Github",
   },
   {
-    imgURL: "/assets/icons/linkedIn-gray.svg",
+    imgURL: "/assets/icons/linkedin.svg",
     link: "https://linkedin.com/in/rohit-kumar-suman",
     label: "LinkedIn",
   },
   {
-    imgURL: "/assets/icons/twitterX-gray.svg",
-    link: "https://github.com/RohitKS7",
+    imgURL: "/assets/icons/twitterx.svg",
+    link: "https://twitter.com/SumanRohitK7",
     label: "twitterX",
   },
 ];

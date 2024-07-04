@@ -51,12 +51,12 @@ const IntroPage = () => {
           <ProjectLinks />
         </div>
         {/* ⁡⁣⁢⁣Social Links⁡ */}
-        <div className="max-md:flex max-md:gap-6 md:absolute md:right-0 md:top-[35%]">
+        <div className="max-md:flex max-md:gap-4 md:absolute md:right-0 md:top-[35%]">
           {socialLinks.map((item) => (
             <Link
               key={item.imgURL}
               href={item.link}
-              className="flex-center cursor-pointer flex-col"
+              className="flex-center cursor-pointer flex-col rounded-sm bg-[#ffdada] px-2 py-1 md:my-2 md:pl-2"
             >
               <Image
                 src={item.imgURL}

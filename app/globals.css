@@ -174,19 +174,30 @@ code {
 }
 
 /* Embla Carousel */
+
 .embla {
-  /* margin-inline: 5rem;
-  width: 55rem; */
+  --slide-size: 30%;
   overflow: hidden;
 }
-
 .embla__container {
   backface-visibility: hidden;
   display: flex;
+  gap: 1rem;
   touch-action: pan-y pinch-zoom;
-  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+  flex: 0 0 var(--slide-size);
 }
 
-.embla__slide {
-  flex: 0 0 30%;
+/* for big screens above 640px */
+@media (min-width: 640px) {
+  .embla {
+    width: 50rem;
+    --slide-size: 24%;
+    overflow: hidden;
+  }
+
+  .embla__slide {
+    flex: 0 0 var(--slide-size);
+  }
 }

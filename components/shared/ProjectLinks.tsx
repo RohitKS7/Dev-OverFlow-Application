@@ -2,28 +2,46 @@
 import { projectLinks } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { EmblaOptionsType } from "embla-carousel";
-
-const OPTIONS: EmblaOptionsType = {
-  align: "start",
-  loop: true,
-  // breakpoints: {
-  //   "(max-width: 640px)": { axis: "y" }, // --> 420px screens and axis will change from "X" (right to left scroll) to "Y" (down to up scroll)
-  // },
-};
+import React, { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const ProjectLinks = () => {
-  const [emblaRef] = useEmblaCarousel(OPTIONS);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container items-center justify-center gap-5 ">
+    <Carousel
+      className="w-full max-w-screen-md"
+      opts={{
+        align: "center",
+        loop: true,
+        dragFree: true,
+        breakpoints: {
+          "(min-width: 768px)": { align: "start" },
+          "(min-width: 1024px)": { align: "start", dragFree: false },
+        },
+      }}
+    >
+      <CarouselContent>
         {projectLinks.map((item) => (
-          <div
+          <CarouselItem
             key={item.label + item.projectlink}
-            className=" embla__slide  flex cursor-pointer items-center justify-center rounded-md bg-[#ffdada]  max-sm:p-3 sm:px-3 sm:pt-3"
+            className="flex-center mx-3 w-full basis-8/12 bg-[#ffdada] pl-0 pt-3 md:basis-1/3 lg:basis-1/4"
           >
             <div className="flex-center max-w-40 flex-col gap-3">
               <Link
@@ -33,7 +51,7 @@ const ProjectLinks = () => {
                 <div>
                   {item.label}
                   <p className="mt-[2px]">{item.type}</p>
-                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[-40px] flex items-end justify-center bg-[#ffdada] p-[5px] text-gray-700 opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
+                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[-40px] flex items-end justify-center bg-primary-500 p-[5px] text-[#f8f8ff]  opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
                     Code
                   </div>
                 </div>
@@ -46,23 +64,23 @@ const ProjectLinks = () => {
                   height={150}
                   className="object-contain"
                 />
-                <div className="paragraph-semibold absolute inset-x-0 bottom-0 flex items-end justify-center bg-[#ffdada] text-gray-700 opacity-0 duration-300 group-hover:opacity-100 md:hidden">
+                <div className="paragraph-semibold absolute inset-x-0 bottom-0 flex items-end justify-center bg-primary-500 text-[#f8f8ff] opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
                   Website
                 </div>
               </Link>
             </div>
-          </div>
+          </CarouselItem>
         ))}
-      </div>
-    </div>
+      </CarouselContent>
+      {/* Show Arrows on large screens only */}
+      {isMobile && (
+        <>
+          <CarouselPrevious />
+          <CarouselNext />
+        </>
+      )}
+    </Carousel>
   );
 };
 
 export default ProjectLinks;
-
-//  On Screen Size bigger than tablet
-//  @media (max-width: 768px) {
-// .embla__slide {
-// flex: 0 0 50%; /* Breakpoint SM slide covers 50% of the viewport */
-// }
-// }
