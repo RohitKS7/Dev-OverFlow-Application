@@ -41,7 +41,7 @@ const ProjectLinks = () => {
         {projectLinks.map((item) => (
           <CarouselItem
             key={item.label + item.projectlink}
-            className="flex-center mx-3 w-full basis-8/12 bg-[#ffdada] pl-0 pt-3 md:basis-1/3 lg:basis-1/4"
+            className="flex-center mx-3 w-full basis-8/12 rounded-md bg-[#ffdada] pl-0 pt-3 md:basis-1/3 lg:basis-1/4"
           >
             <div className="flex-center max-w-40 flex-col gap-3">
               <Link
@@ -51,8 +51,8 @@ const ProjectLinks = () => {
                 <div>
                   {item.label}
                   <p className="mt-[2px]">{item.type}</p>
-                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[-40px] flex items-end justify-center bg-primary-500 p-[5px] text-[#f8f8ff]  opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
-                    Code
+                  <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[45px] z-50 flex items-end justify-center bg-primary-500 p-[5px] text-[#f8f8ff]  opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
+                    Cod
                   </div>
                 </div>
               </Link>
