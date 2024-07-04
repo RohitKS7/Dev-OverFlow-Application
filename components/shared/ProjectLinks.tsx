@@ -48,7 +48,7 @@ const ProjectLinks = () => {
                 href={item.codelink}
                 className="body-semibold group relative w-full text-center text-gray-700"
               >
-                <div>
+                <div className="">
                   {item.label}
                   <p className="mt-[2px]">{item.type}</p>
                   <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[45px] z-50 flex items-end justify-center bg-primary-500 p-[5px] text-[#f8f8ff]  opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
