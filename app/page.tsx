@@ -56,6 +56,7 @@ const IntroPage = () => {
             <Link
               key={item.imgURL}
               href={item.link}
+              target="_blank"
               className="flex-center cursor-pointer flex-col rounded-sm bg-[#ffdada] px-2 py-1 md:my-2 md:pl-2"
             >
               <Image

@@ -47,6 +47,7 @@ const ProjectLinks = () => {
               <Link
                 href={item.codelink}
                 className="body-semibold group relative w-full text-center text-gray-700"
+                 target="_blank"
               >
                 <div className="">
                   {item.label}
@@ -56,7 +57,7 @@ const ProjectLinks = () => {
                   </div>
                 </div>
               </Link>
-              <Link href={item.projectlink} className="group relative">
+              <Link href={item.projectlink} className="group relative"  target="_blank">
                 <Image
                   src={item.imgURL}
                   alt={item.label}
