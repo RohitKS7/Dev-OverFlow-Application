@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/carousel";
 
 const ProjectLinks = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth > 1024);
     };
 
     handleResize();
@@ -74,7 +74,7 @@ const ProjectLinks = () => {
         ))}
       </CarouselContent>
       {/* Show Arrows on large screens only */}
-      {isMobile && (
+      {isDesktop && (
         <>
           <CarouselPrevious />
           <CarouselNext />
