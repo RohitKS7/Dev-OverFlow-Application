@@ -512,7 +512,8 @@ JSMastery. (2023). [Ultimate Next.js 14 Course | Become a top 1% Next.js 14 deve
 ## 📞 Connect With Me
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-rohitkumarsuman-blue?style=flat&logo=linkedin&logoColor=b0c0c0&labelColor=363D44)](https://linkedin.com/in/rohit-kumar-suman)
-![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/SumanRohitK7?link=https%3A%2F%2Fx.com%2FSumanRohitK7)
+[![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/SumanRohitK7)](https://x.com/SumanRohitK7)
+
 
 
 > TIPS :
