@@ -20,6 +20,7 @@ import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 interface Props {
   question: string;
@@ -232,15 +233,27 @@ const Answer = ({ question, questionId, authorId }: Props) => {
             )}
           />
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              className="primary-gradient w-fit text-white"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating Answer..." : "Submit"}
-            </Button>
-          </div>
+          <SignedIn>
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className="primary-gradient w-fit text-white"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Creating Answer..." : "Submit"}
+              </Button>
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <div className="flex justify-end">
+              <Button
+                className="primary-gradient w-fit text-white"
+                disabled={true}
+              >
+                Log-In To Submit Your Answer
+              </Button>
+            </div>
+          </SignedOut>
         </form>
       </Form>
     </>

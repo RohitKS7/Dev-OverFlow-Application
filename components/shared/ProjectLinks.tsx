@@ -16,7 +16,7 @@ const ProjectLinks = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth > 1024);
+      setIsDesktop(window.innerWidth > 1024);
     };
 
     handleResize();
@@ -47,17 +47,21 @@ const ProjectLinks = () => {
               <Link
                 href={item.codelink}
                 className="body-semibold group relative w-full text-center text-gray-700"
-                 target="_blank"
+                target="_blank"
               >
                 <div className="">
                   {item.label}
                   <p className="mt-[2px]">{item.type}</p>
                   <div className="paragraph-semibold project-hover-shadow absolute inset-x-0 top-[45px] z-50 flex items-end justify-center bg-primary-500 p-[5px] text-[#f8f8ff]  opacity-0 duration-300 group-hover:opacity-100 max-md:hidden">
-                    Cod
+                    Code
                   </div>
                 </div>
               </Link>
-              <Link href={item.projectlink} className="group relative"  target="_blank">
+              <Link
+                href={item.projectlink}
+                className="group relative"
+                target="_blank"
+              >
                 <Image
                   src={item.imgURL}
                   alt={item.label}
