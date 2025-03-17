@@ -21,7 +21,7 @@
 
 ## 🌐 Live Demo
 
-Explore the live demonstration of the project: [nextjs14-devoverflow-by-rohit](https://nextjs14-devoverflow-by-rohit.vercel.app/)
+Explore the live demonstration of my project: [nextjs14-devoverflow-by-rohit](https://nextjs14-devoverflow-by-rohit.vercel.app/)
 
 ## 📝 Description
 
