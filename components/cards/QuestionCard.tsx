@@ -54,7 +54,7 @@ const QuestionCard = ({
             </h3>
           </Link>
         </div>
-
+        <span />
         {/* ⁡⁣⁣⁢𝘐𝘧 𝘴𝘪𝘨𝘯𝘦𝘥-𝘪𝘯 𝘢𝘥𝘥 𝘦𝘥𝘪𝘵 𝘥𝘦𝘭𝘦𝘵𝘦 𝘢𝘤𝘵𝘪𝘰𝘯𝘴⁡ */}
         <SignedIn>
           {showActionButtons && (

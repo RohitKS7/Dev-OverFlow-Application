@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+// Intro Page
 const IntroPage = () => {
   return (
     <main className="flex-center min-h-screen w-full bg-[#ffdada] ">
@@ -16,7 +17,7 @@ const IntroPage = () => {
               src="/assets/images/site-logo.svg"
               width={50}
               height={50}
-              alt="DevOverflow"
+              alt="DevOverflow - A Question & Answer Platform. Just like StackOverFlow"
             />
 
             <p className="cursor-pointer font-spaceGrotesk text-4xl font-bold text-gray-500 max-md:w-min">

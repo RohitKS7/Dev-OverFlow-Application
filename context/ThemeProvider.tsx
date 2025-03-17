@@ -32,7 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       // First we check If localStorage theme is Dark?
       localStorage.theme === "dark" ||
       // or If the theme doesn't exist in localStorage
-      (!"theme in localStorage" &&
+      (!"theme in localStorage ok?" &&
         // and This is the way to check if user's OS prefers the dark mode
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
